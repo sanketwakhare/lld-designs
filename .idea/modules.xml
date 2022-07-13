@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/lld-designs.iml" filepath="$PROJECT_DIR$/.idea/lld-designs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/netflix-schema/netflix-schema.iml" filepath="$PROJECT_DIR$/netflix-schema/netflix-schema.iml" />
+      <module fileurl="file://$PROJECT_DIR$/schemadesign-student-module-exam/schemadesign-student-module-exam.iml" filepath="$PROJECT_DIR$/schemadesign-student-module-exam/schemadesign-student-module-exam.iml" />
+    </modules>
+  </component>
+</project>
