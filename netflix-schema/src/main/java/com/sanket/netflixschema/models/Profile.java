@@ -3,6 +3,7 @@ package com.sanket.netflixschema.models;
 import com.sanket.netflixschema.enums.ProfileType;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
@@ -17,5 +18,6 @@ public class Profile extends BaseModel {
     private LoginUser user;
 
     @OneToMany(mappedBy = "profile")
-    private List<VideoProfile> videos;
+    private List<VideoProfile> videoProfiles;
+
 }
