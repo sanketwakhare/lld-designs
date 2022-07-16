@@ -18,4 +18,11 @@ public class VideoProfile extends BaseModel {
     @ManyToOne
     private Video video;
 
+    public VideoStatusType getVideoStatus() {
+        return videoStatus;
+    }
+
+    public Date getLastWatchTimeStamp() {
+        return lastWatchTimeStamp;
+    }
 }

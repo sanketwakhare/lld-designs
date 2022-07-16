@@ -10,4 +10,8 @@ public class Actor extends BaseModel {
 
     @ManyToMany(mappedBy = "actors")
     private List<Video> videos;
+
+    public List<Video> getVideos() {
+        return videos;
+    }
 }
