@@ -30,12 +30,13 @@ GRANT
 
 ---
 ### Class Diagram
-![img.png](class_diagram.png)
+![img.png](images/class_diagram.png)
+![img_1.png](images/class_diagram_draw_io.png)
 
 ---
 ### Schema Diagram
-
-TODO
+![img_2.png](images/schema_diagram.png)
+![img_2.png](images/schema_diagram_draw_io.png)
 
 ---
 ### Scratch Pad
