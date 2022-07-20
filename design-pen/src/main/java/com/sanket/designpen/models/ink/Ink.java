@@ -4,6 +4,8 @@ import com.sanket.designpen.exceptions.NoColorDefinedException;
 import com.sanket.designpen.exceptions.NoInkTypeDefinedException;
 import lombok.Getter;
 
+import java.util.Objects;
+
 @Getter
 public class Ink {
 
@@ -11,13 +13,6 @@ public class Ink {
     private final double density;
     private final InkType inkType;
     private final boolean isErasable;
-
-    private Ink(InkType inkType, double density, boolean isErasable, InkColor color) {
-        this.inkType = inkType;
-        this.density = density;
-        this.isErasable = isErasable;
-        this.color = color;
-    }
 
     private Ink(Builder builder) {
         this.inkType = builder.inkType;
@@ -55,10 +50,10 @@ public class Ink {
 
         public Ink build() throws Exception {
             // validations
-            if (this.inkType == null) {
+            if (Objects.isNull(inkType)) {
                 throw new NoInkTypeDefinedException();
             }
-            if (this.color == null) {
+            if (Objects.isNull(color)) {
                 throw new NoColorDefinedException();
             }
 

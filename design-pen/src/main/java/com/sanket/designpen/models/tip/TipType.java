@@ -1,4 +1,4 @@
-package com.sanket.designpen.models.ink;
+package com.sanket.designpen.models.tip;
 
 public enum TipType {
     NORMAL,

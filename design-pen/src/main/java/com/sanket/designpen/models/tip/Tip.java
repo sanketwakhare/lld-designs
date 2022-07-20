@@ -1,9 +1,9 @@
 package com.sanket.designpen.models.tip;
 
-import com.sanket.designpen.models.ink.TipType;
 import lombok.Data;
 
 @Data
+//@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class Tip {
 
     private double radius;

@@ -8,6 +8,8 @@ import com.sanket.designpen.models.refills.Refill;
 import com.sanket.designpen.strategies.WriteBehaviour;
 import lombok.Getter;
 
+import java.util.Objects;
+
 @Getter
 public class MarkerPen extends Pen implements RefillPen {
 
@@ -67,10 +69,10 @@ public class MarkerPen extends Pen implements RefillPen {
         }
 
         public MarkerPen build() throws Exception {
-            if (refill == null) {
+            if (Objects.isNull(refill)) {
                 throw new NoRefillPresentException();
             }
-            if (name.isEmpty()) {
+            if (Objects.isNull(name) || name.isEmpty()) {
                 throw new Exception("pen name cannot be empty");
             }
 
