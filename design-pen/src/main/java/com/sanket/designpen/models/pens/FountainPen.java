@@ -2,8 +2,6 @@ package com.sanket.designpen.models.pens;
 
 import com.sanket.designpen.models.ink.Ink;
 import com.sanket.designpen.models.ink.InkColor;
-import com.sanket.designpen.models.pens.refillpens.BallPen;
-import com.sanket.designpen.models.refills.Refill;
 import com.sanket.designpen.models.tip.Tip;
 import com.sanket.designpen.strategies.WriteBehaviour;
 import lombok.Getter;
@@ -12,7 +10,7 @@ import lombok.Getter;
 public class FountainPen extends Pen {
 
     private Ink ink;
-    private Tip tip;
+    private final Tip tip;
     private final boolean canFillInk;
 
     private FountainPen(Builder builder) {
