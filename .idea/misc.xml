@@ -5,8 +5,11 @@
       <list>
         <option value="$PROJECT_DIR$/netflix-schema/pom.xml" />
         <option value="$PROJECT_DIR$/schemadesign-student-module-exam/pom.xml" />
+        <option value="$PROJECT_DIR$/schemadesign-student-module-exam/design-pen/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_18" project-jdk-name="temurin-17" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="temurin-17" project-jdk-type="JavaSDK">
+    <output url="file://$USER_HOME$/.jdks/temurin-17.0.3" />
+  </component>
 </project>
