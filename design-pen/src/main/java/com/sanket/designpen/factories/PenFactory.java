@@ -1,6 +1,7 @@
 package com.sanket.designpen.factories;
 
 import com.sanket.designpen.models.ink.Ink;
+import com.sanket.designpen.models.pens.FountainPen;
 import com.sanket.designpen.models.tip.Tip;
 import com.sanket.designpen.models.ink.InkColor;
 import com.sanket.designpen.models.ink.TipType;
@@ -10,6 +11,7 @@ import com.sanket.designpen.models.pens.refillpens.MarkerPen;
 import com.sanket.designpen.models.refills.GelRefill;
 import com.sanket.designpen.models.refills.MarkerRefill;
 import com.sanket.designpen.strategies.FastWriteBehavior;
+import com.sanket.designpen.strategies.SharpWriteBehavior;
 import com.sanket.designpen.strategies.SmoothWriteBehavior;
 
 public class PenFactory {
@@ -49,10 +51,24 @@ public class PenFactory {
         return new MarkerPen.Builder()
                 .setRefill(markerRefill)
                 .setCanChangeRefill(true)
-                .setWriteBehaviour(new SmoothWriteBehavior())
+                .setWriteBehaviour(new SharpWriteBehavior())
                 .setBrand("camlin")
                 .setName("permanent marker")
                 .setPrice(30)
+                .build();
+    }
+
+    public static Pen getReynoldsFludoProFountainPen(InkColor color) throws Exception {
+        Ink ink = InkFactory.getFountainInk(color);
+        Tip tip = new Tip(5, TipType.FOUNTAIN);
+        return new FountainPen.Builder()
+                .setCanFillInk(true)
+                .setWriteBehaviour(new SmoothWriteBehavior())
+                .setInk(ink)
+                .setTip(tip)
+                .setBrand("reynolds")
+                .setName("fludo pro")
+                .setPrice(80)
                 .build();
     }
 }
