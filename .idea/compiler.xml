@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="design-tic-tac-toe" />
         <module name="netflix-schema" />
         <module name="schemadesign-student-module-exam" />
         <module name="design-pen" />
@@ -14,6 +15,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="design-pen" target="17" />
+      <module name="design-tic-tac-toe" target="17" />
       <module name="netflix-schema" target="17" />
       <module name="schemadesign-student-module-exam" target="17" />
     </bytecodeTargetLevel>
@@ -21,6 +23,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="design-pen" options="-parameters" />
+      <module name="design-tic-tac-toe" options="-parameters" />
       <module name="netflix-schema" options="-parameters" />
       <module name="schemadesign-student-module-exam" options="-parameters" />
     </option>
