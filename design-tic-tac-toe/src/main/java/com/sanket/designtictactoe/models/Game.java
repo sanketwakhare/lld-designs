@@ -1,9 +1,11 @@
 package com.sanket.designtictactoe.models;
 
+import com.sanket.designtictactoe.exceptions.InvalidUndoOperationException;
 import com.sanket.designtictactoe.strategies.winning.WinningStrategy;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 public class Game {
@@ -85,31 +87,46 @@ public class Game {
         }
     }
 
-    public void makeMove() {
+    public void makeMove() throws InvalidUndoOperationException {
         // get current player
         lastPlayerMovedIndex++;
         Player player = this.players.get(lastPlayerMovedIndex % this.players.size());
 
         // perform move
         Move move = player.makeMove(board);
-        movesPerformed.add(move);
+        if (Objects.isNull(move)) {
+            this.undo();
+        } else {
+            movesPerformed.add(move);
 
-        // check if won
-        for (WinningStrategy strategy : winningStrategies) {
-            if (strategy.checkIfWon(board, move.getCell(), player)) {
-                setWinner(move.getPlayer());
-                setGameStatus(GameStatus.FINISHED);
-                break;
+            // check if won
+            for (WinningStrategy strategy : winningStrategies) {
+                if (strategy.checkIfWon(board, move.getCell(), player)) {
+                    setWinner(move.getPlayer());
+                    setGameStatus(GameStatus.FINISHED);
+                    break;
+                }
             }
-        }
 
-        if (movesPerformed.size() == board.getDimension() * board.getDimension()) {
-            setGameStatus(GameStatus.DRAW);
+            if (movesPerformed.size() == board.getDimension() * board.getDimension()) {
+                setGameStatus(GameStatus.DRAW);
+
+            }
         }
     }
 
-    public boolean undo() {
-        // TODO
-        return false;
+    public void undo() throws InvalidUndoOperationException {
+        if (this.movesPerformed.size() > 1) {
+            Move move = this.movesPerformed.get(this.movesPerformed.size() - 1);
+            Cell cell = move.getCell();
+            board.getCell(cell.getRow(), cell.getColumn()).setSymbol(null);
+            this.movesPerformed.remove(this.movesPerformed.size() - 1);
+            move = this.movesPerformed.get(this.movesPerformed.size() - 1);
+            cell = move.getCell();
+            board.getCell(cell.getRow(), cell.getColumn()).setSymbol(null);
+            this.movesPerformed.remove(this.movesPerformed.size() - 1);
+        } else {
+            throw new InvalidUndoOperationException();
+        }
     }
 }

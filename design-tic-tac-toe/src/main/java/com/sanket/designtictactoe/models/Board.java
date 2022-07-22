@@ -25,10 +25,14 @@ public class Board {
     }
 
     public Cell getCell(int row, int column) {
-        if (row >= 0 && row < dimension && column >= 0 && column < dimension) {
+        if (this.isValidCell(row, column)) {
             return grid.get(row).get(column);
         }
         return null;
+    }
+
+    public boolean isValidCell(int row, int column) {
+        return row >= 0 && row < dimension && column >= 0 && column < dimension;
     }
 
     public void printBoard() {

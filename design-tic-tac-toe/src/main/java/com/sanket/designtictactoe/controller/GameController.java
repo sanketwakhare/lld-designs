@@ -1,5 +1,6 @@
 package com.sanket.designtictactoe.controller;
 
+import com.sanket.designtictactoe.exceptions.InvalidUndoOperationException;
 import com.sanket.designtictactoe.models.*;
 import com.sanket.designtictactoe.strategies.winning.WinningStrategy;
 
@@ -19,12 +20,11 @@ public class GameController {
                 .build();
     }
 
-    public void makeMove(Game game) {
+    public void makeMove(Game game) throws InvalidUndoOperationException {
         game.makeMove();
     }
 
-    public void undoMove(Game game) {
-        // TODO
+    public void undoMove(Game game) throws InvalidUndoOperationException {
         game.undo();
     }
 

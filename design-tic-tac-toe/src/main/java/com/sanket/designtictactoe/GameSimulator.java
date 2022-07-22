@@ -1,6 +1,7 @@
 package com.sanket.designtictactoe;
 
 import com.sanket.designtictactoe.controller.GameController;
+import com.sanket.designtictactoe.exceptions.InvalidUndoOperationException;
 import com.sanket.designtictactoe.models.*;
 import com.sanket.designtictactoe.strategies.botplaying.EasyDifficultyBotPlayingStrategy;
 import com.sanket.designtictactoe.strategies.botplaying.BotPlayingStrategy;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class GameSimulator {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidUndoOperationException {
 
         int dimension = 3;
         List<Player> players = new ArrayList<>();
