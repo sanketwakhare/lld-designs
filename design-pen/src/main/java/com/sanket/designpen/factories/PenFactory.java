@@ -1,15 +1,15 @@
 package com.sanket.designpen.factories;
 
 import com.sanket.designpen.models.ink.Ink;
-import com.sanket.designpen.models.pens.FountainPen;
-import com.sanket.designpen.models.tip.Tip;
 import com.sanket.designpen.models.ink.InkColor;
-import com.sanket.designpen.models.tip.TipType;
+import com.sanket.designpen.models.pens.FountainPen;
 import com.sanket.designpen.models.pens.Pen;
 import com.sanket.designpen.models.pens.refillpens.GelPen;
 import com.sanket.designpen.models.pens.refillpens.MarkerPen;
 import com.sanket.designpen.models.refills.GelRefill;
 import com.sanket.designpen.models.refills.MarkerRefill;
+import com.sanket.designpen.models.tip.Tip;
+import com.sanket.designpen.models.tip.TipType;
 import com.sanket.designpen.strategies.FastWriteBehavior;
 import com.sanket.designpen.strategies.SharpWriteBehavior;
 import com.sanket.designpen.strategies.SmoothWriteBehavior;
