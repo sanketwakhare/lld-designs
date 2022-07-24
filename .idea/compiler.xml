@@ -11,10 +11,12 @@
         <module name="netflix-schema" />
         <module name="schemadesign-student-module-exam" />
         <module name="design-pen" />
+        <module name="design-snake-and-ladder" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="design-pen" target="17" />
+      <module name="design-snake-and-ladder" target="17" />
       <module name="design-tic-tac-toe" target="17" />
       <module name="netflix-schema" target="17" />
       <module name="schemadesign-student-module-exam" target="17" />
@@ -23,6 +25,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="design-pen" options="-parameters" />
+      <module name="design-snake-and-ladder" options="-parameters" />
       <module name="design-tic-tac-toe" options="-parameters" />
       <module name="netflix-schema" options="-parameters" />
       <module name="schemadesign-student-module-exam" options="-parameters" />
