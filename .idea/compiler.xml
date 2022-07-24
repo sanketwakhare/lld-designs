@@ -12,7 +12,6 @@
         <module name="schemadesign-student-module-exam" />
         <module name="design-snake-and-ladder" />
         <module name="design-pen" />
-        <module name="design-pen-2" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
