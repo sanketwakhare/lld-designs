@@ -20,6 +20,7 @@ public class GameSimulator {
     public static void main(String[] args) {
 
         // TODO: create factories to create objects
+        // TODO: create custom exceptions
         // board configuration
         int boardDimension = 100;
 
