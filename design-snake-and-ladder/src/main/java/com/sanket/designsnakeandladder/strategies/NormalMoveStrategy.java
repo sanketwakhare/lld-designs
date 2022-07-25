@@ -32,7 +32,7 @@ public class NormalMoveStrategy implements HandleMoveStrategy {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Which button to move? Type position: ");
         int buttonToMove = scanner.nextInt();
-        Button validButton = isValidChoiceEntered(buttons, buttonToMove);
+        Button validButton = isValidChoiceEntered(buttons, buttonToMove, diceValue, board);
         if (!Objects.isNull(validButton)) {
             validButton.increasePositionBy(diceValue);
             if (validButton.getPosition() == board.getDimension()) {
@@ -44,12 +44,16 @@ public class NormalMoveStrategy implements HandleMoveStrategy {
         }
     }
 
-    private Button isValidChoiceEntered(List<Button> buttons, int buttonToMove) {
+    private Button isValidChoiceEntered(List<Button> buttons, int buttonToMove, int diceValue, Board board) {
         for (Button button : buttons) {
             if (button.getPosition() == buttonToMove) {
-                return button;
+                if (button.getPosition() + diceValue <= board.getDimension()) {
+                    return button;
+                }
+                // TODO: throw custom exception, button cannot move further
             }
         }
+        // TODO: throw custom exception, invalid choice of button
         return null;
     }
 }
