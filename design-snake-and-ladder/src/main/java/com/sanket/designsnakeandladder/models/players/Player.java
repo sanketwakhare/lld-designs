@@ -25,6 +25,16 @@ public abstract class Player {
         }
     }
 
+    public List<Button> getButtons(ButtonStatus buttonStatus) {
+        List<Button> list = new ArrayList<>();
+        for (Button button : buttons) {
+            if (button.getButtonStatus().equals(buttonStatus)) {
+                list.add(button);
+            }
+        }
+        return list;
+    }
+
     @Deprecated
     public Map<Integer, List<Button>> getButtonPositions() {
         Map<Integer, List<Button>> buttonPositions = new HashMap<>();
@@ -42,4 +52,12 @@ public abstract class Player {
         return buttonPositions;
     }
 
+    @Override
+    public String toString() {
+        return "Player{" +
+                "playerType=" + playerType +
+                ", color=" + color +
+                ", buttons=" + buttons +
+                '}';
+    }
 }

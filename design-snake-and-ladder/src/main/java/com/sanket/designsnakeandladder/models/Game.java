@@ -1,5 +1,7 @@
 package com.sanket.designsnakeandladder.models;
 
+import com.sanket.designsnakeandladder.models.players.Button;
+import com.sanket.designsnakeandladder.models.players.ButtonStatus;
 import com.sanket.designsnakeandladder.models.players.Player;
 import com.sanket.designsnakeandladder.strategies.HandleMoveStrategy;
 import com.sanket.designsnakeandladder.strategies.UnlockButtonStrategy;
@@ -7,6 +9,7 @@ import lombok.Getter;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 @Getter
 public class Game {
@@ -19,9 +22,9 @@ public class Game {
     private final List<Player> rankings;
     private int lastPlayerMovedIndex;
 
-    private HandleMoveStrategy handleMoveStrategy;
+    private final HandleMoveStrategy handleMoveStrategy;
 
-    private List<UnlockButtonStrategy> unlockButtonStrategies;
+    private final List<UnlockButtonStrategy> unlockButtonStrategies;
 
     private Game(Builder builder) {
         // immutable builder properties
@@ -29,6 +32,8 @@ public class Game {
         this.players = builder.players;
         this.dice = builder.dice;
         this.buttonsPerPlayer = builder.buttonsPerPlayer;
+        this.handleMoveStrategy = builder.handleMoveStrategy;
+        this.unlockButtonStrategies = builder.unlockButtonStrategies;
 
         // initialize mutable properties
         this.gameStatus = GameStatus.NOT_STARTED;
@@ -49,25 +54,52 @@ public class Game {
     }
 
     public void move() {
+        Scanner scanner = new Scanner(System.in);
         // get current player
         int lastPlayerMovedIndex = getLastPlayerMovedIndex();
-        int currentPlayerIndex = lastPlayerMovedIndex + 1 % players.size();
+        int currentPlayerIndex = (lastPlayerMovedIndex + 1) % players.size();
         Player currentPlayer = players.get(currentPlayerIndex);
 
         // perform dice roll
         int dicedValue = dice.rollDice();
+        System.out.println("Player " + currentPlayer.getColor() + " turn: Dice value " + dicedValue);
 
-        // TODO
-        for(UnlockButtonStrategy unlockButtonStrategy: unlockButtonStrategies) {
-            unlockButtonStrategy.canUnlock(dicedValue);
+        // check if any button can be unlocked
+        boolean canUnlock = false;
+        for (UnlockButtonStrategy unlockButtonStrategy : unlockButtonStrategies) {
+            canUnlock = unlockButtonStrategy.canUnlock(dicedValue);
+            if (canUnlock) break;
+        }
+
+        if (canUnlock) {
+            List<Button> lockedButtons = currentPlayer.getButtons(ButtonStatus.LOCKED);
+            if (lockedButtons.size() > 0) {
+                System.out.print("Want to unlock buttons? (y/n) ");
+                String shouldUnlock = scanner.nextLine();
+                if (shouldUnlock.equalsIgnoreCase("y")) {
+                    // unlock one of the button
+                    Button button = lockedButtons.get(0);
+                    button.setButtonStatus(ButtonStatus.IN_PROGRESS);
+                    button.setPosition(1);
+                    //roll the dice again for same player
+                    return;
+                }
+            }
         }
 
         // validate the move
-        // make move - ask user to enter which button to move
-        handleMoveStrategy.performMove(currentPlayer, dicedValue, this.board);
-
+        if (handleMoveStrategy.isValidMove(currentPlayer, dicedValue, this.board)) {
+            // make move - ask user to enter which button to move
+            handleMoveStrategy.performMove(currentPlayer, dicedValue, this.board);
+        }
         // post-action: change position based on foreign entities
         setLastPlayerMovedIndex(currentPlayerIndex);
+
+        if (currentPlayer.getButtons(ButtonStatus.FINISHED).size() == buttonsPerPlayer) {
+            rankings.add(currentPlayer);
+            players.remove(currentPlayer);
+            if (players.size() == 1) setGameStatus(GameStatus.FINISHED);
+        }
     }
 
     public void undo() {
@@ -80,6 +112,10 @@ public class Game {
         private List<Player> players;
         private Dice dice;
         private int buttonsPerPlayer;
+
+        private HandleMoveStrategy handleMoveStrategy;
+
+        private List<UnlockButtonStrategy> unlockButtonStrategies;
 
         public Builder setBoard(Board board) {
             this.board = board;
@@ -103,6 +139,16 @@ public class Game {
 
         public Builder setButtonsPerPlayer(int buttonsPerPlayer) {
             this.buttonsPerPlayer = buttonsPerPlayer;
+            return this;
+        }
+
+        public Builder setHandleMoveStrategy(HandleMoveStrategy handleMoveStrategy) {
+            this.handleMoveStrategy = handleMoveStrategy;
+            return this;
+        }
+
+        public Builder setUnlockButtonStrategies(List<UnlockButtonStrategy> unlockButtonStrategies) {
+            this.unlockButtonStrategies = unlockButtonStrategies;
             return this;
         }
 

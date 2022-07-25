@@ -3,6 +3,7 @@ package com.sanket.designsnakeandladder.controller;
 import com.sanket.designsnakeandladder.models.Board;
 import com.sanket.designsnakeandladder.models.Dice;
 import com.sanket.designsnakeandladder.models.Game;
+import com.sanket.designsnakeandladder.models.GameStatus;
 import com.sanket.designsnakeandladder.models.foreignentities.ForeignEntity;
 import com.sanket.designsnakeandladder.models.players.ColorType;
 import com.sanket.designsnakeandladder.models.players.HumanPlayer;
@@ -30,7 +31,13 @@ public class GameController {
                 .setPlayers(players)
                 .setDice(dice)
                 .setButtonsPerPlayer(totalButtonsPerPlayer)
+                .setHandleMoveStrategy(handleMoveStrategy)
+                .setUnlockButtonStrategies(unlockButtonStrategies)
                 .build();
+    }
+
+    public void startGame(Game game) {
+        game.setGameStatus(GameStatus.IN_PROGRESS);
     }
 
     public void addPlayer(List<Player> players,

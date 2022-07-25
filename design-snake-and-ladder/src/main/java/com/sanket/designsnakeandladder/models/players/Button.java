@@ -13,7 +13,7 @@ public class Button {
     public Button(ColorType colorType) {
         super();
         this.color = colorType;
-        this.position = -1;
+        this.position = 0;
         buttonStatus = ButtonStatus.LOCKED;
     }
 
@@ -27,5 +27,14 @@ public class Button {
 
     public void setButtonStatus(ButtonStatus buttonStatus) {
         this.buttonStatus = buttonStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Button{" +
+                "position=" + position +
+                ", color=" + color +
+                ", buttonStatus=" + buttonStatus +
+                '}';
     }
 }

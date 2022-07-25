@@ -10,7 +10,6 @@ import com.sanket.designsnakeandladder.models.foreignentities.Snake;
 import com.sanket.designsnakeandladder.models.players.ColorType;
 import com.sanket.designsnakeandladder.models.players.HumanPlayer;
 import com.sanket.designsnakeandladder.models.players.Player;
-import com.sanket.designsnakeandladder.models.players.PlayerType;
 import com.sanket.designsnakeandladder.strategies.*;
 
 import java.util.ArrayList;
@@ -20,19 +19,20 @@ public class GameSimulator {
 
     public static void main(String[] args) {
 
+        // TODO: create factories to create objects
         // board configuration
         int boardDimension = 100;
 
         // player and button configuration
         int totalPlayers = 2;
-        int totalButtonsPerPlayer = 2;
+        int totalButtonsPerPlayer = 4;
         List<Player> players = new ArrayList<>();
         players.add(new HumanPlayer(ColorType.BLUE, totalButtonsPerPlayer));
         players.add(new HumanPlayer(ColorType.RED, totalButtonsPerPlayer));
 
         // dice configuration
         int minDiceNumber = 1;
-        int maxDiceNumber = 6;
+        int maxDiceNumber = 10;
         Dice dice = new Dice(minDiceNumber, maxDiceNumber);
 
         // strategies
@@ -46,7 +46,9 @@ public class GameSimulator {
         foreignEntities.add(new Snake(97, 41));
         foreignEntities.add(new Snake(88, 3));
         foreignEntities.add(new Snake(79, 45));
+        foreignEntities.add(new Snake(28, 10));
         foreignEntities.add(new Ladder(5, 42));
+        foreignEntities.add(new Ladder(21, 83));
         foreignEntities.add(new Ladder(38, 52));
         foreignEntities.add(new Ladder(65, 85));
 
@@ -61,8 +63,13 @@ public class GameSimulator {
                 unlockButtonStrategies
         );
 
-        while (game.getGameStatus().equals(GameStatus.IN_PROGRESS)) {
-            // TODO
+        gameController.startGame(game);
+        while (game.getGameStatus().equals(GameStatus.IN_PROGRESS) && game.getPlayers().size() > 1) {
+            game.move();
+        }
+        if (game.getGameStatus().equals(GameStatus.FINISHED)) {
+            System.out.println("Game finished");
+            System.out.println("Rankings\n: " + game.getRankings());
         }
     }
 }
