@@ -33,7 +33,7 @@ public class GameSimulator {
 
         // dice configuration
         int minDiceNumber = 1;
-        int maxDiceNumber = 10;
+        int maxDiceNumber = 6;
         Dice dice = new Dice(minDiceNumber, maxDiceNumber);
 
         // strategies
