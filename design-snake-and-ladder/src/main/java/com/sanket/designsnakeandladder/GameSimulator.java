@@ -1,16 +1,19 @@
 package com.sanket.designsnakeandladder;
 
 import com.sanket.designsnakeandladder.controller.GameController;
+import com.sanket.designsnakeandladder.factories.ForeignEntitiesFactory;
+import com.sanket.designsnakeandladder.factories.UnlockDiceRollStrategyFactory;
 import com.sanket.designsnakeandladder.models.Dice;
 import com.sanket.designsnakeandladder.models.Game;
 import com.sanket.designsnakeandladder.models.GameStatus;
 import com.sanket.designsnakeandladder.models.foreignentities.ForeignEntity;
-import com.sanket.designsnakeandladder.models.foreignentities.Ladder;
-import com.sanket.designsnakeandladder.models.foreignentities.Snake;
 import com.sanket.designsnakeandladder.models.players.ColorType;
 import com.sanket.designsnakeandladder.models.players.HumanPlayer;
 import com.sanket.designsnakeandladder.models.players.Player;
-import com.sanket.designsnakeandladder.strategies.*;
+import com.sanket.designsnakeandladder.strategies.HandleMoveStrategy;
+import com.sanket.designsnakeandladder.strategies.NormalMoveStrategy;
+import com.sanket.designsnakeandladder.strategies.UnlockButtonStrategy;
+import com.sanket.designsnakeandladder.strategies.UnlockButtonStrategyType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +22,8 @@ public class GameSimulator {
 
     public static void main(String[] args) {
 
-        // TODO: create factories to create objects
-        // TODO: create custom exceptions
         // board configuration
-        int boardDimension = 100;
+        int boardDimension = 10;
 
         // player and button configuration
         int totalPlayers = 2;
@@ -33,25 +34,27 @@ public class GameSimulator {
 
         // dice configuration
         int minDiceNumber = 1;
-        int maxDiceNumber = 10;
+        int maxDiceNumber = 6;
         Dice dice = new Dice(minDiceNumber, maxDiceNumber);
 
         // strategies
         HandleMoveStrategy handleMoveStrategy = new NormalMoveStrategy();
 
         List<UnlockButtonStrategy> unlockButtonStrategies = new ArrayList<>();
-        unlockButtonStrategies.add(new OneDiceRollUnlockButtonStrategy());
-        unlockButtonStrategies.add(new SixDiceRollUnlockButtonStrategy());
+        unlockButtonStrategies.add(UnlockDiceRollStrategyFactory
+                .getStrategyInstance(UnlockButtonStrategyType.ONE_DICE_ROLL));
+        unlockButtonStrategies.add(UnlockDiceRollStrategyFactory
+                .getStrategyInstance(UnlockButtonStrategyType.SIX_DICE_ROLL));
 
         List<ForeignEntity> foreignEntities = new ArrayList<>();
-        foreignEntities.add(new Snake(97, 41));
-        foreignEntities.add(new Snake(88, 3));
-        foreignEntities.add(new Snake(79, 45));
-        foreignEntities.add(new Snake(28, 10));
-        foreignEntities.add(new Ladder(5, 42));
-        foreignEntities.add(new Ladder(21, 83));
-        foreignEntities.add(new Ladder(38, 52));
-        foreignEntities.add(new Ladder(65, 85));
+        foreignEntities.add(ForeignEntitiesFactory.createSnake(97, 41));
+        foreignEntities.add(ForeignEntitiesFactory.createSnake(88, 3));
+        foreignEntities.add(ForeignEntitiesFactory.createSnake(79, 45));
+        foreignEntities.add(ForeignEntitiesFactory.createSnake(28, 10));
+        foreignEntities.add(ForeignEntitiesFactory.createLadder(5, 42));
+        foreignEntities.add(ForeignEntitiesFactory.createLadder(21, 83));
+        foreignEntities.add(ForeignEntitiesFactory.createLadder(38, 52));
+        foreignEntities.add(ForeignEntitiesFactory.createLadder(65, 85));
 
         GameController gameController = new GameController();
         Game game = gameController.createGame(

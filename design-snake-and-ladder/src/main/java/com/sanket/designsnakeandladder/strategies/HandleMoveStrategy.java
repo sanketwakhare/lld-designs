@@ -7,5 +7,5 @@ public interface HandleMoveStrategy {
 
     boolean isValidMove(Player player, int diceValue, Board board);
 
-    void performMove(Player player, int diceValue, Board board);
+    void performMove(Player player, int diceValue, Board board) throws Exception;
 }

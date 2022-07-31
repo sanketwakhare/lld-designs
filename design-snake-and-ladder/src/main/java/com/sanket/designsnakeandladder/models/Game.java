@@ -90,7 +90,11 @@ public class Game {
         // validate the move
         if (handleMoveStrategy.isValidMove(currentPlayer, dicedValue, this.board)) {
             // make move - ask user to enter which button to move
-            handleMoveStrategy.performMove(currentPlayer, dicedValue, this.board);
+            try {
+                handleMoveStrategy.performMove(currentPlayer, dicedValue, this.board);
+            } catch (Exception e) {
+                System.out.println("Exception: " + e.getMessage());
+            }
         }
         // post-action: change position based on foreign entities
         setLastPlayerMovedIndex(currentPlayerIndex);

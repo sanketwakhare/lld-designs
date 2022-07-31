@@ -12,7 +12,6 @@ import com.sanket.designsnakeandladder.models.players.PlayerType;
 import com.sanket.designsnakeandladder.strategies.HandleMoveStrategy;
 import com.sanket.designsnakeandladder.strategies.UnlockButtonStrategy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameController {
@@ -58,7 +57,7 @@ public class GameController {
     }
 
     // make move
-    public void makeMove(Game game) {
+    public void makeMove(Game game)  {
         game.move();
     }
 }
