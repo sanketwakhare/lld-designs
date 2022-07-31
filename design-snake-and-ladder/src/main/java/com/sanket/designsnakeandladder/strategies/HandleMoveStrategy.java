@@ -1,6 +1,5 @@
 package com.sanket.designsnakeandladder.strategies;
 
-import com.sanket.designsnakeandladder.exceptions.InvalidButtonPosition;
 import com.sanket.designsnakeandladder.models.Board;
 import com.sanket.designsnakeandladder.models.players.Player;
 

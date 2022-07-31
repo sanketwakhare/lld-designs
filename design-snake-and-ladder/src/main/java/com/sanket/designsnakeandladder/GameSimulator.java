@@ -1,15 +1,12 @@
 package com.sanket.designsnakeandladder;
 
 import com.sanket.designsnakeandladder.controller.GameController;
-import com.sanket.designsnakeandladder.exceptions.InvalidButtonPosition;
 import com.sanket.designsnakeandladder.factories.ForeignEntitiesFactory;
 import com.sanket.designsnakeandladder.factories.UnlockDiceRollStrategyFactory;
 import com.sanket.designsnakeandladder.models.Dice;
 import com.sanket.designsnakeandladder.models.Game;
 import com.sanket.designsnakeandladder.models.GameStatus;
 import com.sanket.designsnakeandladder.models.foreignentities.ForeignEntity;
-import com.sanket.designsnakeandladder.models.foreignentities.Ladder;
-import com.sanket.designsnakeandladder.models.foreignentities.Snake;
 import com.sanket.designsnakeandladder.models.players.ColorType;
 import com.sanket.designsnakeandladder.models.players.HumanPlayer;
 import com.sanket.designsnakeandladder.models.players.Player;
@@ -25,7 +22,7 @@ public class GameSimulator {
         // TODO: create factories to create objects
         // TODO: create custom exceptions
         // board configuration
-        int boardDimension = 100;
+        int boardDimension = 10;
 
         // player and button configuration
         int totalPlayers = 2;

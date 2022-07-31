@@ -1,6 +1,5 @@
 package com.sanket.designsnakeandladder.controller;
 
-import com.sanket.designsnakeandladder.exceptions.InvalidButtonPosition;
 import com.sanket.designsnakeandladder.models.Board;
 import com.sanket.designsnakeandladder.models.Dice;
 import com.sanket.designsnakeandladder.models.Game;
@@ -13,7 +12,6 @@ import com.sanket.designsnakeandladder.models.players.PlayerType;
 import com.sanket.designsnakeandladder.strategies.HandleMoveStrategy;
 import com.sanket.designsnakeandladder.strategies.UnlockButtonStrategy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameController {

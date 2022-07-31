@@ -1,6 +1,7 @@
 package com.sanket.designsnakeandladder.strategies;
 
-import com.sanket.designsnakeandladder.exceptions.InvalidButtonPosition;
+import com.sanket.designsnakeandladder.exceptions.ButtonCannotMoveException;
+import com.sanket.designsnakeandladder.exceptions.InvalidButtonPositionException;
 import com.sanket.designsnakeandladder.models.Board;
 import com.sanket.designsnakeandladder.models.foreignentities.ForeignEntity;
 import com.sanket.designsnakeandladder.models.players.Button;
@@ -35,11 +36,12 @@ public class NormalMoveStrategy implements HandleMoveStrategy {
         Button validButton;
         try {
             validButton = isValidChoiceEntered(buttons, buttonToMove, diceValue, board);
-        } catch (InvalidButtonPosition e) {
+        } catch (InvalidButtonPositionException | ButtonCannotMoveException e) {
             throw new Exception(e);
         }
         validButton.increasePositionBy(diceValue);
         if (validButton.getPosition() == board.getDimension()) {
+            System.out.println("Congratulations! button " + validButton.getColor() + " finished");
             validButton.setButtonStatus(ButtonStatus.FINISHED);
         } else if (board.getForeignEntities().containsKey(validButton.getPosition())) {
             ForeignEntity foreignEntity = board.getForeignEntities().get(validButton.getPosition());
@@ -47,16 +49,21 @@ public class NormalMoveStrategy implements HandleMoveStrategy {
         }
     }
 
-    private Button isValidChoiceEntered(List<Button> buttons, int buttonToMove, int diceValue, Board board) throws InvalidButtonPosition {
+    private Button isValidChoiceEntered(List<Button> buttons,
+                                        int buttonToMove,
+                                        int diceValue,
+                                        Board board)
+            throws InvalidButtonPositionException, ButtonCannotMoveException {
         for (Button button : buttons) {
             if (button.getPosition() == buttonToMove) {
                 if (button.getPosition() + diceValue <= board.getDimension()) {
                     return button;
                 }
-                // TODO: throw custom exception, button cannot move further
+                // throw custom exception, button cannot move further
+                throw new ButtonCannotMoveException();
             }
         }
-        // TODO: throw custom exception, invalid choice of button
-        throw new InvalidButtonPosition();
+        // throw custom exception, invalid choice of button position
+        throw new InvalidButtonPositionException();
     }
 }
