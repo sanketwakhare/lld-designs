@@ -10,7 +10,10 @@ import com.sanket.designsnakeandladder.models.foreignentities.ForeignEntity;
 import com.sanket.designsnakeandladder.models.players.ColorType;
 import com.sanket.designsnakeandladder.models.players.HumanPlayer;
 import com.sanket.designsnakeandladder.models.players.Player;
-import com.sanket.designsnakeandladder.strategies.*;
+import com.sanket.designsnakeandladder.strategies.HandleMoveStrategy;
+import com.sanket.designsnakeandladder.strategies.NormalMoveStrategy;
+import com.sanket.designsnakeandladder.strategies.UnlockButtonStrategy;
+import com.sanket.designsnakeandladder.strategies.UnlockButtonStrategyType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +22,6 @@ public class GameSimulator {
 
     public static void main(String[] args) {
 
-        // TODO: create factories to create objects
-        // TODO: create custom exceptions
         // board configuration
         int boardDimension = 10;
 
