@@ -14,7 +14,7 @@ public abstract class Gate extends BaseModel {
     private Operator operator;
     private GateStatus gateStatus;
 
-    public Gate(GateType gateType) {
+    public Gate(GateType gateType, String gateNumber) {
         this.gateType = gateType;
     }
 }

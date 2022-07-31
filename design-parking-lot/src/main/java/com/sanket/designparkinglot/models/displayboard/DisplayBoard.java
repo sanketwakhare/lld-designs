@@ -19,7 +19,7 @@ public class DisplayBoard extends BaseModel {
     private ParkingLot parkingLot;
     private Map<String, Map<SpotType, Integer>> spotAvailability;
 
-    DisplayBoard(ParkingLot parkingLot) {
+    public DisplayBoard(ParkingLot parkingLot) {
         this.parkingLot = parkingLot;
         spotAvailability = new HashMap<>();
     }

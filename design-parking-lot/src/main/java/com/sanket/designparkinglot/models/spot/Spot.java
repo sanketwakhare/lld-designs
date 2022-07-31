@@ -13,4 +13,10 @@ public class Spot extends BaseModel {
     private SpotType spotType;
     private SpotStatus spotStatus;
     private Floor floor;
+
+    public Spot(Floor floor, SpotType spotType, String spotNumber) {
+        this.floor = floor;
+        this.spotType = spotType;
+        this.spotNumber = spotNumber;
+    }
 }

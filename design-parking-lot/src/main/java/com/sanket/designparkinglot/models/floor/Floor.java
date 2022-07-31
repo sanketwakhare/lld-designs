@@ -13,4 +13,8 @@ public class Floor extends BaseModel {
 
     private String floorNumber;
     private List<Spot> spots;
+
+    public Floor(String floorNumber) {
+        this.floorNumber = floorNumber;
+    }
 }

@@ -8,8 +8,8 @@ public class ExitGate extends Gate {
 
     FeesCalculatorStrategy feesCalculatorStrategy;
 
-    public ExitGate(FeesCalculatorStrategy feesCalculatorStrategy) {
-        super(GateType.EXIT);
+    public ExitGate(FeesCalculatorStrategy feesCalculatorStrategy, String gateNumber) {
+        super(GateType.EXIT, gateNumber);
         this.feesCalculatorStrategy = feesCalculatorStrategy;
     }
 

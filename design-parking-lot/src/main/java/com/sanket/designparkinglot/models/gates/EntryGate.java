@@ -20,8 +20,10 @@ public class EntryGate extends Gate {
 
     private SpotAssignmentStrategy spotAssignmentStrategy;
 
-    public EntryGate(DisplayBoard displayBoard, SpotAssignmentStrategy spotAssignmentStrategy) {
-        super(GateType.ENTRY);
+    public EntryGate(DisplayBoard displayBoard,
+                     SpotAssignmentStrategy spotAssignmentStrategy,
+                     String gateNumber) {
+        super(GateType.ENTRY, gateNumber);
         this.displayBoard = displayBoard;
     }
 

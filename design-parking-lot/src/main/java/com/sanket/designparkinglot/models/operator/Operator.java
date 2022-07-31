@@ -10,4 +10,8 @@ public class Operator extends BaseModel {
 
     private int operatorId;
     private String name;
+
+    public Operator(String name) {
+        this.name = name;
+    }
 }
