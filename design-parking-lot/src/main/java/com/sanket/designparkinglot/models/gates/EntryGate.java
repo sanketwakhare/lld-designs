@@ -1,6 +1,11 @@
-package com.sanket.designparkinglot.models;
+package com.sanket.designparkinglot.models.gates;
 
 import com.sanket.designparkinglot.exceptions.NoSpotAvailableException;
+import com.sanket.designparkinglot.models.displayboard.DisplayBoard;
+import com.sanket.designparkinglot.models.parkinglot.ParkingLot;
+import com.sanket.designparkinglot.models.spot.Spot;
+import com.sanket.designparkinglot.models.ticket.Ticket;
+import com.sanket.designparkinglot.models.vehicle.Vehicle;
 import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrategy;
 import lombok.Getter;
 import lombok.Setter;

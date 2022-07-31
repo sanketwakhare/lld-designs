@@ -1,7 +1,7 @@
 package com.sanket.designparkinglot.strategies.feescalculator;
 
-import com.sanket.designparkinglot.models.SpotType;
-import com.sanket.designparkinglot.models.Ticket;
+import com.sanket.designparkinglot.models.spot.SpotType;
+import com.sanket.designparkinglot.models.ticket.Ticket;
 
 import java.util.Calendar;
 import java.util.Date;

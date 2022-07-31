@@ -1,4 +1,4 @@
-package com.sanket.designparkinglot.models;
+package com.sanket.designparkinglot.models.spot;
 
 public enum SpotType {
     BIKE,

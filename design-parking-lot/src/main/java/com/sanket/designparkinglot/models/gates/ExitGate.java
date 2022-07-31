@@ -1,5 +1,7 @@
-package com.sanket.designparkinglot.models;
+package com.sanket.designparkinglot.models.gates;
 
+import com.sanket.designparkinglot.models.bill.Bill;
+import com.sanket.designparkinglot.models.ticket.Ticket;
 import com.sanket.designparkinglot.strategies.feescalculator.FeesCalculatorStrategy;
 
 public class ExitGate extends Gate {

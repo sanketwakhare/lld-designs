@@ -1,5 +1,6 @@
-package com.sanket.designparkinglot.models;
+package com.sanket.designparkinglot.models.vehicle;
 
+import com.sanket.designparkinglot.models.BaseModel;
 import lombok.Getter;
 import lombok.Setter;
 

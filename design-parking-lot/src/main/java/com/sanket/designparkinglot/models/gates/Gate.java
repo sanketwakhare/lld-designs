@@ -1,5 +1,7 @@
-package com.sanket.designparkinglot.models;
+package com.sanket.designparkinglot.models.gates;
 
+import com.sanket.designparkinglot.models.BaseModel;
+import com.sanket.designparkinglot.models.operator.Operator;
 import lombok.Getter;
 import lombok.Setter;
 
