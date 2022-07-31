@@ -1,5 +1,6 @@
 package com.sanket.designsnakeandladder.controller;
 
+import com.sanket.designsnakeandladder.exceptions.InvalidButtonPosition;
 import com.sanket.designsnakeandladder.models.Board;
 import com.sanket.designsnakeandladder.models.Dice;
 import com.sanket.designsnakeandladder.models.Game;
@@ -58,7 +59,7 @@ public class GameController {
     }
 
     // make move
-    public void makeMove(Game game) {
+    public void makeMove(Game game)  {
         game.move();
     }
 }

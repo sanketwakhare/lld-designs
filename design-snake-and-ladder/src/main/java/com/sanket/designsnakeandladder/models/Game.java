@@ -1,5 +1,6 @@
 package com.sanket.designsnakeandladder.models;
 
+import com.sanket.designsnakeandladder.exceptions.InvalidButtonPosition;
 import com.sanket.designsnakeandladder.models.players.Button;
 import com.sanket.designsnakeandladder.models.players.ButtonStatus;
 import com.sanket.designsnakeandladder.models.players.Player;
@@ -90,7 +91,11 @@ public class Game {
         // validate the move
         if (handleMoveStrategy.isValidMove(currentPlayer, dicedValue, this.board)) {
             // make move - ask user to enter which button to move
-            handleMoveStrategy.performMove(currentPlayer, dicedValue, this.board);
+            try {
+                handleMoveStrategy.performMove(currentPlayer, dicedValue, this.board);
+            } catch (Exception e) {
+                System.out.println("Error: Invalid Button position");
+            }
         }
         // post-action: change position based on foreign entities
         setLastPlayerMovedIndex(currentPlayerIndex);

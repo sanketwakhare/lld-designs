@@ -1,6 +1,9 @@
 package com.sanket.designsnakeandladder;
 
 import com.sanket.designsnakeandladder.controller.GameController;
+import com.sanket.designsnakeandladder.exceptions.InvalidButtonPosition;
+import com.sanket.designsnakeandladder.factories.ForeignEntitiesFactory;
+import com.sanket.designsnakeandladder.factories.UnlockDiceRollStrategyFactory;
 import com.sanket.designsnakeandladder.models.Dice;
 import com.sanket.designsnakeandladder.models.Game;
 import com.sanket.designsnakeandladder.models.GameStatus;
@@ -40,18 +43,20 @@ public class GameSimulator {
         HandleMoveStrategy handleMoveStrategy = new NormalMoveStrategy();
 
         List<UnlockButtonStrategy> unlockButtonStrategies = new ArrayList<>();
-        unlockButtonStrategies.add(new OneDiceRollUnlockButtonStrategy());
-        unlockButtonStrategies.add(new SixDiceRollUnlockButtonStrategy());
+        unlockButtonStrategies.add(UnlockDiceRollStrategyFactory
+                .getStrategyInstance(UnlockButtonStrategyType.ONE_DICE_ROLL));
+        unlockButtonStrategies.add(UnlockDiceRollStrategyFactory
+                .getStrategyInstance(UnlockButtonStrategyType.SIX_DICE_ROLL));
 
         List<ForeignEntity> foreignEntities = new ArrayList<>();
-        foreignEntities.add(new Snake(97, 41));
-        foreignEntities.add(new Snake(88, 3));
-        foreignEntities.add(new Snake(79, 45));
-        foreignEntities.add(new Snake(28, 10));
-        foreignEntities.add(new Ladder(5, 42));
-        foreignEntities.add(new Ladder(21, 83));
-        foreignEntities.add(new Ladder(38, 52));
-        foreignEntities.add(new Ladder(65, 85));
+        foreignEntities.add(ForeignEntitiesFactory.createSnake(97, 41));
+        foreignEntities.add(ForeignEntitiesFactory.createSnake(88, 3));
+        foreignEntities.add(ForeignEntitiesFactory.createSnake(79, 45));
+        foreignEntities.add(ForeignEntitiesFactory.createSnake(28, 10));
+        foreignEntities.add(ForeignEntitiesFactory.createLadder(5, 42));
+        foreignEntities.add(ForeignEntitiesFactory.createLadder(21, 83));
+        foreignEntities.add(ForeignEntitiesFactory.createLadder(38, 52));
+        foreignEntities.add(ForeignEntitiesFactory.createLadder(65, 85));
 
         GameController gameController = new GameController();
         Game game = gameController.createGame(
