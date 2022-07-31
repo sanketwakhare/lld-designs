@@ -10,4 +10,5 @@ public class Spot extends BaseModel {
     private String spotNumber;
     private SpotType spotType;
     private SpotStatus spotStatus;
+    private Floor floor;
 }

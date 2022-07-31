@@ -1,9 +1,14 @@
 package com.sanket.designparkinglot.models;
 
+import com.sanket.designparkinglot.strategies.feescalculator.FeesCalculatorStrategy;
+
 public class ExitGate extends Gate {
 
-    public ExitGate() {
+    FeesCalculatorStrategy feesCalculatorStrategy;
+
+    public ExitGate(FeesCalculatorStrategy feesCalculatorStrategy) {
         super(GateType.EXIT);
+        this.feesCalculatorStrategy = feesCalculatorStrategy;
     }
 
     public Bill generateBill(Ticket ticket) {

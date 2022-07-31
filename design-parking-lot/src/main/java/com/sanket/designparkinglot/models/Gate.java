@@ -9,6 +9,8 @@ public abstract class Gate extends BaseModel {
 
     private String gateNumber;
     private GateType gateType;
+    private Operator operator;
+    private GateStatus gateStatus;
 
     public Gate(GateType gateType) {
         this.gateType = gateType;

@@ -9,11 +9,11 @@ import java.util.Date;
 @Setter
 public class Bill extends BaseModel {
 
-    private double charges;
-    private ExitGate exitGate;
-    private Operator operator;
-    private Ticket ticket;
     private Date exitTime;
+    private ExitGate exitGate;
+    private double charges;
+    private Ticket ticket;
+    private Operator operator;
     private BillPaymentStatus billPaymentStatus;
 
 }
