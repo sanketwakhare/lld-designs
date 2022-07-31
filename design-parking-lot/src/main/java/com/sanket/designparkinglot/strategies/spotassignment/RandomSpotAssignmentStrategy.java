@@ -22,7 +22,7 @@ public class RandomSpotAssignmentStrategy implements SpotAssignmentStrategy {
                 if (SpotStatus.AVAILABLE.equals(spot.getSpotStatus())
                         && vehicle.getVehicleType().toString().equals(spot.getSpotType().toString())) {
                     // return available spot
-                    spot.setSpotStatus(SpotStatus.AVAILABLE);
+                    spot.setSpotStatus(SpotStatus.OCCUPIED);
                     return spot;
                 }
             }

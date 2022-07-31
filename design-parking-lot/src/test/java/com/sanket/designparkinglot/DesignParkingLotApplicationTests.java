@@ -7,6 +7,7 @@ import com.sanket.designparkinglot.models.gates.EntryGate;
 import com.sanket.designparkinglot.models.gates.ExitGate;
 import com.sanket.designparkinglot.models.operator.Operator;
 import com.sanket.designparkinglot.models.parkinglot.ParkingLot;
+import com.sanket.designparkinglot.models.payment.Payment;
 import com.sanket.designparkinglot.models.spot.Spot;
 import com.sanket.designparkinglot.models.spot.SpotType;
 import com.sanket.designparkinglot.models.ticket.Ticket;
@@ -14,10 +15,13 @@ import com.sanket.designparkinglot.models.vehicle.Vehicle;
 import com.sanket.designparkinglot.models.vehicle.VehicleType;
 import com.sanket.designparkinglot.strategies.feescalculator.FeesCalculatorStrategy;
 import com.sanket.designparkinglot.strategies.feescalculator.NormalFeesCalculatorStrategy;
+import com.sanket.designparkinglot.strategies.paymentstrategy.PaymentStrategy;
+import com.sanket.designparkinglot.strategies.paymentstrategy.UPIPaymentStrategy;
 import com.sanket.designparkinglot.strategies.spotassignment.RandomSpotAssignmentStrategy;
 import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrategy;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +75,17 @@ class DesignParkingLotApplicationTests {
 
         Vehicle vehicle1 = new Vehicle("MH12PR1234", VehicleType.BIKE);
         Ticket ticket = entryGate2.generateTicket(parkingLot, vehicle1, spotAssignmentStrategy);
+        Assert.notNull(ticket, "ticket could not be generated");
         System.out.println("ticket generated");
+
+        entryGate1.displayBoard();
+
+        // pay bill
+        Bill bill = exitGate1.generateBill(ticket, feesCalculatorStrategy);
+
+        PaymentStrategy paymentStrategy = new UPIPaymentStrategy();
+        Payment payment = paymentStrategy.payBill(bill);
+        System.out.println("payment refId: " + payment.getRefId() + " payment status: " + payment.getPaymentStatus());
 
     }
 

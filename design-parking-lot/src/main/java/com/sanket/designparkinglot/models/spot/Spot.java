@@ -30,6 +30,7 @@ public class Spot extends BaseModel {
         this.floor = floor;
         this.spotType = spotType;
         this.spotNumber = spotNumber;
+        this.spotStatus = SpotStatus.AVAILABLE;
     }
 
     public Spot() {

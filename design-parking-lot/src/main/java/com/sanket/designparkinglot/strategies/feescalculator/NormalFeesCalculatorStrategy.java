@@ -29,7 +29,7 @@ public class NormalFeesCalculatorStrategy implements FeesCalculatorStrategy {
         long diff = exitTime.getTime() - entryTime.getTime();
         long differenceInHours
                 = (diff
-                / (1000 * 60 * 60));
-        return Math.ceil(differenceInHours) * feeStructure.get(ticket.getSpot().getSpotType());
+                / (1000 * 60 * 60)) % 24;
+        return (Math.floor(differenceInHours) + 1) * feeStructure.get(ticket.getSpot().getSpotType());
     }
 }
