@@ -10,24 +10,33 @@ import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrat
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 import java.util.Calendar;
 
 @Getter
 @Setter
+@Entity
 public class EntryGate extends Gate {
 
+    @OneToOne
     private DisplayBoard displayBoard;
 
-    private SpotAssignmentStrategy spotAssignmentStrategy;
-
     public EntryGate(DisplayBoard displayBoard,
-                     SpotAssignmentStrategy spotAssignmentStrategy,
                      String gateNumber) {
-        super(GateType.ENTRY, gateNumber);
+        super(GateType.ENTRY);
         this.displayBoard = displayBoard;
     }
 
-    public Ticket generateTicket(ParkingLot parkingLot, Vehicle vehicle) {
+    public EntryGate() {
+        super(GateType.ENTRY);
+    }
+
+    public Ticket generateTicket(ParkingLot parkingLot,
+                                 Vehicle vehicle,
+                                 SpotAssignmentStrategy spotAssignmentStrategy) {
         // TODO: verify working of this method
         Ticket ticket = new Ticket();
 

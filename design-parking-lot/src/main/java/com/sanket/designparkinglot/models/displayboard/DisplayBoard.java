@@ -9,22 +9,29 @@ import com.sanket.designparkinglot.models.spot.SpotType;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.util.HashMap;
 import java.util.Map;
 
 @Getter
 @Setter
+@Entity
 public class DisplayBoard extends BaseModel {
 
+    @ManyToOne
     private ParkingLot parkingLot;
-    private Map<String, Map<SpotType, Integer>> spotAvailability;
 
     public DisplayBoard(ParkingLot parkingLot) {
         this.parkingLot = parkingLot;
-        spotAvailability = new HashMap<>();
+    }
+
+    public DisplayBoard() {
+
     }
 
     public Map<String, Map<SpotType, Integer>> getSpotAvailability() {
+        Map<String, Map<SpotType, Integer>> spotAvailability = new HashMap<>();
         for (Floor floor : parkingLot.getFloors()) {
             Map<SpotType, Integer> floorMap = new HashMap<>();
             for (Spot spot : floor.getSpots()) {
@@ -43,7 +50,7 @@ public class DisplayBoard extends BaseModel {
     public String toString() {
         return "DisplayBoard{" +
                 "parkingLot=" + parkingLot +
-                ", spotAvailability=" + spotAvailability +
+                ", spotAvailability=" + getSpotAvailability() +
                 '}';
     }
 }

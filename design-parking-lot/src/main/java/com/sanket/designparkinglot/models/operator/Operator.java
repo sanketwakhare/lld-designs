@@ -4,8 +4,11 @@ import com.sanket.designparkinglot.models.BaseModel;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+
 @Getter
 @Setter
+@Entity
 public class Operator extends BaseModel {
 
     private int operatorId;
@@ -13,5 +16,9 @@ public class Operator extends BaseModel {
 
     public Operator(String name) {
         this.name = name;
+    }
+
+    public Operator() {
+
     }
 }

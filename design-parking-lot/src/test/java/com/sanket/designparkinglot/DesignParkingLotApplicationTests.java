@@ -59,18 +59,18 @@ class DesignParkingLotApplicationTests {
         Operator operator4 = new Operator("person4");
 
         // add entry gate and exit gates
-        EntryGate entryGate1 = new EntryGate(displayBoard, spotAssignmentStrategy, "EntryGate1");
+        EntryGate entryGate1 = new EntryGate(displayBoard, "EntryGate1");
         entryGate1.setOperator(operator1);
-        EntryGate entryGate2 = new EntryGate(displayBoard, spotAssignmentStrategy, "EntryGate2");
+        EntryGate entryGate2 = new EntryGate(displayBoard, "EntryGate2");
         entryGate2.setOperator(operator2);
-        ExitGate exitGate1 = new ExitGate(feesCalculatorStrategy, "ExitGate1");
+        ExitGate exitGate1 = new ExitGate("ExitGate1");
         exitGate1.setOperator(operator3);
-        ExitGate exitGate2 = new ExitGate(feesCalculatorStrategy, "ExitGate2");
+        ExitGate exitGate2 = new ExitGate("ExitGate2");
         exitGate2.setOperator(operator4);
 
 
         Vehicle vehicle1 = new Vehicle("MH12PR1234", VehicleType.BIKE);
-        Ticket ticket = entryGate2.generateTicket(parkingLot, vehicle1);
+        Ticket ticket = entryGate2.generateTicket(parkingLot, vehicle1, spotAssignmentStrategy);
         System.out.println("ticket generated");
 
     }

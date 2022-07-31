@@ -10,17 +10,33 @@ import com.sanket.designparkinglot.models.spot.Spot;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import java.util.Date;
 
 @Getter
 @Setter
+@Entity
 public class Ticket extends BaseModel {
 
+    @ManyToOne
     private Vehicle vehicle;
+
+    @OneToOne
     private Spot spot;
+
+    @ManyToOne
     private EntryGate entryGate;
+
+    @ManyToOne
     private Operator operator;
+
+    @ManyToOne
     private Floor floor;
+
+    @ManyToOne
     private ParkingLot parkingLot;
+
     private Date entryTime;
 }
