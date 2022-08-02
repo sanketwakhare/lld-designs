@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="design-tic-tac-toe" />
+        <module name="design-parking-lot" />
         <module name="netflix-schema" />
         <module name="schemadesign-student-module-exam" />
         <module name="design-snake-and-ladder" />
@@ -15,6 +16,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="design-parking-lot" target="17" />
       <module name="design-pen" target="17" />
       <module name="design-pen-2" target="17" />
       <module name="design-snake-and-ladder" target="17" />
@@ -25,6 +27,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="design-parking-lot" options="-parameters" />
       <module name="design-pen" options="-parameters" />
       <module name="design-pen-2" options="-parameters" />
       <module name="design-snake-and-ladder" options="-parameters" />

@@ -26,5 +26,13 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/netflix__schema</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="parking__lot" uuid="c9b196c5-24a2-4604-a1cf-3d56a5d3ca6f">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <remarks>parking__lot</remarks>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/parking__lot</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
