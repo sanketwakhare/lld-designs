@@ -26,7 +26,7 @@ public class BaseModel {
     Date createdAt;
 
     @CreatedBy
-    Date createdBy;
+    String createdBy;
 
     @LastModifiedDate
     Date lastModifiedAt;

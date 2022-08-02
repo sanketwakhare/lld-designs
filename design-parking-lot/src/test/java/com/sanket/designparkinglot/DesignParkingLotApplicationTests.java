@@ -1,5 +1,14 @@
 package com.sanket.designparkinglot;
 
+import com.sanket.designparkinglot.controllers.FloorController;
+import com.sanket.designparkinglot.controllers.ParkingLotController;
+import com.sanket.designparkinglot.dtos.base.response.ResponseStatus;
+import com.sanket.designparkinglot.dtos.floor.CreateFloorRequestDto;
+import com.sanket.designparkinglot.dtos.floor.CreateFloorResponseDto;
+import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotRequestDto;
+import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotResponseDto;
+import com.sanket.designparkinglot.dtos.parkinglot.DeleteParkingLotRequestDto;
+import com.sanket.designparkinglot.dtos.parkinglot.DeleteParkingLotResponseDto;
 import com.sanket.designparkinglot.models.bill.Bill;
 import com.sanket.designparkinglot.models.displayboard.DisplayBoard;
 import com.sanket.designparkinglot.models.floor.Floor;
@@ -19,18 +28,19 @@ import com.sanket.designparkinglot.strategies.paymentstrategy.PaymentStrategy;
 import com.sanket.designparkinglot.strategies.paymentstrategy.UPIPaymentStrategy;
 import com.sanket.designparkinglot.strategies.spotassignment.RandomSpotAssignmentStrategy;
 import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrategy;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DesignParkingLotApplicationTests {
 
-    @Test
+    //    @Test
     void contextLoads() {
 
         ParkingLot parkingLot = new ParkingLot();
@@ -114,6 +124,69 @@ class DesignParkingLotApplicationTests {
             spots.add(new Spot(floor, SpotType.PREMIUM, floor.getFloorNumber() + "-" + count++));
         }
         floor.setSpots(spots);
+    }
+
+    @Autowired
+    private ParkingLotController parkingLotController;
+
+    @Autowired
+    private FloorController floorController;
+
+    @Test
+    @Order(1)
+    void testCreateParkingLot() {
+        CreateParkingLotRequestDto createParkingLotRequestDto = new CreateParkingLotRequestDto();
+        createParkingLotRequestDto.setAddress("Central Mall, Pune");
+        CreateParkingLotResponseDto createParkingLotResponseDto = parkingLotController.addParkingLot(createParkingLotRequestDto);
+        Assert.notNull(createParkingLotResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createParkingLotResponseDto.getResponseStatus()), "response status is not as expected");
+        System.out.println("parking lot created");
+    }
+
+    @Test
+    @Order(2)
+    void testCreateParkingLotWithFloors() {
+        CreateParkingLotRequestDto createParkingLotRequestDto = new CreateParkingLotRequestDto();
+        createParkingLotRequestDto.setAddress("City Mall, Mumbai");
+        createParkingLotRequestDto.setNumberOfFloors(3);
+        CreateParkingLotResponseDto createParkingLotResponseDto = parkingLotController.addParkingLot(createParkingLotRequestDto);
+        Assert.notNull(createParkingLotResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createParkingLotResponseDto.getResponseStatus()), "response status is not as expected");
+        System.out.println("parking lot created");
+    }
+
+    @Test
+    @Order(3)
+    void testCreateAndAssignFloorToParkingLot() {
+        CreateFloorRequestDto createFloorRequestDto = new CreateFloorRequestDto();
+        createFloorRequestDto.setParkingLotId(1L);
+        createFloorRequestDto.setFloorNumber("G1");
+        CreateFloorResponseDto createFloorResponseDto = floorController.addFloor(createFloorRequestDto);
+        Assert.notNull(createFloorResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createFloorResponseDto.getResponseStatus()), "response status is not as expected");
+        System.out.println("floor created");
+    }
+
+    @Test
+    @Order(4)
+    void deleteParkingLotById() {
+        //create new paring lot with 5 floors
+        CreateParkingLotRequestDto createParkingLotRequestDto = new CreateParkingLotRequestDto();
+        createParkingLotRequestDto.setAddress("Airport, Jodhpur");
+        createParkingLotRequestDto.setNumberOfFloors(5);
+        CreateParkingLotResponseDto createParkingLotResponseDto = parkingLotController.addParkingLot(createParkingLotRequestDto);
+        Assert.notNull(createParkingLotResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createParkingLotResponseDto.getResponseStatus()), "response status is not as expected");
+        System.out.println("parking lot created");
+
+        // delete parking lot by id
+        Long parkingLotId = createParkingLotResponseDto.getParkingLot().getId();
+        DeleteParkingLotRequestDto deleteParkingLotRequestDto = new DeleteParkingLotRequestDto();
+        deleteParkingLotRequestDto.setParkingLotId(parkingLotId);
+        DeleteParkingLotResponseDto deleteParkingLotResponseDto = parkingLotController.deleteParkingLotById(deleteParkingLotRequestDto);
+        Assert.notNull(deleteParkingLotResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(deleteParkingLotResponseDto.getResponseStatus()), "response status is not as expected");
+        System.out.println("parking lot deleted successfully");
     }
 
 }

@@ -8,7 +8,9 @@ import com.sanket.designparkinglot.models.gates.ExitGate;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class ParkingLot extends BaseModel {
 
     private String address;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Floor> floors;
 
     @OneToMany
@@ -30,4 +32,5 @@ public class ParkingLot extends BaseModel {
 
     @OneToMany(mappedBy = "parkingLot")
     private List<DisplayBoard> displayBoards;
+
 }
