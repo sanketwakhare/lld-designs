@@ -1,7 +1,5 @@
 # Design Parking Lot
 
----
-
 ### Requirements Gathering
 1. A Parking Lot has multiple floors
 2. Each Floor has multiple Spots
