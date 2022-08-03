@@ -50,7 +50,7 @@ public class ParkingLotController {
             parkingLotService.deleteParkingLotById(parkingLotId);
             responseDto.setResponseStatus(ResponseStatus.SUCCESS);
             responseDto.setMessage("parking lot deleted successfully");
-        } catch (NoParkingLotException e) {
+        } catch (Exception | NoParkingLotException e) {
             responseDto.setResponseStatus(ResponseStatus.FAILURE);
             responseDto.setMessage(e.getMessage());
         }

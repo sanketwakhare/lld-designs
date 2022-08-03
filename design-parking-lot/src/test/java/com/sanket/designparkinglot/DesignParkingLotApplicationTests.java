@@ -2,6 +2,7 @@ package com.sanket.designparkinglot;
 
 import com.sanket.designparkinglot.controllers.FloorController;
 import com.sanket.designparkinglot.controllers.ParkingLotController;
+import com.sanket.designparkinglot.controllers.SpotController;
 import com.sanket.designparkinglot.dtos.base.response.ResponseStatus;
 import com.sanket.designparkinglot.dtos.floor.CreateFloorRequestDto;
 import com.sanket.designparkinglot.dtos.floor.CreateFloorResponseDto;
@@ -9,6 +10,10 @@ import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotRequestDto;
 import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotResponseDto;
 import com.sanket.designparkinglot.dtos.parkinglot.DeleteParkingLotRequestDto;
 import com.sanket.designparkinglot.dtos.parkinglot.DeleteParkingLotResponseDto;
+import com.sanket.designparkinglot.dtos.spot.AssignSpotRequestDto;
+import com.sanket.designparkinglot.dtos.spot.AssignSpotResponseDto;
+import com.sanket.designparkinglot.dtos.spot.CreateSpotRequestDto;
+import com.sanket.designparkinglot.dtos.spot.CreateSpotResponseDto;
 import com.sanket.designparkinglot.models.bill.Bill;
 import com.sanket.designparkinglot.models.displayboard.DisplayBoard;
 import com.sanket.designparkinglot.models.floor.Floor;
@@ -132,6 +137,9 @@ class DesignParkingLotApplicationTests {
     @Autowired
     private FloorController floorController;
 
+    @Autowired
+    private SpotController spotController;
+
     @Test
     @Order(1)
     void testCreateParkingLot() {
@@ -187,6 +195,30 @@ class DesignParkingLotApplicationTests {
         Assert.notNull(deleteParkingLotResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(deleteParkingLotResponseDto.getResponseStatus()), "response status is not as expected");
         System.out.println("parking lot deleted successfully");
+    }
+
+    @Test
+    @Order(5)
+    void addSpot() {
+        CreateSpotRequestDto createSpotRequestDto = new CreateSpotRequestDto();
+        createSpotRequestDto.setSpotNumber("F1-1");
+        createSpotRequestDto.setSpotType(SpotType.BIKE);
+        CreateSpotResponseDto createSpotResponseDto = spotController.addSpot(createSpotRequestDto);
+        Assert.notNull(createSpotResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createSpotResponseDto.getResponseStatus()), "response status is not as expected");
+        System.out.println("spot created successfully");
+    }
+
+    @Test
+    @Order(6)
+    void assignSpot() {
+        AssignSpotRequestDto assignSpotRequestDto = new AssignSpotRequestDto();
+        assignSpotRequestDto.setFloorId(1L);
+        assignSpotRequestDto.setSpotId(1L);
+        AssignSpotResponseDto assignSpotResponseDto = spotController.assignSpot(assignSpotRequestDto);
+        Assert.notNull(assignSpotResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(assignSpotResponseDto.getResponseStatus()), "response status is not as expected");
+        System.out.println("spot assigned successfully");
     }
 
 }
