@@ -72,7 +72,7 @@
 13. ElectricVehicle
 14. Charger
 
-#### Strategies
+### Strategies
 1. FeesCalculationStrategy
 2. PaymentStrategy - [third party]
 3. SpotAssignmentStrategy
