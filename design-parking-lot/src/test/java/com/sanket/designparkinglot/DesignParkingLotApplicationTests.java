@@ -140,7 +140,7 @@ class DesignParkingLotApplicationTests {
 
     @Autowired
     private SpotController spotController;
-
+    
     @Test
     @Order(1)
     void testCreateParkingLot() {
