@@ -35,7 +35,7 @@ public class FloorController {
             responseDto.setResponseStatus(ResponseStatus.SUCCESS);
             responseDto.setFloor(floor);
             responseDto.setMessage("floor added successfully");
-        } catch (NoParkingLotException e) {
+        } catch (Exception | NoParkingLotException e) {
             responseDto.setMessage(e.getMessage());
             responseDto.setResponseStatus(ResponseStatus.FAILURE);
         }

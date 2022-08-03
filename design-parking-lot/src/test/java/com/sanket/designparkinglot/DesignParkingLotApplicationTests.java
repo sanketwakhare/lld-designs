@@ -2,6 +2,7 @@ package com.sanket.designparkinglot;
 
 import com.sanket.designparkinglot.controllers.FloorController;
 import com.sanket.designparkinglot.controllers.ParkingLotController;
+import com.sanket.designparkinglot.controllers.SpotController;
 import com.sanket.designparkinglot.dtos.base.response.ResponseStatus;
 import com.sanket.designparkinglot.dtos.floor.CreateFloorRequestDto;
 import com.sanket.designparkinglot.dtos.floor.CreateFloorResponseDto;
@@ -9,6 +10,10 @@ import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotRequestDto;
 import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotResponseDto;
 import com.sanket.designparkinglot.dtos.parkinglot.DeleteParkingLotRequestDto;
 import com.sanket.designparkinglot.dtos.parkinglot.DeleteParkingLotResponseDto;
+import com.sanket.designparkinglot.dtos.spot.AssignSpotRequestDto;
+import com.sanket.designparkinglot.dtos.spot.AssignSpotResponseDto;
+import com.sanket.designparkinglot.dtos.spot.CreateSpotRequestDto;
+import com.sanket.designparkinglot.dtos.spot.CreateSpotResponseDto;
 import com.sanket.designparkinglot.models.bill.Bill;
 import com.sanket.designparkinglot.models.displayboard.DisplayBoard;
 import com.sanket.designparkinglot.models.floor.Floor;
@@ -40,7 +45,8 @@ import java.util.List;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DesignParkingLotApplicationTests {
 
-    //    @Test
+    @Test
+    @Disabled
     void contextLoads() {
 
         ParkingLot parkingLot = new ParkingLot();
@@ -132,6 +138,9 @@ class DesignParkingLotApplicationTests {
     @Autowired
     private FloorController floorController;
 
+    @Autowired
+    private SpotController spotController;
+    
     @Test
     @Order(1)
     void testCreateParkingLot() {
@@ -189,4 +198,81 @@ class DesignParkingLotApplicationTests {
         System.out.println("parking lot deleted successfully");
     }
 
+    @Test
+    @Order(5)
+    void addSpot() {
+        CreateSpotRequestDto createSpotRequestDto = new CreateSpotRequestDto();
+        createSpotRequestDto.setSpotNumber("G1-1");
+        createSpotRequestDto.setSpotType(SpotType.BIKE);
+        CreateSpotResponseDto createSpotResponseDto = spotController.addSpot(createSpotRequestDto);
+        Assert.notNull(createSpotResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createSpotResponseDto.getResponseStatus()), "response status is not as expected");
+        System.out.println("spot created successfully");
+    }
+
+    @Test
+    @Order(6)
+    void assignSpot() {
+        AssignSpotRequestDto assignSpotRequestDto = new AssignSpotRequestDto();
+        assignSpotRequestDto.setFloorId(4L);
+        assignSpotRequestDto.setSpotId(1L);
+        AssignSpotResponseDto assignSpotResponseDto = spotController.assignSpot(assignSpotRequestDto);
+        Assert.notNull(assignSpotResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(assignSpotResponseDto.getResponseStatus()), "response status is not as expected");
+        System.out.println("spot assigned successfully");
+    }
+
+    @Test
+    @Order(7)
+    void createSpotsForTwoFloors() {
+
+        // Floor 1 spots
+        // 5 spots for BIKE
+        createAndAssignSpots(SpotType.BIKE, 5, 1L, 1, "F1");
+        // 5 spots for CAR
+        createAndAssignSpots(SpotType.CAR, 5, 1L, 100, "F1");
+        // 2 spots for ELECTRIC CAR
+        createAndAssignSpots(SpotType.ELECTRIC, 2, 1L, 200, "F1");
+        // 5 spots for HEAVY
+        createAndAssignSpots(SpotType.HEAVY, 5, 1L, 300, "F1");
+        // 5 spots for PREMIUM
+        createAndAssignSpots(SpotType.PREMIUM, 5, 1L, 400, "F1");
+
+        // Floor 2 spots
+        // 5 spots for BIKE
+        createAndAssignSpots(SpotType.BIKE, 5, 2L, 1, "F2");
+        // 5 spots for CAR
+        createAndAssignSpots(SpotType.CAR, 5, 2L, 100, "F2");
+        // 2 spots for ELECTRIC CAR
+        createAndAssignSpots(SpotType.ELECTRIC, 2, 2L, 200, "F2");
+        // 5 spots for HEAVY
+        createAndAssignSpots(SpotType.HEAVY, 5, 2L, 300, "F2");
+        // 5 spots for PREMIUM
+        createAndAssignSpots(SpotType.PREMIUM, 5, 2L, 400, "F2");
+    }
+
+
+    @Disabled
+    public void createAndAssignSpots(SpotType spotType, int numberOfSpots, Long floorId, int startCountId, String spotSeries) {
+        for (int i = 1; i <= numberOfSpots; i++) {
+            CreateSpotRequestDto createSpotRequestDto = new CreateSpotRequestDto();
+            createSpotRequestDto.setSpotNumber(spotSeries + "-" + startCountId++);
+            createSpotRequestDto.setSpotType(spotType);
+            CreateSpotResponseDto createSpotResponseDto = spotController.addSpot(createSpotRequestDto);
+
+            Assert.notNull(createSpotResponseDto, "something went wrong");
+            Assert.isTrue(ResponseStatus.SUCCESS.equals(createSpotResponseDto.getResponseStatus()), "response status is not as expected");
+
+            Spot spot = createSpotResponseDto.getSpot();
+            Long spotId = spot.getId();
+
+            AssignSpotRequestDto assignSpotRequestDto = new AssignSpotRequestDto();
+            assignSpotRequestDto.setSpotId(spotId);
+            assignSpotRequestDto.setFloorId(floorId);
+            AssignSpotResponseDto assignSpotResponseDto = spotController.assignSpot(assignSpotRequestDto);
+
+            Assert.notNull(assignSpotResponseDto, "something went wrong");
+            Assert.isTrue(ResponseStatus.SUCCESS.equals(assignSpotResponseDto.getResponseStatus()), "response status is not as expected");
+        }
+    }
 }

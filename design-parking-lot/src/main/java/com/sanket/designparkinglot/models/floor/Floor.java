@@ -5,7 +5,9 @@ import com.sanket.designparkinglot.models.spot.Spot;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class Floor extends BaseModel {
 
     private String floorNumber;
 
-    @OneToMany(mappedBy = "floor")
+    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Spot> spots;
 
     public Floor(String floorNumber) {
