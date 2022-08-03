@@ -1,12 +1,8 @@
 package com.sanket.designparkinglot.controllers;
 
 import com.sanket.designparkinglot.dtos.base.response.ResponseStatus;
-import com.sanket.designparkinglot.dtos.spot.AssignSpotRequestDto;
-import com.sanket.designparkinglot.dtos.spot.AssignSpotResponseDto;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotRequestDto;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotResponseDto;
-import com.sanket.designparkinglot.exceptions.NoFloorException;
-import com.sanket.designparkinglot.exceptions.NoSpotException;
 import com.sanket.designparkinglot.models.spot.Spot;
 import com.sanket.designparkinglot.models.spot.SpotType;
 import com.sanket.designparkinglot.services.SpotService;
@@ -41,21 +37,5 @@ public class SpotController {
         return createSpotResponseDto;
     }
 
-    public AssignSpotResponseDto assignSpot(AssignSpotRequestDto assignSpotRequestDto) {
 
-        AssignSpotResponseDto assignSpotResponseDto = new AssignSpotResponseDto();
-        Long floorId = assignSpotRequestDto.getFloorId();
-        Long spotId = assignSpotRequestDto.getSpotId();
-
-        try {
-            spotService.assignSpot(floorId, spotId);
-            assignSpotResponseDto.setResponseStatus(ResponseStatus.SUCCESS);
-            assignSpotResponseDto.setMessage("spot assigned successfully");
-        } catch (Exception | NoFloorException | NoSpotException e) {
-            assignSpotResponseDto.setResponseStatus(ResponseStatus.FAILURE);
-            assignSpotResponseDto.setMessage(e.getMessage());
-        }
-
-        return assignSpotResponseDto;
-    }
 }
