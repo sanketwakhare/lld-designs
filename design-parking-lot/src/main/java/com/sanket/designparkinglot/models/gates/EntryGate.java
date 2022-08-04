@@ -24,14 +24,14 @@ public class EntryGate extends Gate {
     @OneToOne(mappedBy = "entryGate")
     private DisplayBoard displayBoard;
 
-    public EntryGate(DisplayBoard displayBoard,
-                     String gateNumber) {
-        super(GateType.ENTRY);
-        this.displayBoard = displayBoard;
-    }
-
     public EntryGate() {
         super(GateType.ENTRY);
+    }
+
+    public EntryGate(DisplayBoard displayBoard,
+                     String gateNumber) {
+        this();
+        this.displayBoard = displayBoard;
     }
 
     public Ticket generateTicket(ParkingLot parkingLot,

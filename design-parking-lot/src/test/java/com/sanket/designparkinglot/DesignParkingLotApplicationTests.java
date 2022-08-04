@@ -1,13 +1,12 @@
 package com.sanket.designparkinglot;
 
-import com.sanket.designparkinglot.controllers.DisplayBoardController;
-import com.sanket.designparkinglot.controllers.FloorController;
-import com.sanket.designparkinglot.controllers.ParkingLotController;
-import com.sanket.designparkinglot.controllers.SpotController;
+import com.sanket.designparkinglot.controllers.*;
 import com.sanket.designparkinglot.dtos.base.response.ResponseStatus;
 import com.sanket.designparkinglot.dtos.displayboard.CreateDisplayBoardRequestDto;
 import com.sanket.designparkinglot.dtos.displayboard.CreateDisplayBoardResponseDto;
 import com.sanket.designparkinglot.dtos.floor.*;
+import com.sanket.designparkinglot.dtos.gate.CreateGateRequestDto;
+import com.sanket.designparkinglot.dtos.gate.CreateGateResponseDto;
 import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotRequestDto;
 import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotResponseDto;
 import com.sanket.designparkinglot.dtos.parkinglot.DeleteParkingLotRequestDto;
@@ -19,6 +18,8 @@ import com.sanket.designparkinglot.models.displayboard.DisplayBoard;
 import com.sanket.designparkinglot.models.floor.Floor;
 import com.sanket.designparkinglot.models.gates.EntryGate;
 import com.sanket.designparkinglot.models.gates.ExitGate;
+import com.sanket.designparkinglot.models.gates.GateStatus;
+import com.sanket.designparkinglot.models.gates.GateType;
 import com.sanket.designparkinglot.models.operator.Operator;
 import com.sanket.designparkinglot.models.parkinglot.ParkingLot;
 import com.sanket.designparkinglot.models.payment.Payment;
@@ -56,6 +57,9 @@ class DesignParkingLotApplicationTests {
 
     @Autowired
     private DisplayBoardController displayBoardController;
+
+    @Autowired
+    private GateController gateController;
 
     @Test
     @Disabled
@@ -240,7 +244,7 @@ class DesignParkingLotApplicationTests {
 
     @Test
     @Order(8)
-    void createSpotsForTwoFloors() {
+    void testCreateSpotsForTwoFloors() {
 
         // Floor 1 spots
         // 5 spots for BIKE
@@ -294,12 +298,38 @@ class DesignParkingLotApplicationTests {
 
     @Test
     @Order(9)
-    void createDisplayBoard() {
+    void testCreateDisplayBoard() {
         CreateDisplayBoardRequestDto createDisplayBoardRequestDto = new CreateDisplayBoardRequestDto();
         createDisplayBoardRequestDto.setDisplayBoardNumber("D43412864182");
         CreateDisplayBoardResponseDto createDisplayBoardResponseDto = displayBoardController.addDisplayBoard(createDisplayBoardRequestDto);
         Assert.notNull(createDisplayBoardResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(createDisplayBoardResponseDto.getResponseStatus()), createDisplayBoardResponseDto.getMessage());
         System.out.println("display board created successfully");
+    }
+
+    @Test
+    @Order(10)
+    void testCreateEntryGate() {
+        CreateGateRequestDto createGateRequestDto = new CreateGateRequestDto();
+        createGateRequestDto.setGateNumber("Gate-101");
+        createGateRequestDto.setGateType(GateType.ENTRY);
+        createGateRequestDto.setGateStatus(GateStatus.OPEN);
+        CreateGateResponseDto createGateResponseDto = gateController.addGate(createGateRequestDto);
+        Assert.notNull(createGateResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createGateResponseDto.getResponseStatus()), createGateResponseDto.getMessage());
+        System.out.println("entry gate created successfully");
+    }
+
+    @Test
+    @Order(11)
+    void testCreateExitGate() {
+        CreateGateRequestDto createGateRequestDto = new CreateGateRequestDto();
+        createGateRequestDto.setGateNumber("Gate-201");
+        createGateRequestDto.setGateType(GateType.EXIT);
+        createGateRequestDto.setGateStatus(GateStatus.OPEN);
+        CreateGateResponseDto createGateResponseDto = gateController.addGate(createGateRequestDto);
+        Assert.notNull(createGateResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createGateResponseDto.getResponseStatus()), createGateResponseDto.getMessage());
+        System.out.println("exit gate created successfully");
     }
 }

@@ -26,6 +26,7 @@ public class SpotController {
         SpotType spotType = createSpotRequestDto.getSpotType();
 
         try {
+            // call service method
             Spot spot = spotService.addSpot(spotNumber, spotType);
             createSpotResponseDto.setResponseStatus(ResponseStatus.SUCCESS);
             createSpotResponseDto.setSpot(spot);
