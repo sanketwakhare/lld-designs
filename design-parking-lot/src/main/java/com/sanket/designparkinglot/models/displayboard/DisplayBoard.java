@@ -10,7 +10,9 @@ import com.sanket.designparkinglot.models.spot.SpotType;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +24,8 @@ public class DisplayBoard extends BaseModel {
     @Column(unique = true)
     private String displayBoardNumber;
 
-    // owner entity
+    // EntryGate: owner entity (foreign key is generated at owner entity side)
+    // DisplayBoard: mapped entity
     @OneToOne(mappedBy = "displayBoard")
     private EntryGate entryGate;
 

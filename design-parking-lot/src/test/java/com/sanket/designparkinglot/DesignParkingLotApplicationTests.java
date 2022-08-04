@@ -6,10 +6,7 @@ import com.sanket.designparkinglot.dtos.displayboard.CreateDisplayBoardRequestDt
 import com.sanket.designparkinglot.dtos.displayboard.CreateDisplayBoardResponseDto;
 import com.sanket.designparkinglot.dtos.floor.*;
 import com.sanket.designparkinglot.dtos.gate.*;
-import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotRequestDto;
-import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotResponseDto;
-import com.sanket.designparkinglot.dtos.parkinglot.DeleteParkingLotRequestDto;
-import com.sanket.designparkinglot.dtos.parkinglot.DeleteParkingLotResponseDto;
+import com.sanket.designparkinglot.dtos.parkinglot.*;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotRequestDto;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotResponseDto;
 import com.sanket.designparkinglot.models.bill.Bill;
@@ -366,5 +363,29 @@ class DesignParkingLotApplicationTests {
         Assert.notNull(assignDisplayBoardResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.FAILURE.equals(assignDisplayBoardResponseDto.getResponseStatus()), "display board cannot be assigned to exit gate");
         System.out.println("display board cannot be assigned to exit gate");
+    }
+
+    @Test
+    @Order(15)
+    void testAssignEntryGateToParkingLot() {
+        AssignGateRequestDto assignGateRequestDto = new AssignGateRequestDto();
+        assignGateRequestDto.setGateId(1L);
+        assignGateRequestDto.setParkingLotId(2L);
+        AssignGateResponseDto assignGateResponseDto = parkingLotController.assignGate(assignGateRequestDto);
+        Assert.notNull(assignGateResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(assignGateResponseDto.getResponseStatus()), assignGateResponseDto.getMessage());
+        System.out.println("gate assigned to parking lot successfully");
+    }
+
+    @Test
+    @Order(16)
+    void testAssignExitGateToParkingLot() {
+        AssignGateRequestDto assignGateRequestDto = new AssignGateRequestDto();
+        assignGateRequestDto.setGateId(2L);
+        assignGateRequestDto.setParkingLotId(2L);
+        AssignGateResponseDto assignGateResponseDto = parkingLotController.assignGate(assignGateRequestDto);
+        Assert.notNull(assignGateResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(assignGateResponseDto.getResponseStatus()), assignGateResponseDto.getMessage());
+        System.out.println("gate assigned to parking lot successfully");
     }
 }

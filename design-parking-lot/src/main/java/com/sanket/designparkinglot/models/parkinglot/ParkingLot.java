@@ -1,7 +1,6 @@
 package com.sanket.designparkinglot.models.parkinglot;
 
 import com.sanket.designparkinglot.models.BaseModel;
-import com.sanket.designparkinglot.models.displayboard.DisplayBoard;
 import com.sanket.designparkinglot.models.floor.Floor;
 import com.sanket.designparkinglot.models.gates.EntryGate;
 import com.sanket.designparkinglot.models.gates.ExitGate;
@@ -12,9 +11,9 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,13 +26,12 @@ public class ParkingLot extends BaseModel {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Floor> floors;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany
-    private List<EntryGate> entryGates;
+    private Set<EntryGate> entryGates;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany
-    private List<ExitGate> exitGates;
-
-//    @OneToMany(mappedBy = "parkingLot")
-//    private List<DisplayBoard> displayBoards;
+    private Set<ExitGate> exitGates;
 
 }

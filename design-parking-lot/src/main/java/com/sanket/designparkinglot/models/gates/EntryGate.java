@@ -10,9 +10,7 @@ import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrat
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import java.util.Calendar;
 
@@ -21,7 +19,6 @@ import java.util.Calendar;
 @Entity
 public class EntryGate extends Gate {
 
-    // mapped entity
     @OneToOne
     private DisplayBoard displayBoard;
 

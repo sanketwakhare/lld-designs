@@ -17,7 +17,9 @@ public abstract class Gate extends BaseModel {
     @Enumerated(EnumType.STRING)
     private GateType gateType;
 
-    @OneToOne(mappedBy = "gate")
+    // Gate: owner entity
+    // Operator: mapped entity
+    @OneToOne
     private Operator operator;
 
     @Enumerated(EnumType.STRING)
@@ -35,4 +37,5 @@ public abstract class Gate extends BaseModel {
     public Gate() {
 
     }
+
 }
