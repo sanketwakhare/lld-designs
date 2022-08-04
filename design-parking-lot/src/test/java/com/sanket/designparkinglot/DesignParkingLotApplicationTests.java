@@ -7,6 +7,8 @@ import com.sanket.designparkinglot.dtos.displayboard.CreateDisplayBoardResponseD
 import com.sanket.designparkinglot.dtos.floor.*;
 import com.sanket.designparkinglot.dtos.gate.CreateGateRequestDto;
 import com.sanket.designparkinglot.dtos.gate.CreateGateResponseDto;
+import com.sanket.designparkinglot.dtos.gate.ModifyGateStatusRequestDto;
+import com.sanket.designparkinglot.dtos.gate.ModifyGateStatusResponseDto;
 import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotRequestDto;
 import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotResponseDto;
 import com.sanket.designparkinglot.dtos.parkinglot.DeleteParkingLotRequestDto;
@@ -331,5 +333,17 @@ class DesignParkingLotApplicationTests {
         Assert.notNull(createGateResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(createGateResponseDto.getResponseStatus()), createGateResponseDto.getMessage());
         System.out.println("exit gate created successfully");
+    }
+
+    @Test
+    @Order(11)
+    void testModifyGateStatus() {
+        ModifyGateStatusRequestDto modifyGateStatusRequestDto = new ModifyGateStatusRequestDto();
+        modifyGateStatusRequestDto.setGateId(2L);
+        modifyGateStatusRequestDto.setGateStatus(GateStatus.CLOSED);
+        ModifyGateStatusResponseDto modifyGateStatusResponseDto = gateController.modifyGateStatus(modifyGateStatusRequestDto);
+        Assert.notNull(modifyGateStatusResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(modifyGateStatusResponseDto.getResponseStatus()), modifyGateStatusResponseDto.getMessage());
+        System.out.println("gate status modified successfully");
     }
 }
