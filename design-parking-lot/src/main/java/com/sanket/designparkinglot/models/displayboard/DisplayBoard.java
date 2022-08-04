@@ -3,7 +3,6 @@ package com.sanket.designparkinglot.models.displayboard;
 import com.sanket.designparkinglot.models.BaseModel;
 import com.sanket.designparkinglot.models.floor.Floor;
 import com.sanket.designparkinglot.models.gates.EntryGate;
-import com.sanket.designparkinglot.models.gates.Gate;
 import com.sanket.designparkinglot.models.parkinglot.ParkingLot;
 import com.sanket.designparkinglot.models.spot.Spot;
 import com.sanket.designparkinglot.models.spot.SpotStatus;
@@ -11,10 +10,7 @@ import com.sanket.designparkinglot.models.spot.SpotType;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,12 +19,11 @@ import java.util.Map;
 @Entity
 public class DisplayBoard extends BaseModel {
 
-//    @ManyToOne
-//    private ParkingLot parkingLot;
     @Column(unique = true)
     private String displayBoardNumber;
 
-    @OneToOne
+    // owner entity
+    @OneToOne(mappedBy = "displayBoard")
     private EntryGate entryGate;
 
     public DisplayBoard() {

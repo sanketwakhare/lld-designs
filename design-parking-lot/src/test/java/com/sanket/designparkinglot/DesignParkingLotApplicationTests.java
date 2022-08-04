@@ -5,10 +5,7 @@ import com.sanket.designparkinglot.dtos.base.response.ResponseStatus;
 import com.sanket.designparkinglot.dtos.displayboard.CreateDisplayBoardRequestDto;
 import com.sanket.designparkinglot.dtos.displayboard.CreateDisplayBoardResponseDto;
 import com.sanket.designparkinglot.dtos.floor.*;
-import com.sanket.designparkinglot.dtos.gate.CreateGateRequestDto;
-import com.sanket.designparkinglot.dtos.gate.CreateGateResponseDto;
-import com.sanket.designparkinglot.dtos.gate.ModifyGateStatusRequestDto;
-import com.sanket.designparkinglot.dtos.gate.ModifyGateStatusResponseDto;
+import com.sanket.designparkinglot.dtos.gate.*;
 import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotRequestDto;
 import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotResponseDto;
 import com.sanket.designparkinglot.dtos.parkinglot.DeleteParkingLotRequestDto;
@@ -336,7 +333,7 @@ class DesignParkingLotApplicationTests {
     }
 
     @Test
-    @Order(11)
+    @Order(12)
     void testModifyGateStatus() {
         ModifyGateStatusRequestDto modifyGateStatusRequestDto = new ModifyGateStatusRequestDto();
         modifyGateStatusRequestDto.setGateId(2L);
@@ -345,5 +342,29 @@ class DesignParkingLotApplicationTests {
         Assert.notNull(modifyGateStatusResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(modifyGateStatusResponseDto.getResponseStatus()), modifyGateStatusResponseDto.getMessage());
         System.out.println("gate status modified successfully");
+    }
+
+    @Test
+    @Order(13)
+    void testAssignDisplayBoardToEntryGate() {
+        AssignDisplayBoardRequestDto assignDisplayBoardRequestDto = new AssignDisplayBoardRequestDto();
+        assignDisplayBoardRequestDto.setGateId(1L);
+        assignDisplayBoardRequestDto.setDisplayBoardId(1L);
+        AssignDisplayBoardResponseDto assignDisplayBoardResponseDto = gateController.assignDisplayBoard(assignDisplayBoardRequestDto);
+        Assert.notNull(assignDisplayBoardResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(assignDisplayBoardResponseDto.getResponseStatus()), assignDisplayBoardResponseDto.getMessage());
+        System.out.println("display board assigned to entry gate successfully");
+    }
+
+    @Test
+    @Order(14)
+    void testAssignDisplayBoardToExitGate() {
+        AssignDisplayBoardRequestDto assignDisplayBoardRequestDto = new AssignDisplayBoardRequestDto();
+        assignDisplayBoardRequestDto.setGateId(2L);
+        assignDisplayBoardRequestDto.setDisplayBoardId(1L);
+        AssignDisplayBoardResponseDto assignDisplayBoardResponseDto = gateController.assignDisplayBoard(assignDisplayBoardRequestDto);
+        Assert.notNull(assignDisplayBoardResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.FAILURE.equals(assignDisplayBoardResponseDto.getResponseStatus()), "display board cannot be assigned to exit gate");
+        System.out.println("display board cannot be assigned to exit gate");
     }
 }

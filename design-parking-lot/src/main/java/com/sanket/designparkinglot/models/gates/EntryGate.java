@@ -21,7 +21,8 @@ import java.util.Calendar;
 @Entity
 public class EntryGate extends Gate {
 
-    @OneToOne(mappedBy = "entryGate")
+    // mapped entity
+    @OneToOne
     private DisplayBoard displayBoard;
 
     public EntryGate() {
@@ -37,7 +38,6 @@ public class EntryGate extends Gate {
     public Ticket generateTicket(ParkingLot parkingLot,
                                  Vehicle vehicle,
                                  SpotAssignmentStrategy spotAssignmentStrategy) {
-        // TODO: verify working of this method
         Ticket ticket = new Ticket();
 
         ticket.setVehicle(vehicle);

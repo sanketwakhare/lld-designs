@@ -1,12 +1,12 @@
 package com.sanket.designparkinglot.controllers;
 
 import com.sanket.designparkinglot.dtos.base.response.ResponseStatus;
-import com.sanket.designparkinglot.dtos.gate.CreateGateRequestDto;
-import com.sanket.designparkinglot.dtos.gate.CreateGateResponseDto;
-import com.sanket.designparkinglot.dtos.gate.ModifyGateStatusRequestDto;
-import com.sanket.designparkinglot.dtos.gate.ModifyGateStatusResponseDto;
+import com.sanket.designparkinglot.dtos.gate.*;
 import com.sanket.designparkinglot.exceptions.GateCreationException;
+import com.sanket.designparkinglot.exceptions.InvalidEntryGateException;
+import com.sanket.designparkinglot.exceptions.NoDisplayBoardException;
 import com.sanket.designparkinglot.exceptions.NoGateException;
+import com.sanket.designparkinglot.models.gates.EntryGate;
 import com.sanket.designparkinglot.models.gates.Gate;
 import com.sanket.designparkinglot.models.gates.GateStatus;
 import com.sanket.designparkinglot.models.gates.GateType;
@@ -57,5 +57,23 @@ public class GateController {
             modifyGateStatusResponseDto.setMessage(e.getMessage());
         }
         return modifyGateStatusResponseDto;
+    }
+
+    public AssignDisplayBoardResponseDto assignDisplayBoard(AssignDisplayBoardRequestDto assignDisplayBoardRequestDto) {
+        AssignDisplayBoardResponseDto assignDisplayBoardResponseDto = new AssignDisplayBoardResponseDto();
+        Long gateId = assignDisplayBoardRequestDto.getGateId();
+        Long displayBoardId = assignDisplayBoardRequestDto.getDisplayBoardId();
+
+        try {
+            // call to service method
+            EntryGate entryGate = gateService.assignDisplayBoard(gateId, displayBoardId);
+
+            assignDisplayBoardResponseDto.setResponseStatus(ResponseStatus.SUCCESS);
+            assignDisplayBoardResponseDto.setEntryGate(entryGate);
+        } catch (Exception | NoGateException | InvalidEntryGateException | NoDisplayBoardException e) {
+            assignDisplayBoardResponseDto.setResponseStatus(ResponseStatus.FAILURE);
+            assignDisplayBoardResponseDto.setMessage(e.getMessage());
+        }
+        return assignDisplayBoardResponseDto;
     }
 }
