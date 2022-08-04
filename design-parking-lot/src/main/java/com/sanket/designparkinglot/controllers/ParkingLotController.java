@@ -1,10 +1,8 @@
 package com.sanket.designparkinglot.controllers;
 
 import com.sanket.designparkinglot.dtos.base.response.ResponseStatus;
-import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotRequestDto;
-import com.sanket.designparkinglot.dtos.parkinglot.CreateParkingLotResponseDto;
-import com.sanket.designparkinglot.dtos.parkinglot.DeleteParkingLotRequestDto;
-import com.sanket.designparkinglot.dtos.parkinglot.DeleteParkingLotResponseDto;
+import com.sanket.designparkinglot.dtos.parkinglot.*;
+import com.sanket.designparkinglot.exceptions.NoGateException;
 import com.sanket.designparkinglot.exceptions.NoParkingLotException;
 import com.sanket.designparkinglot.models.parkinglot.ParkingLot;
 import com.sanket.designparkinglot.services.ParkingLotService;
@@ -55,5 +53,23 @@ public class ParkingLotController {
             responseDto.setMessage(e.getMessage());
         }
         return responseDto;
+    }
+
+    public AssignGateResponseDto assignGate(AssignGateRequestDto assignGateRequestDto) {
+        AssignGateResponseDto assignGateResponseDto = new AssignGateResponseDto();
+        Long parkingLotId = assignGateRequestDto.getParkingLotId();
+        Long gateId = assignGateRequestDto.getGateId();
+
+        try {
+            // call service method
+            ParkingLot parkingLot = parkingLotService.assignGate(parkingLotId, gateId);
+
+            assignGateResponseDto.setParkingLot(parkingLot);
+            assignGateResponseDto.setResponseStatus(ResponseStatus.SUCCESS);
+        } catch (Exception | NoParkingLotException | NoGateException e) {
+            assignGateResponseDto.setResponseStatus(ResponseStatus.FAILURE);
+            assignGateResponseDto.setMessage(e.getMessage());
+        }
+        return assignGateResponseDto;
     }
 }

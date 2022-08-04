@@ -1,4 +1,4 @@
-package com.sanket.designparkinglot.dtos.spot;
+package com.sanket.designparkinglot.dtos.gate;
 
 import com.sanket.designparkinglot.dtos.base.request.UpdateRequestDto;
 import lombok.Getter;
@@ -8,8 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AssignSpotRequestDto extends UpdateRequestDto {
-
-    private Long floorId;
-    private Long spotId;
+public class AssignDisplayBoardRequestDto extends UpdateRequestDto {
+    private Long gateId;
+    private Long displayBoardId;
 }
