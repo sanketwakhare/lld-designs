@@ -20,7 +20,7 @@ public abstract class Gate extends BaseModel {
     @Enumerated(EnumType.STRING)
     private GateType gateType;
 
-    @OneToOne
+    @OneToOne(mappedBy = "gate")
     private Operator operator;
 
     @Enumerated(EnumType.STRING)

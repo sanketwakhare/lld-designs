@@ -21,7 +21,7 @@ import java.util.Calendar;
 @Entity
 public class EntryGate extends Gate {
 
-    @OneToOne
+    @OneToOne(mappedBy = "entryGate")
     private DisplayBoard displayBoard;
 
     public EntryGate(DisplayBoard displayBoard,
@@ -57,7 +57,7 @@ public class EntryGate extends Gate {
         return ticket;
     }
 
-    public void displayBoard() {
-        System.out.println(displayBoard);
+    public void displayBoard(ParkingLot parkingLot) {
+        System.out.println(displayBoard.getSpotAvailability(parkingLot));
     }
 }

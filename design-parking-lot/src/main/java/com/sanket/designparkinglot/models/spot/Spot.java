@@ -21,18 +21,23 @@ public class Spot extends BaseModel {
     @Enumerated(EnumType.STRING)
     private SpotStatus spotStatus;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Floor floor;
 
-    public Spot(Floor floor, SpotType spotType, String spotNumber) {
-        this.floor = floor;
-        this.spotType = spotType;
-        this.spotNumber = spotNumber;
+    public Spot() {
         this.spotStatus = SpotStatus.AVAILABLE;
     }
 
-    public Spot() {
+    public Spot(SpotType spotType) {
+        this();
+        this.spotType = spotType;
+    }
 
+    public Spot(Floor floor, SpotType spotType, String spotNumber) {
+        this(spotType);
+        this.floor = floor;
+        this.spotNumber = spotNumber;
+        this.spotStatus = SpotStatus.AVAILABLE;
     }
 
     @Override
