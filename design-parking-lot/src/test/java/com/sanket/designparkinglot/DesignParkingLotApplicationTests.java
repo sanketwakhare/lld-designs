@@ -32,7 +32,6 @@ import com.sanket.designparkinglot.strategies.paymentstrategy.PaymentStrategy;
 import com.sanket.designparkinglot.strategies.paymentstrategy.UPIPaymentStrategy;
 import com.sanket.designparkinglot.strategies.spotassignment.RandomSpotAssignmentStrategy;
 import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrategy;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -404,5 +403,29 @@ class DesignParkingLotApplicationTests {
         Assert.notNull(createOperatorResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(createOperatorResponseDto.getResponseStatus()), createOperatorResponseDto.getMessage());
         System.out.println("operator created successfully");
+    }
+
+    @Test
+    @Order(18)
+    void testAssignOperatorToEntryGate() {
+        AssignOperatorRequestDto assignOperatorRequestDto = new AssignOperatorRequestDto();
+        assignOperatorRequestDto.setOperatorId(1L);
+        assignOperatorRequestDto.setGateId(1L);
+        AssignOperatorResponseDto assignOperatorResponseDto = gateController.assignOperator(assignOperatorRequestDto);
+        Assert.notNull(assignOperatorResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(assignOperatorResponseDto.getResponseStatus()), assignOperatorResponseDto.getMessage());
+        System.out.println("operator assigned to gate successfully");
+    }
+
+    @Test
+    @Order(19)
+    void testAssignOperatorToExitGate() {
+        AssignOperatorRequestDto assignOperatorRequestDto = new AssignOperatorRequestDto();
+        assignOperatorRequestDto.setOperatorId(1L);
+        assignOperatorRequestDto.setGateId(2L);
+        AssignOperatorResponseDto assignOperatorResponseDto = gateController.assignOperator(assignOperatorRequestDto);
+        Assert.notNull(assignOperatorResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(assignOperatorResponseDto.getResponseStatus()), assignOperatorResponseDto.getMessage());
+        System.out.println("operator assigned to gate successfully");
     }
 }

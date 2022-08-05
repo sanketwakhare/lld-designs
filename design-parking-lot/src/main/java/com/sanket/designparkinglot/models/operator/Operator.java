@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 
 @Getter
@@ -15,7 +16,7 @@ public class Operator extends BaseModel {
 
     private String name;
 
-    @OneToOne(mappedBy = "operator")
+    @OneToOne(mappedBy = "operator", fetch = FetchType.EAGER)
     private Gate gate;
 
     public Operator() {
