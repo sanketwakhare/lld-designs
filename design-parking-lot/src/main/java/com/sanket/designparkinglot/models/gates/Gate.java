@@ -19,7 +19,8 @@ public abstract class Gate extends BaseModel {
 
     // Gate: owner entity
     // Operator: mapped entity
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
+//    @Column(unique = true)
     private Operator operator;
 
     @Enumerated(EnumType.STRING)

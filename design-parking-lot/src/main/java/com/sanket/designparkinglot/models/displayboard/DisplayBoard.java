@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class DisplayBoard extends BaseModel {
 
     // EntryGate: owner entity (foreign key is generated at owner entity side)
     // DisplayBoard: mapped entity
-    @OneToOne(mappedBy = "displayBoard")
+    @OneToOne(mappedBy = "displayBoard", fetch = FetchType.EAGER)
     private EntryGate entryGate;
 
     public DisplayBoard() {

@@ -6,6 +6,8 @@ import com.sanket.designparkinglot.dtos.displayboard.CreateDisplayBoardRequestDt
 import com.sanket.designparkinglot.dtos.displayboard.CreateDisplayBoardResponseDto;
 import com.sanket.designparkinglot.dtos.floor.*;
 import com.sanket.designparkinglot.dtos.gate.*;
+import com.sanket.designparkinglot.dtos.operator.CreateOperatorRequestDto;
+import com.sanket.designparkinglot.dtos.operator.CreateOperatorResponseDto;
 import com.sanket.designparkinglot.dtos.parkinglot.*;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotRequestDto;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotResponseDto;
@@ -56,6 +58,9 @@ class DesignParkingLotApplicationTests {
 
     @Autowired
     private GateController gateController;
+
+    @Autowired
+    private OperatorController operatorController;
 
     @Test
     @Disabled
@@ -387,5 +392,40 @@ class DesignParkingLotApplicationTests {
         Assert.notNull(assignGateResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(assignGateResponseDto.getResponseStatus()), assignGateResponseDto.getMessage());
         System.out.println("gate assigned to parking lot successfully");
+    }
+
+    @Test
+    @Order(17)
+    void testCreateOperator() {
+        CreateOperatorRequestDto createOperatorRequestDto = new CreateOperatorRequestDto();
+        createOperatorRequestDto.setName("operator-01");
+        CreateOperatorResponseDto createOperatorResponseDto = operatorController.addOperator(createOperatorRequestDto);
+        Assert.notNull(createOperatorResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createOperatorResponseDto.getResponseStatus()), createOperatorResponseDto.getMessage());
+        System.out.println("operator created successfully");
+    }
+
+    @Test
+    @Order(18)
+    void testAssignOperatorToEntryGate() {
+        AssignOperatorRequestDto assignOperatorRequestDto = new AssignOperatorRequestDto();
+        assignOperatorRequestDto.setOperatorId(1L);
+        assignOperatorRequestDto.setGateId(1L);
+        AssignOperatorResponseDto assignOperatorResponseDto = gateController.assignOperator(assignOperatorRequestDto);
+        Assert.notNull(assignOperatorResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(assignOperatorResponseDto.getResponseStatus()), assignOperatorResponseDto.getMessage());
+        System.out.println("operator assigned to gate successfully");
+    }
+
+    @Test
+    @Order(19)
+    void testAssignOperatorToExitGate() {
+        AssignOperatorRequestDto assignOperatorRequestDto = new AssignOperatorRequestDto();
+        assignOperatorRequestDto.setOperatorId(1L);
+        assignOperatorRequestDto.setGateId(2L);
+        AssignOperatorResponseDto assignOperatorResponseDto = gateController.assignOperator(assignOperatorRequestDto);
+        Assert.notNull(assignOperatorResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(assignOperatorResponseDto.getResponseStatus()), assignOperatorResponseDto.getMessage());
+        System.out.println("operator assigned to gate successfully");
     }
 }

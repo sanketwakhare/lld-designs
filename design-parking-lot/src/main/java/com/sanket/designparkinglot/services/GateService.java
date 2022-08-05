@@ -1,16 +1,16 @@
 package com.sanket.designparkinglot.services;
 
-import com.sanket.designparkinglot.exceptions.GateCreationException;
-import com.sanket.designparkinglot.exceptions.InvalidEntryGateException;
-import com.sanket.designparkinglot.exceptions.NoDisplayBoardException;
-import com.sanket.designparkinglot.exceptions.NoGateException;
+import com.sanket.designparkinglot.exceptions.*;
 import com.sanket.designparkinglot.models.displayboard.DisplayBoard;
 import com.sanket.designparkinglot.models.gates.*;
+import com.sanket.designparkinglot.models.operator.Operator;
 import com.sanket.designparkinglot.repositories.DisplayBoardRepository;
 import com.sanket.designparkinglot.repositories.GateRepository;
+import com.sanket.designparkinglot.repositories.OperatorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -20,10 +20,13 @@ public class GateService extends BaseService {
 
     private final DisplayBoardRepository displayBoardRepository;
 
+    private final OperatorRepository operatorRepository;
+
     @Autowired
-    public GateService(GateRepository gateRepository, DisplayBoardRepository displayBoardRepository) {
+    public GateService(GateRepository gateRepository, DisplayBoardRepository displayBoardRepository, OperatorRepository operatorRepository) {
         this.gateRepository = gateRepository;
         this.displayBoardRepository = displayBoardRepository;
+        this.operatorRepository = operatorRepository;
     }
 
     public Gate addGate(String gateNumber, GateType gateType, GateStatus gateStatus) throws GateCreationException {
@@ -71,9 +74,49 @@ public class GateService extends BaseService {
         }
         DisplayBoard displayBoard = dbDisplayBoard.get();
 
+        // de-associate current display board from previously assigned gate
+        EntryGate oldGate = displayBoard.getEntryGate();
+        if(!Objects.isNull(oldGate)) {
+            oldGate.setDisplayBoard(null);
+            setUpdateModelDefaults(oldGate);
+            gateRepository.save(oldGate);
+        }
+
+        // set new entry gate
+        displayBoard.setEntryGate(entryGate);
         // save owner entity: entry gate
         entryGate.setDisplayBoard(displayBoard);
         setUpdateModelDefaults(entryGate);
         return gateRepository.save(entryGate);
+    }
+
+    public Gate assignOperator(Long gateId, Long operatorId) throws NoGateException, NoOperatorException {
+        // fetch gate by id
+        Optional<Gate> dbGate = gateRepository.findById(gateId);
+        if (dbGate.isEmpty()) {
+            throw new NoGateException(gateId);
+        }
+        Gate gate = dbGate.get();
+
+        // fetch Operator by id
+        Optional<Operator> dbOperator = operatorRepository.findById(operatorId);
+        if (dbOperator.isEmpty()) {
+            throw new NoOperatorException(operatorId);
+        }
+        Operator operator = dbOperator.get();
+
+        // de-associate current operator from previously assigned gate
+        Gate oldGate = operator.getGate();
+        if(!Objects.isNull(oldGate)) {
+            oldGate.setOperator(null);
+            setUpdateModelDefaults(oldGate);
+            gateRepository.save(oldGate);
+        }
+        operator.setGate(gate);
+
+        // save owner entity: gate
+        gate.setOperator(operator);
+        setUpdateModelDefaults(gate);
+        return gateRepository.save(gate);
     }
 }

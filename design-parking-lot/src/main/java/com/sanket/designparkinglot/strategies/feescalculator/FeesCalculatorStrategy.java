@@ -4,5 +4,7 @@ import com.sanket.designparkinglot.models.ticket.Ticket;
 
 public interface FeesCalculatorStrategy {
 
+    FeesCalculationStrategyType getStrategyType();
+
     double calculateFees(Ticket ticket);
 }

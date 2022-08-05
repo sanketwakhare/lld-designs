@@ -54,23 +54,24 @@
 3. Spot
    1. SpotType << enum >>
    2. SpotStatus << enum >>
-4. Gate
+   3. ElectricSpot
+4. Charger
+5. Gate
    1. GateStatus << enum >>
    2. GateType << enum >>
-5. EntryGate
-6. ExitGate
-7. DisplayBoard
-8. Operator
-9. Ticket
-10. Bill
+6. EntryGate
+7. ExitGate
+8. DisplayBoard
+9. Operator
+10. Ticket
+11. Bill
     1. BilPaymentStatus << enum >>
-11. Payment
+12. Payment
     1. PaymentMode << enum >>
     2. PaymentStatus << enum >>
-12. Vehicle
-    1. VehicleType << enum >>
-13. ElectricVehicle
+13. Vehicle
 14. Charger
+    1. VehicleType << enum >>
 
 ### Strategies
 1. FeesCalculationStrategy
@@ -81,13 +82,15 @@
 
 ### Relationships
 
+    TODO: update relationships
+
 1. ParkingLot <-> Floor  - (1 : M)
 2. ParkingLot <-> EntryGate - (1 : M)
 3. ParkingLot <-> ExitGate - (1 : M)
 4. Floor <-> Spot - (1 : M)
 5. Spot <-> Floor - (M : 1) mappedBy
 6. EntryGate <-> DisplayBoard (1 : 1)
-7. DisplayBoard <-> ParkingLot (M: 1)
+7. DisplayBoard <-> EntryGate (1: 1)
 8. Ticket <-> Vehicle (M : 1)
 9. Ticket <-> Spot (1 : 1)
 10. Ticket <-> EntryGate (M : 1)
@@ -98,7 +101,7 @@
 15. Bill <-> Ticket (1 : 1)
 16. Bill <-> Operator (M : 1)
 17. Payment <-> Bill (M : 1)
-18. ElectricVehicle <-> Charger (1 : 1)
+18. ElectricSpot <-> Charger (1 : 1)
 
 ---
 
@@ -110,33 +113,3 @@
 ### Schema Diagram
 
     TODO
-=======
----
-
-### Requirements Gathering
-1. Parking Lot
-2. Floor
-...
----
-
-### Database Setup
-postgres=# create user sanket with password 'sanket';
-
-CREATE ROLE
-
-`postgres=# create database parking__lot;
-`
-
-CREATE DATABASE
-
-`postgres=# grant all privileges on database parking__lot to sanket;`
-
-GRANT
-
----
-
-### Relationships
-
----
-
-### Class Diagram

@@ -2,12 +2,14 @@ package com.sanket.designparkinglot.strategies.feescalculator;
 
 import com.sanket.designparkinglot.models.spot.SpotType;
 import com.sanket.designparkinglot.models.ticket.Ticket;
+import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class NormalFeesCalculatorStrategy implements FeesCalculatorStrategy {
 
     private final Map<SpotType, Double> feeStructure;
@@ -20,6 +22,11 @@ public class NormalFeesCalculatorStrategy implements FeesCalculatorStrategy {
         feeStructure.put(SpotType.ELECTRIC, 100.0);
         feeStructure.put(SpotType.PREMIUM, 200.0);
         this.feeStructure = feeStructure;
+    }
+
+    @Override
+    public FeesCalculationStrategyType getStrategyType() {
+        return FeesCalculationStrategyType.NORMAL;
     }
 
     @Override

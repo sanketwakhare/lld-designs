@@ -2,10 +2,7 @@ package com.sanket.designparkinglot.controllers;
 
 import com.sanket.designparkinglot.dtos.base.response.ResponseStatus;
 import com.sanket.designparkinglot.dtos.gate.*;
-import com.sanket.designparkinglot.exceptions.GateCreationException;
-import com.sanket.designparkinglot.exceptions.InvalidEntryGateException;
-import com.sanket.designparkinglot.exceptions.NoDisplayBoardException;
-import com.sanket.designparkinglot.exceptions.NoGateException;
+import com.sanket.designparkinglot.exceptions.*;
 import com.sanket.designparkinglot.models.gates.EntryGate;
 import com.sanket.designparkinglot.models.gates.Gate;
 import com.sanket.designparkinglot.models.gates.GateStatus;
@@ -77,4 +74,21 @@ public class GateController {
         return assignDisplayBoardResponseDto;
     }
 
+    public AssignOperatorResponseDto assignOperator(AssignOperatorRequestDto assignOperatorRequestDto) {
+        AssignOperatorResponseDto assignOperatorResponseDto = new AssignOperatorResponseDto();
+        Long gateId = assignOperatorRequestDto.getGateId();
+        Long operatorId = assignOperatorRequestDto.getOperatorId();
+
+        try {
+            // call to service method
+            Gate gate = gateService.assignOperator(gateId, operatorId);
+
+            assignOperatorResponseDto.setResponseStatus(ResponseStatus.SUCCESS);
+            assignOperatorResponseDto.setGate(gate);
+        } catch (Exception | NoGateException | NoOperatorException e) {
+            assignOperatorResponseDto.setResponseStatus(ResponseStatus.FAILURE);
+            assignOperatorResponseDto.setMessage(e.getMessage());
+        }
+        return assignOperatorResponseDto;
+    }
 }

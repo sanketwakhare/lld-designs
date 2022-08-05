@@ -8,5 +8,7 @@ import com.sanket.designparkinglot.models.vehicle.Vehicle;
 
 public interface SpotAssignmentStrategy {
 
+    SpotAssignmentStrategyType getStrategyType();
+
     Spot assignSpot(ParkingLot parkingLot, Vehicle vehicle, EntryGate gate) throws NoSpotAvailableException;
 }
