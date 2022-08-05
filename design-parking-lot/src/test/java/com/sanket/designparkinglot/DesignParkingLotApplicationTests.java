@@ -11,6 +11,8 @@ import com.sanket.designparkinglot.dtos.operator.CreateOperatorResponseDto;
 import com.sanket.designparkinglot.dtos.parkinglot.*;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotRequestDto;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotResponseDto;
+import com.sanket.designparkinglot.dtos.vehicle.RegisterVehicleRequestDto;
+import com.sanket.designparkinglot.dtos.vehicle.RegisterVehicleResponseDto;
 import com.sanket.designparkinglot.models.bill.Bill;
 import com.sanket.designparkinglot.models.displayboard.DisplayBoard;
 import com.sanket.designparkinglot.models.floor.Floor;
@@ -29,6 +31,7 @@ import com.sanket.designparkinglot.models.vehicle.VehicleType;
 import com.sanket.designparkinglot.strategies.feescalculator.FeesCalculatorStrategy;
 import com.sanket.designparkinglot.strategies.feescalculator.NormalFeesCalculatorStrategy;
 import com.sanket.designparkinglot.strategies.paymentstrategy.PaymentStrategy;
+import com.sanket.designparkinglot.strategies.paymentstrategy.RandomRefIdGenerator;
 import com.sanket.designparkinglot.strategies.paymentstrategy.UPIPaymentStrategy;
 import com.sanket.designparkinglot.strategies.spotassignment.RandomSpotAssignmentStrategy;
 import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrategy;
@@ -61,6 +64,9 @@ class DesignParkingLotApplicationTests {
 
     @Autowired
     private OperatorController operatorController;
+
+    @Autowired
+    private VehicleController vehicleController;
 
     @Test
     @Disabled
@@ -104,7 +110,6 @@ class DesignParkingLotApplicationTests {
         exitGate1.setOperator(operator3);
         ExitGate exitGate2 = new ExitGate("ExitGate2");
         exitGate2.setOperator(operator4);
-
 
         Vehicle vehicle1 = new Vehicle("MH12PR1234", VehicleType.BIKE);
         Ticket ticket = entryGate2.generateTicket(parkingLot, vehicle1, spotAssignmentStrategy);
@@ -427,5 +432,17 @@ class DesignParkingLotApplicationTests {
         Assert.notNull(assignOperatorResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(assignOperatorResponseDto.getResponseStatus()), assignOperatorResponseDto.getMessage());
         System.out.println("operator assigned to gate successfully");
+    }
+
+    @Test
+    @Order(20)
+    void testRegisterVehicle() {
+        RegisterVehicleRequestDto registerVehicleRequestDto = new RegisterVehicleRequestDto();
+        registerVehicleRequestDto.setVehicleNumber("AB01PQRS");
+        registerVehicleRequestDto.setVehicleType(VehicleType.BIKE);
+        RegisterVehicleResponseDto registerVehicleResponseDto = vehicleController.registerVehicle(registerVehicleRequestDto);
+        Assert.notNull(registerVehicleResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(registerVehicleResponseDto.getResponseStatus()), registerVehicleResponseDto.getMessage());
+        System.out.println("vehicle registered successfully");
     }
 }
