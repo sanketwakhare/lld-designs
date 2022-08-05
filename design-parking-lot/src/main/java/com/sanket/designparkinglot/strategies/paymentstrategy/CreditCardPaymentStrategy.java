@@ -4,10 +4,19 @@ import com.sanket.designparkinglot.models.bill.Bill;
 import com.sanket.designparkinglot.models.payment.Payment;
 import com.sanket.designparkinglot.models.payment.PaymentMode;
 import com.sanket.designparkinglot.models.payment.PaymentStatus;
+import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
 
+@Component
 public class CreditCardPaymentStrategy implements PaymentStrategy {
+
+    private final PaymentMode paymentMode = PaymentMode.CREDIT_CARD;
+
+    @Override
+    public PaymentMode getStrategyPaymentMode() {
+        return this.paymentMode;
+    }
 
     @Override
     public Payment payBill(Bill bill) {
