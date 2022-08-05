@@ -1,4 +1,4 @@
-package com.sanket.designparkinglot.factories.feescalculationstrategyfactory;
+package com.sanket.designparkinglot.factories;
 
 import com.sanket.designparkinglot.strategies.feescalculator.FeesCalculationStrategyType;
 import com.sanket.designparkinglot.strategies.feescalculator.FeesCalculatorStrategy;

@@ -1,4 +1,4 @@
-package com.sanket.designparkinglot.factories.spotassignmentstrategyfactory;
+package com.sanket.designparkinglot.factories;
 
 import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrategy;
 import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrategyType;

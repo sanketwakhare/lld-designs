@@ -1,12 +1,8 @@
 package com.sanket.designparkinglot;
 
-import com.sanket.designparkinglot.factories.feescalculationstrategyfactory.FeesCalculationStrategyFactory;
-import com.sanket.designparkinglot.factories.paymentstrategyfactory.PaymentStrategyFactory;
-import com.sanket.designparkinglot.factories.spotassignmentstrategyfactory.SpotAssignmentStrategyFactory;
-import com.sanket.designparkinglot.models.bill.Bill;
-import com.sanket.designparkinglot.models.payment.Payment;
-import com.sanket.designparkinglot.models.payment.PaymentMode;
-import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrategyType;
+import com.sanket.designparkinglot.factories.FeesCalculationStrategyFactory;
+import com.sanket.designparkinglot.factories.PaymentStrategyFactory;
+import com.sanket.designparkinglot.factories.SpotAssignmentStrategyFactory;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

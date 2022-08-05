@@ -1,4 +1,4 @@
-package com.sanket.designparkinglot.factories.paymentstrategyfactory;
+package com.sanket.designparkinglot.factories;
 
 import com.sanket.designparkinglot.models.payment.PaymentMode;
 import com.sanket.designparkinglot.strategies.paymentstrategy.PaymentStrategy;
