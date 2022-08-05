@@ -22,7 +22,6 @@ import java.util.Calendar;
 public class EntryGate extends Gate {
 
     @OneToOne(fetch = FetchType.EAGER)
-//    @Column(unique = true)
     private DisplayBoard displayBoard;
 
     public EntryGate() {
