@@ -6,6 +6,8 @@ import com.sanket.designparkinglot.dtos.displayboard.CreateDisplayBoardRequestDt
 import com.sanket.designparkinglot.dtos.displayboard.CreateDisplayBoardResponseDto;
 import com.sanket.designparkinglot.dtos.floor.*;
 import com.sanket.designparkinglot.dtos.gate.*;
+import com.sanket.designparkinglot.dtos.operator.CreateOperatorRequestDto;
+import com.sanket.designparkinglot.dtos.operator.CreateOperatorResponseDto;
 import com.sanket.designparkinglot.dtos.parkinglot.*;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotRequestDto;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotResponseDto;
@@ -30,6 +32,7 @@ import com.sanket.designparkinglot.strategies.paymentstrategy.PaymentStrategy;
 import com.sanket.designparkinglot.strategies.paymentstrategy.UPIPaymentStrategy;
 import com.sanket.designparkinglot.strategies.spotassignment.RandomSpotAssignmentStrategy;
 import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrategy;
+import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -56,6 +59,9 @@ class DesignParkingLotApplicationTests {
 
     @Autowired
     private GateController gateController;
+
+    @Autowired
+    private OperatorController operatorController;
 
     @Test
     @Disabled
@@ -387,5 +393,16 @@ class DesignParkingLotApplicationTests {
         Assert.notNull(assignGateResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(assignGateResponseDto.getResponseStatus()), assignGateResponseDto.getMessage());
         System.out.println("gate assigned to parking lot successfully");
+    }
+
+    @Test
+    @Order(17)
+    void testCreateOperator() {
+        CreateOperatorRequestDto createOperatorRequestDto = new CreateOperatorRequestDto();
+        createOperatorRequestDto.setName("operator-01");
+        CreateOperatorResponseDto createOperatorResponseDto = operatorController.addOperator(createOperatorRequestDto);
+        Assert.notNull(createOperatorResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createOperatorResponseDto.getResponseStatus()), createOperatorResponseDto.getMessage());
+        System.out.println("operator created successfully");
     }
 }
