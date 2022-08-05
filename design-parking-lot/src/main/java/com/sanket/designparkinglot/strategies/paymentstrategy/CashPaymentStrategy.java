@@ -14,7 +14,7 @@ public class CashPaymentStrategy implements PaymentStrategy {
     private final PaymentMode paymentMode = PaymentMode.CASH;
 
     @Override
-    public PaymentMode getStrategyPaymentMode() {
+    public PaymentMode getStrategyType() {
         return this.paymentMode;
     }
 

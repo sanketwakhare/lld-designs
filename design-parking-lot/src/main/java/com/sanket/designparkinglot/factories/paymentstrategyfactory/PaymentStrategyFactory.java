@@ -20,8 +20,8 @@ public class PaymentStrategyFactory {
         // we can also use map of bean name to strategy bean. Map<String, PaymentStrategy>
         registry = new HashMap<>();
         strategies.forEach(strategy -> {
-            PaymentMode paymentMode = strategy.getStrategyPaymentMode();
-            register(paymentMode, strategy);
+            PaymentMode strategyType = strategy.getStrategyType();
+            register(strategyType, strategy);
         });
     }
 

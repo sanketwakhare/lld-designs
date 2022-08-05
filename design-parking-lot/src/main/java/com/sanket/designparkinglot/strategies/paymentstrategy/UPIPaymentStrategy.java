@@ -15,7 +15,7 @@ public class UPIPaymentStrategy implements PaymentStrategy {
     private final PaymentMode paymentMode = PaymentMode.UPI;
 
     @Override
-    public PaymentMode getStrategyPaymentMode() {
+    public PaymentMode getStrategyType() {
         return this.paymentMode;
     }
 

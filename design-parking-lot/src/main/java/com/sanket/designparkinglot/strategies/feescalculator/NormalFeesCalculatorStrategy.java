@@ -25,6 +25,11 @@ public class NormalFeesCalculatorStrategy implements FeesCalculatorStrategy {
     }
 
     @Override
+    public FeesCalculationStrategyType getStrategyType() {
+        return FeesCalculationStrategyType.NORMAL;
+    }
+
+    @Override
     public double calculateFees(Ticket ticket) {
         Date entryTime = ticket.getEntryTime();
         Date exitTime = Calendar.getInstance().getTime();

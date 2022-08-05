@@ -7,10 +7,17 @@ import com.sanket.designparkinglot.models.parkinglot.ParkingLot;
 import com.sanket.designparkinglot.models.spot.Spot;
 import com.sanket.designparkinglot.models.spot.SpotStatus;
 import com.sanket.designparkinglot.models.vehicle.Vehicle;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class RandomSpotAssignmentStrategy implements SpotAssignmentStrategy {
+    @Override
+    public SpotAssignmentStrategyType getStrategyType() {
+        return SpotAssignmentStrategyType.RANDOM;
+    }
+
     @Override
     public Spot assignSpot(ParkingLot parkingLot, Vehicle vehicle, EntryGate gate)
             throws NoSpotAvailableException {

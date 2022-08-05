@@ -14,7 +14,7 @@ public class CreditCardPaymentStrategy implements PaymentStrategy {
     private final PaymentMode paymentMode = PaymentMode.CREDIT_CARD;
 
     @Override
-    public PaymentMode getStrategyPaymentMode() {
+    public PaymentMode getStrategyType() {
         return this.paymentMode;
     }
 

@@ -6,7 +6,7 @@ import com.sanket.designparkinglot.models.payment.PaymentMode;
 
 public interface PaymentStrategy {
 
-    PaymentMode getStrategyPaymentMode();
+    PaymentMode getStrategyType();
 
     Payment payBill(Bill bill);
 }
