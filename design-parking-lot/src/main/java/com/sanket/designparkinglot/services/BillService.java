@@ -1,6 +1,5 @@
 package com.sanket.designparkinglot.services;
 
-import com.sanket.designparkinglot.exceptions.InvalidEntryGateException;
 import com.sanket.designparkinglot.exceptions.InvalidExitGateException;
 import com.sanket.designparkinglot.exceptions.NoGateException;
 import com.sanket.designparkinglot.exceptions.NoTicketException;
@@ -10,9 +9,12 @@ import com.sanket.designparkinglot.models.bill.BillPaymentStatus;
 import com.sanket.designparkinglot.models.gates.ExitGate;
 import com.sanket.designparkinglot.models.gates.Gate;
 import com.sanket.designparkinglot.models.gates.GateType;
+import com.sanket.designparkinglot.models.spot.Spot;
+import com.sanket.designparkinglot.models.spot.SpotStatus;
 import com.sanket.designparkinglot.models.ticket.Ticket;
 import com.sanket.designparkinglot.repositories.BillRepository;
 import com.sanket.designparkinglot.repositories.GateRepository;
+import com.sanket.designparkinglot.repositories.SpotRepository;
 import com.sanket.designparkinglot.repositories.TicketRepository;
 import com.sanket.designparkinglot.strategies.feescalculation.FeesCalculationStrategy;
 import com.sanket.designparkinglot.strategies.feescalculation.FeesCalculationStrategyType;
@@ -31,13 +33,16 @@ public class BillService extends BaseService {
 
     private final TicketRepository ticketRepository;
 
+    private final SpotRepository spotRepository;
+
     private final FeesCalculationStrategyFactory feesCalculationStrategyFactory;
 
     @Autowired
-    public BillService(BillRepository billRepository, GateRepository gateRepository, TicketRepository ticketRepository, FeesCalculationStrategyFactory feesCalculationStrategyFactory) {
+    public BillService(BillRepository billRepository, GateRepository gateRepository, TicketRepository ticketRepository, SpotRepository spotRepository, FeesCalculationStrategyFactory feesCalculationStrategyFactory) {
         this.billRepository = billRepository;
         this.gateRepository = gateRepository;
         this.ticketRepository = ticketRepository;
+        this.spotRepository = spotRepository;
         this.feesCalculationStrategyFactory = feesCalculationStrategyFactory;
     }
 
@@ -76,6 +81,14 @@ public class BillService extends BaseService {
         setCreateModelDefaults(bill);
 
         // save bill
-        return billRepository.save(bill);
+        Bill dbBill = billRepository.save(bill);
+
+        // make spot available again
+        Spot spot = bill.getTicket().getSpot();
+        setUpdateModelDefaults(spot);
+        spot.setSpotStatus(SpotStatus.AVAILABLE);
+        spotRepository.save(spot);
+
+        return dbBill;
     }
 }
