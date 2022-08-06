@@ -107,8 +107,11 @@
 
 ### Class Diagram
 
+![image](https://github.com/sanketwakhare/lld-designs/blob/master/design-parking-lot/src/diagrams/class-diagram-parking__lot.png)
 
 
 ---
 
 ### Schema Diagram
+
+![image](https://github.com/sanketwakhare/lld-designs/blob/master/design-parking-lot/src/diagrams/schema-diagram-parking__lot.png)
