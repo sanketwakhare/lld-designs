@@ -25,7 +25,7 @@ public class SpotController {
         CreateSpotResponseDto createSpotResponseDto = new CreateSpotResponseDto();
         String spotNumber = createSpotRequestDto.getSpotNumber();
         SpotType spotType = createSpotRequestDto.getSpotType();
-        Long floorId = createSpotRequestDto.getFloorId();
+        long floorId = createSpotRequestDto.getFloorId();
 
         try {
             // call service method

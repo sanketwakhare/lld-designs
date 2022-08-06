@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AssignGateRequestDto extends UpdateRequestDto {
-    private Long parkingLotId;
-    private Long gateId;
+
+    private long parkingLotId;
+    private long gateId;
 }

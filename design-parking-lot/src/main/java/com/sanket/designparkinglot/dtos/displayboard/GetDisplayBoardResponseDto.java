@@ -10,5 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class GetDisplayBoardResponseDto extends ResponseDto {
+
     private DisplayBoard displayBoard;
 }

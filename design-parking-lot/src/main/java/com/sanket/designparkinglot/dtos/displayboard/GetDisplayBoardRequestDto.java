@@ -9,5 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class GetDisplayBoardRequestDto extends ReadRequestDto {
-    private Long displayBoardId;
+
+    private long displayBoardId;
 }

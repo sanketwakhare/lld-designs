@@ -55,7 +55,7 @@ public class ParkingLotService extends BaseService {
         return parkingLotRepository.save(parkingLot);
     }
 
-    public void deleteParkingLotById(Long parkingLotId) throws NoParkingLotException {
+    public void deleteParkingLotById(long parkingLotId) throws NoParkingLotException {
         Optional<ParkingLot> dbParkingLot = parkingLotRepository.findById(parkingLotId);
         if (dbParkingLot.isEmpty()) {
             throw new NoParkingLotException(parkingLotId);
@@ -63,7 +63,7 @@ public class ParkingLotService extends BaseService {
         parkingLotRepository.deleteById(parkingLotId);
     }
 
-    public ParkingLot assignGate(Long parkingLotId, Long gateId) throws NoParkingLotException, NoGateException {
+    public ParkingLot assignGate(long parkingLotId, long gateId) throws NoParkingLotException, NoGateException {
         Optional<ParkingLot> dbParkingLot = parkingLotRepository.findById(parkingLotId);
         if (dbParkingLot.isEmpty()) {
             throw new NoParkingLotException(parkingLotId);

@@ -25,7 +25,7 @@ public class SpotService extends BaseService {
         this.floorRepository = floorRepository;
     }
 
-    public Spot addSpot(String spotNumber, SpotType spotType, Long floorId) throws NoFloorException {
+    public Spot addSpot(String spotNumber, SpotType spotType, long floorId) throws NoFloorException {
 
         Optional<Floor> dbFloor = floorRepository.findById(floorId);
         if (dbFloor.isEmpty()) {

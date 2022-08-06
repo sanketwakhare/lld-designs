@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CreateTicketRequestDto extends CreateRequestDto {
+
     private long parkingLotId;
     private long gateId;
     private long vehicleId;

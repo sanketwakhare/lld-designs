@@ -10,5 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AssignGateResponseDto extends ResponseDto {
+
     private ParkingLot parkingLot;
 }

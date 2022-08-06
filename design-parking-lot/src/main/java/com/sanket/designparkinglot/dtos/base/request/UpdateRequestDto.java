@@ -11,6 +11,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 public class UpdateRequestDto {
+
     private Date lastModifiedAt;
     private String lastModifiedBy;
 }

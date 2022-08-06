@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ModifyGateStatusRequestDto extends CreateRequestDto {
-    private Long gateId;
+
+    private long gateId;
     private GateStatus gateStatus;
 }

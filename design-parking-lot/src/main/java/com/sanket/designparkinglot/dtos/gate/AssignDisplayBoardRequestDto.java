@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AssignDisplayBoardRequestDto extends UpdateRequestDto {
-    private Long gateId;
-    private Long displayBoardId;
+
+    private long gateId;
+    private long displayBoardId;
 }

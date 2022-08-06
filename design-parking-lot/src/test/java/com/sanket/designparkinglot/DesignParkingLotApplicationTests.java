@@ -93,7 +93,7 @@ class DesignParkingLotApplicationTests {
     @Order(3)
     void testCreateAndAssignFloorToParkingLot() {
         CreateFloorRequestDto createFloorRequestDto = new CreateFloorRequestDto();
-        createFloorRequestDto.setParkingLotId(1L);
+        createFloorRequestDto.setParkingLotId(1);
         createFloorRequestDto.setFloorNumber("G1");
         CreateFloorResponseDto createFloorResponseDto = floorController.addFloor(createFloorRequestDto);
         Assert.notNull(createFloorResponseDto, "something went wrong");
@@ -129,7 +129,7 @@ class DesignParkingLotApplicationTests {
         CreateSpotRequestDto createSpotRequestDto = new CreateSpotRequestDto();
         createSpotRequestDto.setSpotNumber("G1-1");
         createSpotRequestDto.setSpotType(SpotType.BIKE);
-        createSpotRequestDto.setFloorId(2L);
+        createSpotRequestDto.setFloorId(2);
         CreateSpotResponseDto createSpotResponseDto = spotController.addSpot(createSpotRequestDto);
         Assert.notNull(createSpotResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(createSpotResponseDto.getResponseStatus()), createSpotResponseDto.getMessage());
@@ -140,8 +140,8 @@ class DesignParkingLotApplicationTests {
     @Order(6)
     void testAllocateSpot() {
         AllocateSpotRequestDto allocateSpotRequestDto = new AllocateSpotRequestDto();
-        allocateSpotRequestDto.setFloorId(4L);
-        allocateSpotRequestDto.setSpotId(1L);
+        allocateSpotRequestDto.setFloorId(4);
+        allocateSpotRequestDto.setSpotId(1);
         AllocateSpotResponseDto allocateSpotResponseDto = floorController.allocateSpot(allocateSpotRequestDto);
         Assert.notNull(allocateSpotResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(allocateSpotResponseDto.getResponseStatus()), allocateSpotResponseDto.getMessage());
@@ -152,8 +152,8 @@ class DesignParkingLotApplicationTests {
     @Order(7)
     void testDeallocateSpot() {
         DeAllocateSpotRequestDto deAllocateSpotRequestDto = new DeAllocateSpotRequestDto();
-        deAllocateSpotRequestDto.setFloorId(4L);
-        deAllocateSpotRequestDto.setSpotId(1L);
+        deAllocateSpotRequestDto.setFloorId(4);
+        deAllocateSpotRequestDto.setSpotId(1);
         DeAllocateSpotResponseDto deAllocateSpotResponseDto = floorController.deallocateSpot(deAllocateSpotRequestDto);
         Assert.notNull(deAllocateSpotResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(deAllocateSpotResponseDto.getResponseStatus()), deAllocateSpotResponseDto.getMessage());
@@ -210,7 +210,7 @@ class DesignParkingLotApplicationTests {
         createGateRequestDto.setGateNumber("Gate-101");
         createGateRequestDto.setGateType(GateType.ENTRY);
         createGateRequestDto.setGateStatus(GateStatus.OPEN);
-        createGateRequestDto.setParkingLotId(2L);
+        createGateRequestDto.setParkingLotId(2);
         CreateGateResponseDto createGateResponseDto = gateController.addGate(createGateRequestDto);
         Assert.notNull(createGateResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(createGateResponseDto.getResponseStatus()), createGateResponseDto.getMessage());
@@ -224,7 +224,7 @@ class DesignParkingLotApplicationTests {
         createGateRequestDto.setGateNumber("Gate-201");
         createGateRequestDto.setGateType(GateType.EXIT);
         createGateRequestDto.setGateStatus(GateStatus.OPEN);
-        createGateRequestDto.setParkingLotId(2L);
+        createGateRequestDto.setParkingLotId(2);
         CreateGateResponseDto createGateResponseDto = gateController.addGate(createGateRequestDto);
         Assert.notNull(createGateResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(createGateResponseDto.getResponseStatus()), createGateResponseDto.getMessage());
@@ -235,7 +235,7 @@ class DesignParkingLotApplicationTests {
     @Order(12)
     void testModifyGateStatus() {
         ModifyGateStatusRequestDto modifyGateStatusRequestDto = new ModifyGateStatusRequestDto();
-        modifyGateStatusRequestDto.setGateId(2L);
+        modifyGateStatusRequestDto.setGateId(2);
         modifyGateStatusRequestDto.setGateStatus(GateStatus.CLOSED);
         ModifyGateStatusResponseDto modifyGateStatusResponseDto = gateController.modifyGateStatus(modifyGateStatusRequestDto);
         Assert.notNull(modifyGateStatusResponseDto, "something went wrong");
@@ -247,8 +247,8 @@ class DesignParkingLotApplicationTests {
     @Order(13)
     void testAssignDisplayBoardToEntryGate() {
         AssignDisplayBoardRequestDto assignDisplayBoardRequestDto = new AssignDisplayBoardRequestDto();
-        assignDisplayBoardRequestDto.setGateId(1L);
-        assignDisplayBoardRequestDto.setDisplayBoardId(1L);
+        assignDisplayBoardRequestDto.setGateId(1);
+        assignDisplayBoardRequestDto.setDisplayBoardId(1);
         AssignDisplayBoardResponseDto assignDisplayBoardResponseDto = gateController.assignDisplayBoard(assignDisplayBoardRequestDto);
         Assert.notNull(assignDisplayBoardResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(assignDisplayBoardResponseDto.getResponseStatus()), assignDisplayBoardResponseDto.getMessage());
@@ -259,8 +259,8 @@ class DesignParkingLotApplicationTests {
     @Order(14)
     void testAssignDisplayBoardToExitGate() {
         AssignDisplayBoardRequestDto assignDisplayBoardRequestDto = new AssignDisplayBoardRequestDto();
-        assignDisplayBoardRequestDto.setGateId(2L);
-        assignDisplayBoardRequestDto.setDisplayBoardId(1L);
+        assignDisplayBoardRequestDto.setGateId(2);
+        assignDisplayBoardRequestDto.setDisplayBoardId(1);
         AssignDisplayBoardResponseDto assignDisplayBoardResponseDto = gateController.assignDisplayBoard(assignDisplayBoardRequestDto);
         Assert.notNull(assignDisplayBoardResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.FAILURE.equals(assignDisplayBoardResponseDto.getResponseStatus()), "display board cannot be assigned to exit gate");
@@ -271,8 +271,8 @@ class DesignParkingLotApplicationTests {
     @Order(15)
     void testAssignEntryGateToParkingLot() {
         AssignGateRequestDto assignGateRequestDto = new AssignGateRequestDto();
-        assignGateRequestDto.setGateId(1L);
-        assignGateRequestDto.setParkingLotId(2L);
+        assignGateRequestDto.setGateId(1);
+        assignGateRequestDto.setParkingLotId(2);
         AssignGateResponseDto assignGateResponseDto = parkingLotController.assignGate(assignGateRequestDto);
         Assert.notNull(assignGateResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(assignGateResponseDto.getResponseStatus()), assignGateResponseDto.getMessage());
@@ -283,8 +283,8 @@ class DesignParkingLotApplicationTests {
     @Order(16)
     void testAssignExitGateToParkingLot() {
         AssignGateRequestDto assignGateRequestDto = new AssignGateRequestDto();
-        assignGateRequestDto.setGateId(2L);
-        assignGateRequestDto.setParkingLotId(2L);
+        assignGateRequestDto.setGateId(2);
+        assignGateRequestDto.setParkingLotId(2);
         AssignGateResponseDto assignGateResponseDto = parkingLotController.assignGate(assignGateRequestDto);
         Assert.notNull(assignGateResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(assignGateResponseDto.getResponseStatus()), assignGateResponseDto.getMessage());
@@ -313,8 +313,8 @@ class DesignParkingLotApplicationTests {
     @Order(18)
     void testAssignOperatorToEntryGate() {
         AssignOperatorRequestDto assignOperatorRequestDto = new AssignOperatorRequestDto();
-        assignOperatorRequestDto.setOperatorId(1L);
-        assignOperatorRequestDto.setGateId(1L);
+        assignOperatorRequestDto.setOperatorId(1);
+        assignOperatorRequestDto.setGateId(1);
         AssignOperatorResponseDto assignOperatorResponseDto = gateController.assignOperator(assignOperatorRequestDto);
         Assert.notNull(assignOperatorResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(assignOperatorResponseDto.getResponseStatus()), assignOperatorResponseDto.getMessage());
@@ -325,8 +325,8 @@ class DesignParkingLotApplicationTests {
     @Order(19)
     void testAssignOperatorToExitGate() {
         AssignOperatorRequestDto assignOperatorRequestDto = new AssignOperatorRequestDto();
-        assignOperatorRequestDto.setOperatorId(2L);
-        assignOperatorRequestDto.setGateId(2L);
+        assignOperatorRequestDto.setOperatorId(2);
+        assignOperatorRequestDto.setGateId(2);
         AssignOperatorResponseDto assignOperatorResponseDto = gateController.assignOperator(assignOperatorRequestDto);
         Assert.notNull(assignOperatorResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(assignOperatorResponseDto.getResponseStatus()), assignOperatorResponseDto.getMessage());
@@ -349,7 +349,7 @@ class DesignParkingLotApplicationTests {
     @Order(21)
     void testReadDisplayBoard() {
         GetDisplayBoardRequestDto getDisplayBoardRequestDto = new GetDisplayBoardRequestDto();
-        getDisplayBoardRequestDto.setDisplayBoardId(1L);
+        getDisplayBoardRequestDto.setDisplayBoardId(1);
         GetDisplayBoardResponseDto getDisplayBoardResponseDto = displayBoardController.getDisplayBoard(getDisplayBoardRequestDto);
         Assert.notNull(getDisplayBoardResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(getDisplayBoardResponseDto.getResponseStatus()), getDisplayBoardResponseDto.getMessage());

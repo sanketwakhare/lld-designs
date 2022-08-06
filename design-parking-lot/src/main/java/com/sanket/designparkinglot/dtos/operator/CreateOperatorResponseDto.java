@@ -10,5 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CreateOperatorResponseDto extends ResponseDto {
+
     private Operator operator;
 }

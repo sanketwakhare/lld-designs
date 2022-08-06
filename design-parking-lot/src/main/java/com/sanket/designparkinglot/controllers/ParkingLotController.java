@@ -41,7 +41,7 @@ public class ParkingLotController {
         DeleteParkingLotResponseDto responseDto = new DeleteParkingLotResponseDto();
 
         // preprocessing of request dto
-        Long parkingLotId = requestDto.getParkingLotId();
+        long parkingLotId = requestDto.getParkingLotId();
 
         try {
             // call service
@@ -57,8 +57,8 @@ public class ParkingLotController {
 
     public AssignGateResponseDto assignGate(AssignGateRequestDto assignGateRequestDto) {
         AssignGateResponseDto assignGateResponseDto = new AssignGateResponseDto();
-        Long parkingLotId = assignGateRequestDto.getParkingLotId();
-        Long gateId = assignGateRequestDto.getGateId();
+        long parkingLotId = assignGateRequestDto.getParkingLotId();
+        long gateId = assignGateRequestDto.getGateId();
 
         try {
             // call service method

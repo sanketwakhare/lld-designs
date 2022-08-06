@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AllocateSpotRequestDto extends UpdateRequestDto {
 
-    private Long floorId;
-    private Long spotId;
+    private long floorId;
+    private long spotId;
 }

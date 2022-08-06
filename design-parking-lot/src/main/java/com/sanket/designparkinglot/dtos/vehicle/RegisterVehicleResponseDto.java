@@ -10,5 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class RegisterVehicleResponseDto extends ResponseDto {
+
     private Vehicle vehicle;
 }

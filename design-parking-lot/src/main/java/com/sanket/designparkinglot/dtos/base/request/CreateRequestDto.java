@@ -16,5 +16,4 @@ public class CreateRequestDto {
     private String createdBy;
     private Date lastModifiedAt;
     private String lastModifiedBy;
-
 }

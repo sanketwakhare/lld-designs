@@ -29,7 +29,7 @@ public class FloorService extends BaseService {
         this.spotRepository = spotRepository;
     }
 
-    public Floor addFloor(Long parkingLotId, String floorNumber) throws NoParkingLotException {
+    public Floor addFloor(long parkingLotId, String floorNumber) throws NoParkingLotException {
 
         Optional<ParkingLot> dbParkingLot = parkingLotRepository.findById(parkingLotId);
         if (dbParkingLot.isEmpty()) {
@@ -46,7 +46,7 @@ public class FloorService extends BaseService {
         return floorRepository.save(floor);
     }
 
-    public void allocateSpot(Long floorId, Long spotId) throws NoFloorException, NoSpotException {
+    public void allocateSpot(long floorId, long spotId) throws NoFloorException, NoSpotException {
         // get Floor by floorId
         Optional<Floor> dbFloor = floorRepository.findById(floorId);
         if (dbFloor.isEmpty()) {
@@ -69,7 +69,7 @@ public class FloorService extends BaseService {
         spotRepository.save(spot);
     }
 
-    public void deallocateSpot(Long floorId, Long spotId) throws NoFloorException, NoSpotException {
+    public void deallocateSpot(long floorId, long spotId) throws NoFloorException, NoSpotException {
         // get Floor by floorId
         Optional<Floor> dbFloor = floorRepository.findById(floorId);
         if (dbFloor.isEmpty()) {

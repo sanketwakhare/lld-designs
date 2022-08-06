@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AssignOperatorRequestDto extends UpdateRequestDto {
-    private Long gateId;
-    private Long operatorId;
+
+    private long gateId;
+    private long operatorId;
 }

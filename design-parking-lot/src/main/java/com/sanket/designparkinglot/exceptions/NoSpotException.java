@@ -1,7 +1,8 @@
 package com.sanket.designparkinglot.exceptions;
 
 public class NoSpotException extends Throwable {
-    public NoSpotException(Long spotId) {
+
+    public NoSpotException(long spotId) {
         super("no spot with id " + spotId);
     }
 }

@@ -34,7 +34,7 @@ public class DisplayBoardService extends BaseService {
     }
 
 
-    public DisplayBoard getDisplayBoard(Long displayBoardId) throws NoDisplayBoardException {
+    public DisplayBoard getDisplayBoard(long displayBoardId) throws NoDisplayBoardException {
 
         Optional<DisplayBoard> dbDisplayBoard = displayBoardRepository.findById(displayBoardId);
         if (dbDisplayBoard.isEmpty()) {

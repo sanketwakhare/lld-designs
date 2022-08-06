@@ -10,5 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ModifyGateStatusResponseDto extends ResponseDto {
+
     private Gate gate;
 }

@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class MakePaymentRequestDto extends CreateRequestDto {
+
     private long billId;
     private PaymentMode paymentMode;
 }

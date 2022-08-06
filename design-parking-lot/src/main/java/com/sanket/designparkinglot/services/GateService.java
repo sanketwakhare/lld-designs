@@ -36,7 +36,7 @@ public class GateService extends BaseService {
         this.parkingLotRepository = parkingLotRepository;
     }
 
-    public Gate addGate(String gateNumber, GateType gateType, GateStatus gateStatus, Long parkingLotId) throws GateCreationException, NoParkingLotException {
+    public Gate addGate(String gateNumber, GateType gateType, GateStatus gateStatus, long parkingLotId) throws GateCreationException, NoParkingLotException {
 
         Optional<ParkingLot> dbParkingLot = parkingLotRepository.findById(parkingLotId);
         if (dbParkingLot.isEmpty()) {
@@ -61,7 +61,7 @@ public class GateService extends BaseService {
         return gateRepository.save(gate);
     }
 
-    public Gate modifyGateStatus(Long gateId, GateStatus gateStatus) throws NoGateException {
+    public Gate modifyGateStatus(long gateId, GateStatus gateStatus) throws NoGateException {
         Optional<Gate> dbGate = gateRepository.findById(gateId);
         if (dbGate.isEmpty()) {
             throw new NoGateException(gateId);
@@ -72,7 +72,7 @@ public class GateService extends BaseService {
         return gateRepository.save(gate);
     }
 
-    public EntryGate assignDisplayBoard(Long gateId, Long displayBoardId) throws NoGateException, InvalidEntryGateException, NoDisplayBoardException {
+    public EntryGate assignDisplayBoard(long gateId, long displayBoardId) throws NoGateException, InvalidEntryGateException, NoDisplayBoardException {
         // fetch gate by id
         Optional<Gate> dbGate = gateRepository.findById(gateId);
         if (dbGate.isEmpty()) {
@@ -106,7 +106,7 @@ public class GateService extends BaseService {
         return gateRepository.save(entryGate);
     }
 
-    public Gate assignOperator(Long gateId, Long operatorId) throws NoGateException, NoOperatorException {
+    public Gate assignOperator(long gateId, long operatorId) throws NoGateException, NoOperatorException {
         // fetch gate by id
         Optional<Gate> dbGate = gateRepository.findById(gateId);
         if (dbGate.isEmpty()) {

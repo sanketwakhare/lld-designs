@@ -11,8 +11,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CreateGateRequestDto extends CreateRequestDto {
+
     private String gateNumber;
     private GateType gateType;
     private GateStatus gateStatus;
-    private Long parkingLotId;
+    private long parkingLotId;
 }

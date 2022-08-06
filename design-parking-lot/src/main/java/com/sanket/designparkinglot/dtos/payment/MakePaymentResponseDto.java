@@ -10,5 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class MakePaymentResponseDto extends ResponseDto {
+
     private Payment payment;
 }

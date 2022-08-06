@@ -10,5 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class GetFloorResponseDto extends ResponseDto {
+
     private Floor floor;
 }

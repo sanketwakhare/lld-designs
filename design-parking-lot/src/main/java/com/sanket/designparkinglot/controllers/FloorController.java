@@ -25,7 +25,7 @@ public class FloorController {
         CreateFloorResponseDto responseDto = new CreateFloorResponseDto();
 
         // preprocessing
-        Long parkingLotId = requestDto.getParkingLotId();
+        long parkingLotId = requestDto.getParkingLotId();
         String floorNumber = requestDto.getFloorNumber();
 
         // call service
@@ -46,8 +46,8 @@ public class FloorController {
     public AllocateSpotResponseDto allocateSpot(AllocateSpotRequestDto allocateSpotRequestDto) {
 
         AllocateSpotResponseDto allocateSpotResponseDto = new AllocateSpotResponseDto();
-        Long floorId = allocateSpotRequestDto.getFloorId();
-        Long spotId = allocateSpotRequestDto.getSpotId();
+        long floorId = allocateSpotRequestDto.getFloorId();
+        long spotId = allocateSpotRequestDto.getSpotId();
 
         try {
             floorService.allocateSpot(floorId, spotId);
@@ -64,8 +64,8 @@ public class FloorController {
     public DeAllocateSpotResponseDto deallocateSpot(DeAllocateSpotRequestDto deAllocateSpotRequestDto) {
 
         DeAllocateSpotResponseDto deAllocateSpotResponseDto = new DeAllocateSpotResponseDto();
-        Long floorId = deAllocateSpotRequestDto.getFloorId();
-        Long spotId = deAllocateSpotRequestDto.getSpotId();
+        long floorId = deAllocateSpotRequestDto.getFloorId();
+        long spotId = deAllocateSpotRequestDto.getSpotId();
 
         try {
             floorService.deallocateSpot(floorId, spotId);

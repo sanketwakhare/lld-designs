@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CreateBillRequestDto extends CreateRequestDto {
+
     private long gateId;
     private long ticketId;
     private FeesCalculationStrategyType feesCalculationStrategyType;

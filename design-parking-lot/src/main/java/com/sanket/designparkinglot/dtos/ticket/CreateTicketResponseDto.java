@@ -10,5 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CreateTicketResponseDto extends ResponseDto {
+
     private Ticket ticket;
 }

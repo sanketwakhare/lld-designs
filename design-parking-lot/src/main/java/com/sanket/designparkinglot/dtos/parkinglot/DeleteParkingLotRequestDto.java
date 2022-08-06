@@ -9,5 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class DeleteParkingLotRequestDto extends DeleteRequestDto {
-    private Long parkingLotId;
+
+    private long parkingLotId;
 }

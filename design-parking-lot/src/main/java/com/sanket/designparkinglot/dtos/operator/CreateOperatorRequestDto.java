@@ -9,5 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CreateOperatorRequestDto extends CreateRequestDto {
+
     private String name;
 }

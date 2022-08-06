@@ -27,7 +27,7 @@ public class GateController {
         String gateNumber = createGateRequestDto.getGateNumber();
         GateType gateType = createGateRequestDto.getGateType();
         GateStatus gateStatus = createGateRequestDto.getGateStatus();
-        Long parkingLotId = createGateRequestDto.getParkingLotId();
+        long parkingLotId = createGateRequestDto.getParkingLotId();
         try {
             // call service
             Gate gate = gateService.addGate(gateNumber, gateType, gateStatus, parkingLotId);
@@ -43,7 +43,7 @@ public class GateController {
     public ModifyGateStatusResponseDto modifyGateStatus(ModifyGateStatusRequestDto modifyGateStatusRequestDto) {
         ModifyGateStatusResponseDto modifyGateStatusResponseDto = new ModifyGateStatusResponseDto();
         // pre process request dto
-        Long gateId = modifyGateStatusRequestDto.getGateId();
+        long gateId = modifyGateStatusRequestDto.getGateId();
         GateStatus gateStatus = modifyGateStatusRequestDto.getGateStatus();
         try {
             // call service
@@ -59,8 +59,8 @@ public class GateController {
 
     public AssignDisplayBoardResponseDto assignDisplayBoard(AssignDisplayBoardRequestDto assignDisplayBoardRequestDto) {
         AssignDisplayBoardResponseDto assignDisplayBoardResponseDto = new AssignDisplayBoardResponseDto();
-        Long gateId = assignDisplayBoardRequestDto.getGateId();
-        Long displayBoardId = assignDisplayBoardRequestDto.getDisplayBoardId();
+        long gateId = assignDisplayBoardRequestDto.getGateId();
+        long displayBoardId = assignDisplayBoardRequestDto.getDisplayBoardId();
 
         try {
             // call to service method
@@ -77,8 +77,8 @@ public class GateController {
 
     public AssignOperatorResponseDto assignOperator(AssignOperatorRequestDto assignOperatorRequestDto) {
         AssignOperatorResponseDto assignOperatorResponseDto = new AssignOperatorResponseDto();
-        Long gateId = assignOperatorRequestDto.getGateId();
-        Long operatorId = assignOperatorRequestDto.getOperatorId();
+        long gateId = assignOperatorRequestDto.getGateId();
+        long operatorId = assignOperatorRequestDto.getOperatorId();
 
         try {
             // call to service method

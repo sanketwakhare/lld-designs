@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CreateFloorRequestDto extends CreateRequestDto {
 
-    private Long parkingLotId;
+    private long parkingLotId;
     private String floorNumber;
 }

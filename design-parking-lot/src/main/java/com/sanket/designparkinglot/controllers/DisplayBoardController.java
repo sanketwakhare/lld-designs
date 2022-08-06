@@ -38,7 +38,7 @@ public class DisplayBoardController {
 
     public GetDisplayBoardResponseDto getDisplayBoard(GetDisplayBoardRequestDto getDisplayBoardRequestDto) {
         GetDisplayBoardResponseDto getDisplayBoardResponseDto = new GetDisplayBoardResponseDto();
-        Long displayBoardId = getDisplayBoardRequestDto.getDisplayBoardId();
+        long displayBoardId = getDisplayBoardRequestDto.getDisplayBoardId();
         try {
             DisplayBoard displayBoard = displayBoardService.getDisplayBoard(displayBoardId);
             getDisplayBoardResponseDto.setResponseStatus(ResponseStatus.SUCCESS);

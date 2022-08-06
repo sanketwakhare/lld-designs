@@ -11,5 +11,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AssignOperatorResponseDto extends ResponseDto {
+
     private Gate gate;
 }
