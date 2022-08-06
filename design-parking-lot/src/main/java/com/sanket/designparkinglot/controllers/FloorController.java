@@ -52,7 +52,7 @@ public class FloorController {
         try {
             floorService.allocateSpot(floorId, spotId);
             allocateSpotResponseDto.setResponseStatus(ResponseStatus.SUCCESS);
-            allocateSpotResponseDto.setMessage("spot assigned successfully");
+            allocateSpotResponseDto.setMessage("spot allocated successfully");
         } catch (Exception | NoFloorException | NoSpotException e) {
             allocateSpotResponseDto.setResponseStatus(ResponseStatus.FAILURE);
             allocateSpotResponseDto.setMessage(e.getMessage());
@@ -70,12 +70,27 @@ public class FloorController {
         try {
             floorService.deallocateSpot(floorId, spotId);
             deAllocateSpotResponseDto.setResponseStatus(ResponseStatus.SUCCESS);
-            deAllocateSpotResponseDto.setMessage("spot assigned successfully");
+            deAllocateSpotResponseDto.setMessage("spot deallocated successfully");
         } catch (Exception | NoFloorException | NoSpotException e) {
             deAllocateSpotResponseDto.setResponseStatus(ResponseStatus.FAILURE);
             deAllocateSpotResponseDto.setMessage(e.getMessage());
         }
 
         return deAllocateSpotResponseDto;
+    }
+
+    public GetFloorResponseDto getFloorById(GetFloorRequestDto getFloorRequestDto) {
+        GetFloorResponseDto getFloorResponseDto = new GetFloorResponseDto();
+        long floorId = getFloorRequestDto.getFloorId();
+
+        try {
+            Floor floor = floorService.getFloorById(floorId);
+            getFloorResponseDto.setFloor(floor);
+            getFloorResponseDto.setResponseStatus(ResponseStatus.SUCCESS);
+        } catch (Exception | NoFloorException e) {
+            getFloorResponseDto.setResponseStatus(ResponseStatus.FAILURE);
+            getFloorResponseDto.setMessage(e.getMessage());
+        }
+        return getFloorResponseDto;
     }
 }

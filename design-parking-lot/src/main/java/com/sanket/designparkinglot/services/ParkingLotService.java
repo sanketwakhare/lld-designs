@@ -44,16 +44,13 @@ public class ParkingLotService extends BaseService {
         parkingLot = parkingLotRepository.save(parkingLot);
 
         // add floors
-        List<Floor> floors = new ArrayList<>();
         for (int floorNumber = 0; floorNumber < numberOfFloors; floorNumber++) {
             Floor floor = new Floor();
             floor.setFloorNumber("F" + (floorNumber + 1));
+            floor.setParkingLot(parkingLot);
             setCreateModelDefaults(floor);
-            floor = floorRepository.save(floor);
-            floors.add(floor);
+            floorRepository.save(floor);
         }
-        parkingLot.setFloors(floors);
-
         // save parking lot
         return parkingLotRepository.save(parkingLot);
     }
@@ -79,12 +76,8 @@ public class ParkingLotService extends BaseService {
         ParkingLot parkingLot = dbParkingLot.get();
         Gate gate = dbGate.get();
 
-        if (GateType.ENTRY.equals(gate.getGateType())) {
-            parkingLot.getEntryGates().add((EntryGate) gate);
-        } else if (GateType.EXIT.equals(gate.getGateType())) {
-            parkingLot.getExitGates().add((ExitGate) gate);
-        }
-
-        return parkingLotRepository.save(parkingLot);
+        gate.setParkingLot(parkingLot);
+        gateRepository.save(gate);
+        return parkingLot;
     }
 }

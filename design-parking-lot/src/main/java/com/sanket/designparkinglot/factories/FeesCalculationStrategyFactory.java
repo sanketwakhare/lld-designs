@@ -1,21 +1,22 @@
 package com.sanket.designparkinglot.factories;
 
-import com.sanket.designparkinglot.strategies.feescalculator.FeesCalculationStrategyType;
-import com.sanket.designparkinglot.strategies.feescalculator.FeesCalculatorStrategy;
+import com.sanket.designparkinglot.strategies.feescalculation.FeesCalculationStrategyType;
+import com.sanket.designparkinglot.strategies.feescalculation.FeesCalculationStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @Component
 public class FeesCalculationStrategyFactory {
 
-    private final Map<FeesCalculationStrategyType, FeesCalculatorStrategy> registry;
+    private final Map<FeesCalculationStrategyType, FeesCalculationStrategy> registry;
 
     @Autowired
-    public FeesCalculationStrategyFactory(Set<FeesCalculatorStrategy> strategies) {
+    public FeesCalculationStrategyFactory(Set<FeesCalculationStrategy> strategies) {
         registry = new HashMap<>();
         strategies.forEach(strategy -> {
             FeesCalculationStrategyType feesCalculationStrategyType = strategy.getStrategyType();
@@ -23,11 +24,15 @@ public class FeesCalculationStrategyFactory {
         });
     }
 
-    public FeesCalculatorStrategy get(FeesCalculationStrategyType feesCalculationStrategyType) {
+    public FeesCalculationStrategy get(FeesCalculationStrategyType feesCalculationStrategyType) {
+        if (Objects.isNull(feesCalculationStrategyType)) {
+            // default strategy
+            return registry.get(FeesCalculationStrategyType.NORMAL);
+        }
         return registry.get(feesCalculationStrategyType);
     }
 
-    public void register(FeesCalculationStrategyType feesCalculationStrategyType, FeesCalculatorStrategy feesCalculatorStrategy) {
-        registry.put(feesCalculationStrategyType, feesCalculatorStrategy);
+    public void register(FeesCalculationStrategyType feesCalculationStrategyType, FeesCalculationStrategy feesCalculationStrategy) {
+        registry.put(feesCalculationStrategyType, feesCalculationStrategy);
     }
 }

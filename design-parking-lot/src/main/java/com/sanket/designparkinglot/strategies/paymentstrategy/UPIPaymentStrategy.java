@@ -28,7 +28,6 @@ public class UPIPaymentStrategy implements PaymentStrategy {
         payment.setAmount(bill.getCharges());
         payment.setBill(bill);
         payment.setRefId(RandomRefIdGenerator.generateRandomRefId(16));
-        bill.setBillPaymentStatus(BillPaymentStatus.PAID);
         return payment;
     }
 }

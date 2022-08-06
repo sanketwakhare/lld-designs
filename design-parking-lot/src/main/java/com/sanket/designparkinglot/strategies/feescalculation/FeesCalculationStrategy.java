@@ -1,8 +1,8 @@
-package com.sanket.designparkinglot.strategies.feescalculator;
+package com.sanket.designparkinglot.strategies.feescalculation;
 
 import com.sanket.designparkinglot.models.ticket.Ticket;
 
-public interface FeesCalculatorStrategy {
+public interface FeesCalculationStrategy {
 
     FeesCalculationStrategyType getStrategyType();
 

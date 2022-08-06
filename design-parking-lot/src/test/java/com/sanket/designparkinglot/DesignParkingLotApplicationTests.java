@@ -2,17 +2,27 @@ package com.sanket.designparkinglot;
 
 import com.sanket.designparkinglot.controllers.*;
 import com.sanket.designparkinglot.dtos.base.response.ResponseStatus;
+import com.sanket.designparkinglot.dtos.bill.CreateBillRequestDto;
+import com.sanket.designparkinglot.dtos.bill.CreateBillResponseDto;
 import com.sanket.designparkinglot.dtos.displayboard.CreateDisplayBoardRequestDto;
 import com.sanket.designparkinglot.dtos.displayboard.CreateDisplayBoardResponseDto;
+import com.sanket.designparkinglot.dtos.displayboard.GetDisplayBoardRequestDto;
+import com.sanket.designparkinglot.dtos.displayboard.GetDisplayBoardResponseDto;
 import com.sanket.designparkinglot.dtos.floor.*;
 import com.sanket.designparkinglot.dtos.gate.*;
 import com.sanket.designparkinglot.dtos.operator.CreateOperatorRequestDto;
 import com.sanket.designparkinglot.dtos.operator.CreateOperatorResponseDto;
 import com.sanket.designparkinglot.dtos.parkinglot.*;
+import com.sanket.designparkinglot.dtos.payment.MakePaymentRequestDto;
+import com.sanket.designparkinglot.dtos.payment.MakePaymentResponseDto;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotRequestDto;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotResponseDto;
+import com.sanket.designparkinglot.dtos.ticket.CreateTicketRequestDto;
+import com.sanket.designparkinglot.dtos.ticket.CreateTicketResponseDto;
 import com.sanket.designparkinglot.dtos.vehicle.RegisterVehicleRequestDto;
 import com.sanket.designparkinglot.dtos.vehicle.RegisterVehicleResponseDto;
+import com.sanket.designparkinglot.factories.FeesCalculationStrategyFactory;
+import com.sanket.designparkinglot.factories.SpotAssignmentStrategyFactory;
 import com.sanket.designparkinglot.models.bill.Bill;
 import com.sanket.designparkinglot.models.displayboard.DisplayBoard;
 import com.sanket.designparkinglot.models.floor.Floor;
@@ -23,29 +33,35 @@ import com.sanket.designparkinglot.models.gates.GateType;
 import com.sanket.designparkinglot.models.operator.Operator;
 import com.sanket.designparkinglot.models.parkinglot.ParkingLot;
 import com.sanket.designparkinglot.models.payment.Payment;
+import com.sanket.designparkinglot.models.payment.PaymentMode;
 import com.sanket.designparkinglot.models.spot.Spot;
 import com.sanket.designparkinglot.models.spot.SpotType;
 import com.sanket.designparkinglot.models.ticket.Ticket;
 import com.sanket.designparkinglot.models.vehicle.Vehicle;
 import com.sanket.designparkinglot.models.vehicle.VehicleType;
-import com.sanket.designparkinglot.strategies.feescalculator.FeesCalculatorStrategy;
-import com.sanket.designparkinglot.strategies.feescalculator.NormalFeesCalculatorStrategy;
+import com.sanket.designparkinglot.strategies.feescalculation.FeesCalculationStrategy;
+import com.sanket.designparkinglot.strategies.feescalculation.FeesCalculationStrategyType;
 import com.sanket.designparkinglot.strategies.paymentstrategy.PaymentStrategy;
-import com.sanket.designparkinglot.strategies.paymentstrategy.RandomRefIdGenerator;
 import com.sanket.designparkinglot.strategies.paymentstrategy.UPIPaymentStrategy;
-import com.sanket.designparkinglot.strategies.spotassignment.RandomSpotAssignmentStrategy;
 import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrategy;
+import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrategyType;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DesignParkingLotApplicationTests {
+
+    @Autowired
+    private SpotAssignmentStrategyFactory spotAssignmentStrategyFactory;
+
+    @Autowired
+    private FeesCalculationStrategyFactory feesCalculationStrategyFactory;
 
     @Autowired
     private ParkingLotController parkingLotController;
@@ -68,6 +84,15 @@ class DesignParkingLotApplicationTests {
     @Autowired
     private VehicleController vehicleController;
 
+    @Autowired
+    private TicketController ticketController;
+
+    @Autowired
+    private BillController billController;
+
+    @Autowired
+    private PaymentController paymentController;
+
     @Test
     @Disabled
     void contextLoads() {
@@ -77,7 +102,7 @@ class DesignParkingLotApplicationTests {
         // Create Floors
         Floor floor1 = new Floor("G1");
         Floor floor2 = new Floor("G2");
-        List<Floor> floors = new ArrayList<>();
+        Set<Floor> floors = new HashSet<>();
         floors.add(floor1);
         floors.add(floor2);
         parkingLot.setFloors(floors);
@@ -90,10 +115,10 @@ class DesignParkingLotApplicationTests {
         DisplayBoard displayBoard = new DisplayBoard();
 
         // Spot assignment strategy
-        SpotAssignmentStrategy spotAssignmentStrategy = new RandomSpotAssignmentStrategy();
+        SpotAssignmentStrategy spotAssignmentStrategy = spotAssignmentStrategyFactory.get(SpotAssignmentStrategyType.RANDOM);
 
         // Fees calculation Strategy
-        FeesCalculatorStrategy feesCalculatorStrategy = new NormalFeesCalculatorStrategy();
+        FeesCalculationStrategy feesCalculationStrategy = feesCalculationStrategyFactory.get(FeesCalculationStrategyType.NORMAL);
 
         // Operators
         Operator operator1 = new Operator("person1");
@@ -116,10 +141,8 @@ class DesignParkingLotApplicationTests {
         Assert.notNull(ticket, "ticket could not be generated");
         System.out.println("ticket generated");
 
-        entryGate1.displayBoard(parkingLot);
-
         // pay bill
-        Bill bill = exitGate1.generateBill(ticket, feesCalculatorStrategy);
+        Bill bill = exitGate1.generateBill(ticket, feesCalculationStrategy);
 
         PaymentStrategy paymentStrategy = new UPIPaymentStrategy();
         Payment payment = paymentStrategy.payBill(bill);
@@ -129,7 +152,7 @@ class DesignParkingLotApplicationTests {
 
     private void addFloorSpots(Floor floor) {
         // Create Spots floor
-        List<Spot> spots = new ArrayList<>();
+        Set<Spot> spots = new HashSet<>();
         // 20 spots for BIKE
         int count = 1;
         for (int i = 1; i <= 20; i++) {
@@ -218,6 +241,7 @@ class DesignParkingLotApplicationTests {
         CreateSpotRequestDto createSpotRequestDto = new CreateSpotRequestDto();
         createSpotRequestDto.setSpotNumber("G1-1");
         createSpotRequestDto.setSpotType(SpotType.BIKE);
+        createSpotRequestDto.setFloorId(2L);
         CreateSpotResponseDto createSpotResponseDto = spotController.addSpot(createSpotRequestDto);
         Assert.notNull(createSpotResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(createSpotResponseDto.getResponseStatus()), createSpotResponseDto.getMessage());
@@ -250,55 +274,33 @@ class DesignParkingLotApplicationTests {
 
     @Test
     @Order(8)
-    void testCreateSpotsForTwoFloors() {
-
-        // Floor 1 spots
-        // 5 spots for BIKE
-        createAndAllocateSpots(SpotType.BIKE, 5, 1L, 1, "F1");
-        // 5 spots for CAR
-        createAndAllocateSpots(SpotType.CAR, 5, 1L, 100, "F1");
-        // 2 spots for ELECTRIC CAR
-        createAndAllocateSpots(SpotType.ELECTRIC, 2, 1L, 200, "F1");
-        // 5 spots for HEAVY
-        createAndAllocateSpots(SpotType.HEAVY, 5, 1L, 300, "F1");
-        // 5 spots for PREMIUM
-        createAndAllocateSpots(SpotType.PREMIUM, 5, 1L, 400, "F1");
-
-        // Floor 2 spots
-        // 5 spots for BIKE
-        createAndAllocateSpots(SpotType.BIKE, 5, 2L, 1, "F2");
-        // 5 spots for CAR
-        createAndAllocateSpots(SpotType.CAR, 5, 2L, 100, "F2");
-        // 2 spots for ELECTRIC CAR
-        createAndAllocateSpots(SpotType.ELECTRIC, 2, 2L, 200, "F2");
-        // 5 spots for HEAVY
-        createAndAllocateSpots(SpotType.HEAVY, 5, 2L, 300, "F2");
-        // 5 spots for PREMIUM
-        createAndAllocateSpots(SpotType.PREMIUM, 5, 2L, 400, "F2");
+    void testCreateSpotsForMultipleFloors() {
+        long totalFloors = 3;
+        for (long floorId = 1; floorId <= totalFloors; floorId++) {
+            // 5 spots for BIKE
+            createSpots(SpotType.BIKE, 5, floorId, 1, "F" + floorId);
+            // 5 spots for CAR
+            createSpots(SpotType.CAR, 5, floorId, 100, "F" + floorId);
+            // 2 spots for ELECTRIC CAR
+            createSpots(SpotType.ELECTRIC, 2, floorId, 200, "F" + floorId);
+            // 5 spots for HEAVY
+            createSpots(SpotType.HEAVY, 5, floorId, 300, "F" + floorId);
+            // 5 spots for PREMIUM
+            createSpots(SpotType.PREMIUM, 5, floorId, 400, "F" + floorId);
+        }
     }
 
 
     @Disabled
-    public void createAndAllocateSpots(SpotType spotType, int numberOfSpots, Long floorId, int startCountId, String spotSeries) {
+    public void createSpots(SpotType spotType, int numberOfSpots, Long floorId, int startCountId, String spotSeries) {
         for (int i = 1; i <= numberOfSpots; i++) {
             CreateSpotRequestDto createSpotRequestDto = new CreateSpotRequestDto();
             createSpotRequestDto.setSpotNumber(spotSeries + "-" + startCountId++);
             createSpotRequestDto.setSpotType(spotType);
+            createSpotRequestDto.setFloorId(floorId);
             CreateSpotResponseDto createSpotResponseDto = spotController.addSpot(createSpotRequestDto);
-
             Assert.notNull(createSpotResponseDto, "something went wrong");
             Assert.isTrue(ResponseStatus.SUCCESS.equals(createSpotResponseDto.getResponseStatus()), createSpotResponseDto.getMessage());
-
-            Spot spot = createSpotResponseDto.getSpot();
-            Long spotId = spot.getId();
-
-            AllocateSpotRequestDto allocateSpotRequestDto = new AllocateSpotRequestDto();
-            allocateSpotRequestDto.setSpotId(spotId);
-            allocateSpotRequestDto.setFloorId(floorId);
-            AllocateSpotResponseDto allocateSpotResponseDto = floorController.allocateSpot(allocateSpotRequestDto);
-
-            Assert.notNull(allocateSpotResponseDto, "something went wrong");
-            Assert.isTrue(ResponseStatus.SUCCESS.equals(allocateSpotResponseDto.getResponseStatus()), allocateSpotResponseDto.getMessage());
         }
     }
 
@@ -320,6 +322,7 @@ class DesignParkingLotApplicationTests {
         createGateRequestDto.setGateNumber("Gate-101");
         createGateRequestDto.setGateType(GateType.ENTRY);
         createGateRequestDto.setGateStatus(GateStatus.OPEN);
+        createGateRequestDto.setParkingLotId(2L);
         CreateGateResponseDto createGateResponseDto = gateController.addGate(createGateRequestDto);
         Assert.notNull(createGateResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(createGateResponseDto.getResponseStatus()), createGateResponseDto.getMessage());
@@ -333,6 +336,7 @@ class DesignParkingLotApplicationTests {
         createGateRequestDto.setGateNumber("Gate-201");
         createGateRequestDto.setGateType(GateType.EXIT);
         createGateRequestDto.setGateStatus(GateStatus.OPEN);
+        createGateRequestDto.setParkingLotId(2L);
         CreateGateResponseDto createGateResponseDto = gateController.addGate(createGateRequestDto);
         Assert.notNull(createGateResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(createGateResponseDto.getResponseStatus()), createGateResponseDto.getMessage());
@@ -408,6 +412,13 @@ class DesignParkingLotApplicationTests {
         Assert.notNull(createOperatorResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(createOperatorResponseDto.getResponseStatus()), createOperatorResponseDto.getMessage());
         System.out.println("operator created successfully");
+
+        createOperatorRequestDto = new CreateOperatorRequestDto();
+        createOperatorRequestDto.setName("operator-02");
+        createOperatorResponseDto = operatorController.addOperator(createOperatorRequestDto);
+        Assert.notNull(createOperatorResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createOperatorResponseDto.getResponseStatus()), createOperatorResponseDto.getMessage());
+        System.out.println("operator created successfully");
     }
 
     @Test
@@ -426,7 +437,7 @@ class DesignParkingLotApplicationTests {
     @Order(19)
     void testAssignOperatorToExitGate() {
         AssignOperatorRequestDto assignOperatorRequestDto = new AssignOperatorRequestDto();
-        assignOperatorRequestDto.setOperatorId(1L);
+        assignOperatorRequestDto.setOperatorId(2L);
         assignOperatorRequestDto.setGateId(2L);
         AssignOperatorResponseDto assignOperatorResponseDto = gateController.assignOperator(assignOperatorRequestDto);
         Assert.notNull(assignOperatorResponseDto, "something went wrong");
@@ -438,11 +449,71 @@ class DesignParkingLotApplicationTests {
     @Order(20)
     void testRegisterVehicle() {
         RegisterVehicleRequestDto registerVehicleRequestDto = new RegisterVehicleRequestDto();
-        registerVehicleRequestDto.setVehicleNumber("AB01PQRS");
-        registerVehicleRequestDto.setVehicleType(VehicleType.BIKE);
+        registerVehicleRequestDto.setVehicleNumber("AB01PQ1234");
+        registerVehicleRequestDto.setVehicleType(VehicleType.CAR);
         RegisterVehicleResponseDto registerVehicleResponseDto = vehicleController.registerVehicle(registerVehicleRequestDto);
         Assert.notNull(registerVehicleResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(registerVehicleResponseDto.getResponseStatus()), registerVehicleResponseDto.getMessage());
         System.out.println("vehicle registered successfully");
+    }
+
+    @Test
+    @Order(21)
+    void testReadDisplayBoard() {
+        GetDisplayBoardRequestDto getDisplayBoardRequestDto = new GetDisplayBoardRequestDto();
+        getDisplayBoardRequestDto.setDisplayBoardId(1L);
+        GetDisplayBoardResponseDto getDisplayBoardResponseDto = displayBoardController.getDisplayBoard(getDisplayBoardRequestDto);
+        Assert.notNull(getDisplayBoardResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(getDisplayBoardResponseDto.getResponseStatus()), getDisplayBoardResponseDto.getMessage());
+        System.out.println("current display board is " + getDisplayBoardResponseDto.getDisplayBoard().getSpotAvailability());
+    }
+
+    @Test
+    @Order(22)
+    void testReadFloor() {
+        GetFloorRequestDto getFloorRequestDto = new GetFloorRequestDto();
+        getFloorRequestDto.setFloorId(1);
+        GetFloorResponseDto getFloorResponseDto = floorController.getFloorById(getFloorRequestDto);
+        Assert.notNull(getFloorResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(getFloorResponseDto.getResponseStatus()), getFloorResponseDto.getMessage());
+        System.out.println("current floor is " + getFloorResponseDto.getFloor());
+    }
+
+    @Test
+    @Order(23)
+    void testGenerateTicket() {
+        CreateTicketRequestDto createTicketRequestDto = new CreateTicketRequestDto();
+        createTicketRequestDto.setParkingLotId(2);
+        createTicketRequestDto.setVehicleId(1);
+        createTicketRequestDto.setGateId(1);
+        CreateTicketResponseDto createTicketResponseDto = ticketController.createTicket(createTicketRequestDto);
+        Assert.notNull(createTicketResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createTicketResponseDto.getResponseStatus()), createTicketResponseDto.getMessage());
+        System.out.println("generated ticket is " + createTicketResponseDto.getTicket());
+    }
+
+    @Test
+    @Order(24)
+    void testGenerateBill() {
+        CreateBillRequestDto createBillRequestDto = new CreateBillRequestDto();
+        createBillRequestDto.setTicketId(1);
+        createBillRequestDto.setGateId(2);
+        createBillRequestDto.setFeesCalculationStrategyType(FeesCalculationStrategyType.NORMAL);
+        CreateBillResponseDto createBillResponseDto = billController.createBill(createBillRequestDto);
+        Assert.notNull(createBillResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createBillResponseDto.getResponseStatus()), createBillResponseDto.getMessage());
+        System.out.println("generated bill is " + createBillResponseDto.getBill());
+    }
+
+    @Test
+    @Order(25)
+    void testMakePayment() {
+        MakePaymentRequestDto makePaymentRequestDto = new MakePaymentRequestDto();
+        makePaymentRequestDto.setPaymentMode(PaymentMode.UPI);
+        makePaymentRequestDto.setBillId(1);
+        MakePaymentResponseDto makePaymentResponseDto = paymentController.makePayment(makePaymentRequestDto);
+        Assert.notNull(makePaymentResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(makePaymentResponseDto.getResponseStatus()), makePaymentResponseDto.getMessage());
+        System.out.println("payment " + makePaymentResponseDto.getPayment());
     }
 }

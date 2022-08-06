@@ -1,4 +1,4 @@
-package com.sanket.designparkinglot.strategies.feescalculator;
+package com.sanket.designparkinglot.strategies.feescalculation;
 
 import com.sanket.designparkinglot.models.spot.SpotType;
 import com.sanket.designparkinglot.models.ticket.Ticket;
@@ -10,11 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class NormalFeesCalculatorStrategy implements FeesCalculatorStrategy {
+public class NormalFeesCalculationStrategy implements FeesCalculationStrategy {
 
     private final Map<SpotType, Double> feeStructure;
 
-    public NormalFeesCalculatorStrategy() {
+    public NormalFeesCalculationStrategy() {
         Map<SpotType, Double> feeStructure = new HashMap<>();
         feeStructure.put(SpotType.BIKE, 50.0);
         feeStructure.put(SpotType.CAR, 80.0);

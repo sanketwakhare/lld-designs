@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @Component
@@ -24,6 +25,10 @@ public class SpotAssignmentStrategyFactory {
     }
 
     public SpotAssignmentStrategy get(SpotAssignmentStrategyType spotAssignmentStrategyType) {
+        if (Objects.isNull(spotAssignmentStrategyType)) {
+            // return default strategy
+            return registry.get(SpotAssignmentStrategyType.RANDOM);
+        }
         return registry.get(spotAssignmentStrategyType);
     }
 

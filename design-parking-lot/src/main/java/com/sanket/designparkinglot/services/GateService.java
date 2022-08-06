@@ -4,14 +4,18 @@ import com.sanket.designparkinglot.exceptions.*;
 import com.sanket.designparkinglot.models.displayboard.DisplayBoard;
 import com.sanket.designparkinglot.models.gates.*;
 import com.sanket.designparkinglot.models.operator.Operator;
+import com.sanket.designparkinglot.models.parkinglot.ParkingLot;
 import com.sanket.designparkinglot.repositories.DisplayBoardRepository;
 import com.sanket.designparkinglot.repositories.GateRepository;
 import com.sanket.designparkinglot.repositories.OperatorRepository;
+import com.sanket.designparkinglot.repositories.ParkingLotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class GateService extends BaseService {
@@ -22,14 +26,23 @@ public class GateService extends BaseService {
 
     private final OperatorRepository operatorRepository;
 
+    private final ParkingLotRepository parkingLotRepository;
+
     @Autowired
-    public GateService(GateRepository gateRepository, DisplayBoardRepository displayBoardRepository, OperatorRepository operatorRepository) {
+    public GateService(GateRepository gateRepository, DisplayBoardRepository displayBoardRepository, OperatorRepository operatorRepository, ParkingLotRepository parkingLotRepository) {
         this.gateRepository = gateRepository;
         this.displayBoardRepository = displayBoardRepository;
         this.operatorRepository = operatorRepository;
+        this.parkingLotRepository = parkingLotRepository;
     }
 
-    public Gate addGate(String gateNumber, GateType gateType, GateStatus gateStatus) throws GateCreationException {
+    public Gate addGate(String gateNumber, GateType gateType, GateStatus gateStatus, Long parkingLotId) throws GateCreationException, NoParkingLotException {
+
+        Optional<ParkingLot> dbParkingLot = parkingLotRepository.findById(parkingLotId);
+        if (dbParkingLot.isEmpty()) {
+            throw new NoParkingLotException(parkingLotId);
+        }
+        ParkingLot parkingLot = dbParkingLot.get();
 
         Gate gate;
         if (GateType.ENTRY.equals(gateType)) {
@@ -39,9 +52,12 @@ public class GateService extends BaseService {
         } else {
             throw new GateCreationException(gateNumber);
         }
+
         gate.setGateNumber(gateNumber);
         gate.setGateStatus(gateStatus);
+        gate.setParkingLot(parkingLot);
         setCreateModelDefaults(gate);
+
         return gateRepository.save(gate);
     }
 
@@ -76,7 +92,7 @@ public class GateService extends BaseService {
 
         // de-associate current display board from previously assigned gate
         EntryGate oldGate = displayBoard.getEntryGate();
-        if(!Objects.isNull(oldGate)) {
+        if (!Objects.isNull(oldGate)) {
             oldGate.setDisplayBoard(null);
             setUpdateModelDefaults(oldGate);
             gateRepository.save(oldGate);
@@ -107,7 +123,7 @@ public class GateService extends BaseService {
 
         // de-associate current operator from previously assigned gate
         Gate oldGate = operator.getGate();
-        if(!Objects.isNull(oldGate)) {
+        if (!Objects.isNull(oldGate)) {
             oldGate.setOperator(null);
             setUpdateModelDefaults(oldGate);
             gateRepository.save(oldGate);
