@@ -3,6 +3,7 @@ package com.sanket.designparkinglot.controllers;
 import com.sanket.designparkinglot.dtos.base.response.ResponseStatus;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotRequestDto;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotResponseDto;
+import com.sanket.designparkinglot.exceptions.NoFloorException;
 import com.sanket.designparkinglot.models.spot.Spot;
 import com.sanket.designparkinglot.models.spot.SpotType;
 import com.sanket.designparkinglot.services.SpotService;
@@ -24,13 +25,14 @@ public class SpotController {
         CreateSpotResponseDto createSpotResponseDto = new CreateSpotResponseDto();
         String spotNumber = createSpotRequestDto.getSpotNumber();
         SpotType spotType = createSpotRequestDto.getSpotType();
+        Long floorId = createSpotRequestDto.getFloorId();
 
         try {
             // call service method
-            Spot spot = spotService.addSpot(spotNumber, spotType);
+            Spot spot = spotService.addSpot(spotNumber, spotType, floorId);
             createSpotResponseDto.setResponseStatus(ResponseStatus.SUCCESS);
             createSpotResponseDto.setSpot(spot);
-        } catch (Exception e) {
+        } catch (Exception | NoFloorException e) {
             createSpotResponseDto.setResponseStatus(ResponseStatus.FAILURE);
             createSpotResponseDto.setMessage(e.getMessage());
         }

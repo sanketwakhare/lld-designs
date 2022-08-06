@@ -12,10 +12,7 @@ import com.sanket.designparkinglot.repositories.SpotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class FloorService extends BaseService {
@@ -38,19 +35,15 @@ public class FloorService extends BaseService {
         if (dbParkingLot.isEmpty()) {
             throw new NoParkingLotException(parkingLotId);
         }
+        ParkingLot parkingLot = dbParkingLot.get();
+
         Floor floor = new Floor();
         setCreateModelDefaults(floor);
         floor.setFloorNumber(floorNumber);
+        floor.setParkingLot(parkingLot);
 
         // save new floor
-        floor = floorRepository.save(floor);
-
-        // assign new floor to the parking lot
-        ParkingLot parkingLot = dbParkingLot.get();
-        parkingLot.getFloors().add(floor);
-        parkingLotRepository.save(parkingLot);
-
-        return floor;
+        return floorRepository.save(floor);
     }
 
     public void allocateSpot(Long floorId, Long spotId) throws NoFloorException, NoSpotException {
@@ -66,18 +59,13 @@ public class FloorService extends BaseService {
 
         // allocate spot to floor and save floor
         Floor floor = dbFloor.get();
-        setUpdateModelDefaults(floor);
-        List<Spot> existingSpots = floor.getSpots();
-        if (Objects.isNull(existingSpots)) {
-            existingSpots = new ArrayList<>();
-        }
-        existingSpots.add(dbSpot.get());
-        floorRepository.save(floor);
-
-        // add floor to spot and save spot
         Spot spot = dbSpot.get();
-        setUpdateModelDefaults(spot);
+        if (spot.getFloor().equals(floor)) {
+            // if current floor is already allocated to spot
+            return;
+        }
         spot.setFloor(floor);
+        setUpdateModelDefaults(spot);
         spotRepository.save(spot);
     }
 
@@ -92,19 +80,19 @@ public class FloorService extends BaseService {
             throw new NoSpotException(spotId);
         }
 
-        // deallocate spot to floor and save floor
-        Floor floor = dbFloor.get();
-        setUpdateModelDefaults(floor);
-        List<Spot> existingSpots = floor.getSpots();
-        if (!Objects.isNull(existingSpots)) {
-            existingSpots.remove(dbSpot.get());
-        }
-        floorRepository.save(floor);
-
-        // deallocate floor to spot and save spot
+        // deallocate floor from spot and save spot
         Spot spot = dbSpot.get();
         setUpdateModelDefaults(spot);
         spot.setFloor(null);
         spotRepository.save(spot);
+    }
+
+    public Floor getFloorById(long floorId) throws NoFloorException {
+        // get Floor by floorId
+        Optional<Floor> dbFloor = floorRepository.findById(floorId);
+        if (dbFloor.isEmpty()) {
+            throw new NoFloorException(floorId);
+        }
+        return dbFloor.get();
     }
 }

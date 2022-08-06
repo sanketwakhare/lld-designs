@@ -42,4 +42,14 @@ public abstract class Gate extends BaseModel {
 
     }
 
+    @Override
+    public String toString() {
+        return "Gate{" +
+                "gateNumber='" + gateNumber + '\'' +
+                ", gateType=" + gateType +
+                ", operator=" + operator +
+                ", gateStatus=" + gateStatus +
+                ", parkingLot=" + parkingLot +
+                '}';
+    }
 }

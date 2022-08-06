@@ -57,26 +57,8 @@ public class GateService extends BaseService {
         gate.setGateStatus(gateStatus);
         gate.setParkingLot(parkingLot);
         setCreateModelDefaults(gate);
-        Gate dbGate = gateRepository.save(gate);
 
-        // update parking lot
-        setUpdateModelDefaults(parkingLot);
-        if (GateType.ENTRY.equals(gateType)) {
-            Set<EntryGate> entryGates = parkingLot.getEntryGates();
-            if (entryGates.isEmpty()) {
-                entryGates = new HashSet<>();
-            }
-            entryGates.add((EntryGate) dbGate);
-        } else {
-            Set<ExitGate> exitGates = parkingLot.getExitGates();
-            if (exitGates.isEmpty()) {
-                exitGates = new HashSet<>();
-            }
-            exitGates.add((ExitGate) dbGate);
-        }
-        parkingLotRepository.save(parkingLot);
-
-        return dbGate;
+        return gateRepository.save(gate);
     }
 
     public Gate modifyGateStatus(Long gateId, GateStatus gateStatus) throws NoGateException {

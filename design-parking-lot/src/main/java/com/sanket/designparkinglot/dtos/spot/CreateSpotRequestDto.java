@@ -13,4 +13,5 @@ public class CreateSpotRequestDto extends CreateRequestDto {
 
     private String spotNumber;
     private SpotType spotType;
+    private Long floorId;
 }

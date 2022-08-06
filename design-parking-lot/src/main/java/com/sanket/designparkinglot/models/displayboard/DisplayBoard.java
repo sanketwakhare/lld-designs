@@ -34,7 +34,8 @@ public class DisplayBoard extends BaseModel {
 
     }
 
-    public Map<String, Map<SpotType, Integer>> getSpotAvailability(ParkingLot parkingLot) {
+    public Map<String, Map<SpotType, Integer>> getSpotAvailability() {
+        ParkingLot parkingLot = entryGate.getParkingLot();
         Map<String, Map<SpotType, Integer>> spotAvailability = new HashMap<>();
         for (Floor floor : parkingLot.getFloors()) {
             Map<SpotType, Integer> floorMap = new HashMap<>();
@@ -48,5 +49,13 @@ public class DisplayBoard extends BaseModel {
             spotAvailability.put(floor.getFloorNumber(), floorMap);
         }
         return spotAvailability;
+    }
+
+    @Override
+    public String toString() {
+        return "DisplayBoard{" +
+                "displayBoardNumber='" + displayBoardNumber + '\'' +
+                ", entryGate=" + entryGate +
+                '}';
     }
 }

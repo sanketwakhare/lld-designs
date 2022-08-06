@@ -9,7 +9,7 @@ import com.sanket.designparkinglot.models.spot.SpotStatus;
 import com.sanket.designparkinglot.models.vehicle.Vehicle;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Set;
 
 @Component
 public class RandomSpotAssignmentStrategy implements SpotAssignmentStrategy {
@@ -22,9 +22,9 @@ public class RandomSpotAssignmentStrategy implements SpotAssignmentStrategy {
     public Spot assignSpot(ParkingLot parkingLot, Vehicle vehicle, EntryGate gate)
             throws NoSpotAvailableException {
 
-        List<Floor> floors = parkingLot.getFloors();
+        Set<Floor> floors = parkingLot.getFloors();
         for (Floor floor : floors) {
-            List<Spot> spots = floor.getSpots();
+            Set<Spot> spots = floor.getSpots();
             for (Spot spot : spots) {
                 if (SpotStatus.AVAILABLE.equals(spot.getSpotStatus())
                         && vehicle.getVehicleType().toString().equals(spot.getSpotType().toString())) {

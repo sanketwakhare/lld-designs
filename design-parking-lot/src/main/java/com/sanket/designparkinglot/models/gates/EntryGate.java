@@ -56,7 +56,4 @@ public class EntryGate extends Gate {
         return ticket;
     }
 
-    public void displayBoard(ParkingLot parkingLot) {
-        System.out.println(displayBoard.getSpotAvailability(parkingLot));
-    }
 }
