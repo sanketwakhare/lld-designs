@@ -7,6 +7,7 @@ import com.sanket.designparkinglot.exceptions.*;
 import com.sanket.designparkinglot.models.ticket.Ticket;
 import com.sanket.designparkinglot.services.TicketService;
 import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrategyType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.Objects;
@@ -16,6 +17,7 @@ public class TicketController {
 
     private final TicketService ticketService;
 
+    @Autowired
     public TicketController(TicketService ticketService) {
         this.ticketService = ticketService;
     }

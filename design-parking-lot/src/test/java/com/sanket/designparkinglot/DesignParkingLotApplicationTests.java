@@ -13,6 +13,8 @@ import com.sanket.designparkinglot.dtos.gate.*;
 import com.sanket.designparkinglot.dtos.operator.CreateOperatorRequestDto;
 import com.sanket.designparkinglot.dtos.operator.CreateOperatorResponseDto;
 import com.sanket.designparkinglot.dtos.parkinglot.*;
+import com.sanket.designparkinglot.dtos.payment.MakePaymentRequestDto;
+import com.sanket.designparkinglot.dtos.payment.MakePaymentResponseDto;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotRequestDto;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotResponseDto;
 import com.sanket.designparkinglot.dtos.ticket.CreateTicketRequestDto;
@@ -31,6 +33,7 @@ import com.sanket.designparkinglot.models.gates.GateType;
 import com.sanket.designparkinglot.models.operator.Operator;
 import com.sanket.designparkinglot.models.parkinglot.ParkingLot;
 import com.sanket.designparkinglot.models.payment.Payment;
+import com.sanket.designparkinglot.models.payment.PaymentMode;
 import com.sanket.designparkinglot.models.spot.Spot;
 import com.sanket.designparkinglot.models.spot.SpotType;
 import com.sanket.designparkinglot.models.ticket.Ticket;
@@ -86,6 +89,9 @@ class DesignParkingLotApplicationTests {
 
     @Autowired
     private BillController billController;
+
+    @Autowired
+    private PaymentController paymentController;
 
     @Test
     @Disabled
@@ -497,5 +503,17 @@ class DesignParkingLotApplicationTests {
         Assert.notNull(createBillResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(createBillResponseDto.getResponseStatus()), createBillResponseDto.getMessage());
         System.out.println("generated bill is " + createBillResponseDto.getBill());
+    }
+
+    @Test
+    @Order(25)
+    void testMakePayment() {
+        MakePaymentRequestDto makePaymentRequestDto = new MakePaymentRequestDto();
+        makePaymentRequestDto.setPaymentMode(PaymentMode.UPI);
+        makePaymentRequestDto.setBillId(1);
+        MakePaymentResponseDto makePaymentResponseDto = paymentController.makePayment(makePaymentRequestDto);
+        Assert.notNull(makePaymentResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(makePaymentResponseDto.getResponseStatus()), makePaymentResponseDto.getMessage());
+        System.out.println("payment " + makePaymentResponseDto.getPayment());
     }
 }
