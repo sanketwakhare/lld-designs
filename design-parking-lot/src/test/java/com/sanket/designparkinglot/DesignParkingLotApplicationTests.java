@@ -13,6 +13,8 @@ import com.sanket.designparkinglot.dtos.operator.CreateOperatorResponseDto;
 import com.sanket.designparkinglot.dtos.parkinglot.*;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotRequestDto;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotResponseDto;
+import com.sanket.designparkinglot.dtos.ticket.CreateTicketRequestDto;
+import com.sanket.designparkinglot.dtos.ticket.CreateTicketResponseDto;
 import com.sanket.designparkinglot.dtos.vehicle.RegisterVehicleRequestDto;
 import com.sanket.designparkinglot.dtos.vehicle.RegisterVehicleResponseDto;
 import com.sanket.designparkinglot.factories.FeesCalculationStrategyFactory;
@@ -76,6 +78,9 @@ class DesignParkingLotApplicationTests {
 
     @Autowired
     private VehicleController vehicleController;
+
+    @Autowired
+    private TicketController ticketController;
 
     @Test
     @Disabled
@@ -396,6 +401,13 @@ class DesignParkingLotApplicationTests {
         Assert.notNull(createOperatorResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(createOperatorResponseDto.getResponseStatus()), createOperatorResponseDto.getMessage());
         System.out.println("operator created successfully");
+
+        createOperatorRequestDto = new CreateOperatorRequestDto();
+        createOperatorRequestDto.setName("operator-02");
+        createOperatorResponseDto = operatorController.addOperator(createOperatorRequestDto);
+        Assert.notNull(createOperatorResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createOperatorResponseDto.getResponseStatus()), createOperatorResponseDto.getMessage());
+        System.out.println("operator created successfully");
     }
 
     @Test
@@ -414,7 +426,7 @@ class DesignParkingLotApplicationTests {
     @Order(19)
     void testAssignOperatorToExitGate() {
         AssignOperatorRequestDto assignOperatorRequestDto = new AssignOperatorRequestDto();
-        assignOperatorRequestDto.setOperatorId(1L);
+        assignOperatorRequestDto.setOperatorId(2L);
         assignOperatorRequestDto.setGateId(2L);
         AssignOperatorResponseDto assignOperatorResponseDto = gateController.assignOperator(assignOperatorRequestDto);
         Assert.notNull(assignOperatorResponseDto, "something went wrong");
@@ -426,8 +438,8 @@ class DesignParkingLotApplicationTests {
     @Order(20)
     void testRegisterVehicle() {
         RegisterVehicleRequestDto registerVehicleRequestDto = new RegisterVehicleRequestDto();
-        registerVehicleRequestDto.setVehicleNumber("AB01PQRS");
-        registerVehicleRequestDto.setVehicleType(VehicleType.BIKE);
+        registerVehicleRequestDto.setVehicleNumber("AB01PQ1234");
+        registerVehicleRequestDto.setVehicleType(VehicleType.CAR);
         RegisterVehicleResponseDto registerVehicleResponseDto = vehicleController.registerVehicle(registerVehicleRequestDto);
         Assert.notNull(registerVehicleResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(registerVehicleResponseDto.getResponseStatus()), registerVehicleResponseDto.getMessage());
@@ -453,6 +465,19 @@ class DesignParkingLotApplicationTests {
         GetFloorResponseDto getFloorResponseDto = floorController.getFloorById(getFloorRequestDto);
         Assert.notNull(getFloorResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(getFloorResponseDto.getResponseStatus()), getFloorResponseDto.getMessage());
-        System.out.println("current floor board is " + getFloorResponseDto.getFloor());
+        System.out.println("current floor is " + getFloorResponseDto.getFloor());
+    }
+
+    @Test
+    @Order(23)
+    void testGenerateTicket() {
+        CreateTicketRequestDto createTicketRequestDto = new CreateTicketRequestDto();
+        createTicketRequestDto.setParkingLotId(2);
+        createTicketRequestDto.setVehicleId(1);
+        createTicketRequestDto.setGateId(1);
+        CreateTicketResponseDto createTicketResponseDto = ticketController.createTicket(createTicketRequestDto);
+        Assert.notNull(createTicketResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createTicketResponseDto.getResponseStatus()), createTicketResponseDto.getMessage());
+        System.out.println("generated ticket is " + createTicketResponseDto.getTicket());
     }
 }
