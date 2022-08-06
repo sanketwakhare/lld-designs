@@ -2,6 +2,8 @@ package com.sanket.designparkinglot;
 
 import com.sanket.designparkinglot.controllers.*;
 import com.sanket.designparkinglot.dtos.base.response.ResponseStatus;
+import com.sanket.designparkinglot.dtos.bill.CreateBillRequestDto;
+import com.sanket.designparkinglot.dtos.bill.CreateBillResponseDto;
 import com.sanket.designparkinglot.dtos.displayboard.CreateDisplayBoardRequestDto;
 import com.sanket.designparkinglot.dtos.displayboard.CreateDisplayBoardResponseDto;
 import com.sanket.designparkinglot.dtos.displayboard.GetDisplayBoardRequestDto;
@@ -81,6 +83,9 @@ class DesignParkingLotApplicationTests {
 
     @Autowired
     private TicketController ticketController;
+
+    @Autowired
+    private BillController billController;
 
     @Test
     @Disabled
@@ -479,5 +484,18 @@ class DesignParkingLotApplicationTests {
         Assert.notNull(createTicketResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(createTicketResponseDto.getResponseStatus()), createTicketResponseDto.getMessage());
         System.out.println("generated ticket is " + createTicketResponseDto.getTicket());
+    }
+
+    @Test
+    @Order(24)
+    void testGenerateBill() {
+        CreateBillRequestDto createBillRequestDto = new CreateBillRequestDto();
+        createBillRequestDto.setTicketId(1);
+        createBillRequestDto.setGateId(2);
+        createBillRequestDto.setFeesCalculationStrategyType(FeesCalculationStrategyType.NORMAL);
+        CreateBillResponseDto createBillResponseDto = billController.createBill(createBillRequestDto);
+        Assert.notNull(createBillResponseDto, "something went wrong");
+        Assert.isTrue(ResponseStatus.SUCCESS.equals(createBillResponseDto.getResponseStatus()), createBillResponseDto.getMessage());
+        System.out.println("generated bill is " + createBillResponseDto.getBill());
     }
 }

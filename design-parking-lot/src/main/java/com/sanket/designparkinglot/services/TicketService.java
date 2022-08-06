@@ -76,6 +76,7 @@ public class TicketService extends BaseService {
         // assign spot
         Spot spot = spotAssignmentStrategy.assignSpot(parkingLot, vehicle, gate);
         spot.setSpotStatus(SpotStatus.OCCUPIED);
+        setUpdateModelDefaults(spot);
         // save spot
         Spot dbSpot = spotRepository.save(spot);
 

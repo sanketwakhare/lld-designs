@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @Component
@@ -26,6 +27,9 @@ public class PaymentStrategyFactory {
     }
 
     public PaymentStrategy get(PaymentMode paymentMode) {
+        if (Objects.isNull(paymentMode)) {
+            return registry.get(PaymentMode.CASH);
+        }
         return registry.get(paymentMode);
     }
 

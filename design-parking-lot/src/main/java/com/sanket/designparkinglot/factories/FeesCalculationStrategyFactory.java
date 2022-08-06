@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @Component
@@ -24,6 +25,10 @@ public class FeesCalculationStrategyFactory {
     }
 
     public FeesCalculationStrategy get(FeesCalculationStrategyType feesCalculationStrategyType) {
+        if (Objects.isNull(feesCalculationStrategyType)) {
+            // default strategy
+            return registry.get(FeesCalculationStrategyType.NORMAL);
+        }
         return registry.get(feesCalculationStrategyType);
     }
 
