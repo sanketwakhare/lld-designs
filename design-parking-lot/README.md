@@ -107,9 +107,8 @@
 
 ### Class Diagram
 
-    TODO
+
+
 ---
 
 ### Schema Diagram
-
-    TODO
