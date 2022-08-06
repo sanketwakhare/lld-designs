@@ -13,6 +13,8 @@ import com.sanket.designparkinglot.dtos.spot.CreateSpotRequestDto;
 import com.sanket.designparkinglot.dtos.spot.CreateSpotResponseDto;
 import com.sanket.designparkinglot.dtos.vehicle.RegisterVehicleRequestDto;
 import com.sanket.designparkinglot.dtos.vehicle.RegisterVehicleResponseDto;
+import com.sanket.designparkinglot.factories.FeesCalculationStrategyFactory;
+import com.sanket.designparkinglot.factories.SpotAssignmentStrategyFactory;
 import com.sanket.designparkinglot.models.bill.Bill;
 import com.sanket.designparkinglot.models.displayboard.DisplayBoard;
 import com.sanket.designparkinglot.models.floor.Floor;
@@ -28,13 +30,14 @@ import com.sanket.designparkinglot.models.spot.SpotType;
 import com.sanket.designparkinglot.models.ticket.Ticket;
 import com.sanket.designparkinglot.models.vehicle.Vehicle;
 import com.sanket.designparkinglot.models.vehicle.VehicleType;
-import com.sanket.designparkinglot.strategies.feescalculator.FeesCalculatorStrategy;
-import com.sanket.designparkinglot.strategies.feescalculator.NormalFeesCalculatorStrategy;
+import com.sanket.designparkinglot.strategies.feescalculation.FeesCalculationStrategy;
+import com.sanket.designparkinglot.strategies.feescalculation.FeesCalculationStrategyType;
+import com.sanket.designparkinglot.strategies.feescalculation.NormalFeesCalculationStrategy;
 import com.sanket.designparkinglot.strategies.paymentstrategy.PaymentStrategy;
-import com.sanket.designparkinglot.strategies.paymentstrategy.RandomRefIdGenerator;
 import com.sanket.designparkinglot.strategies.paymentstrategy.UPIPaymentStrategy;
 import com.sanket.designparkinglot.strategies.spotassignment.RandomSpotAssignmentStrategy;
 import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrategy;
+import com.sanket.designparkinglot.strategies.spotassignment.SpotAssignmentStrategyType;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,6 +49,12 @@ import java.util.List;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DesignParkingLotApplicationTests {
+
+    @Autowired
+    private SpotAssignmentStrategyFactory spotAssignmentStrategyFactory;
+
+    @Autowired
+    private FeesCalculationStrategyFactory feesCalculationStrategyFactory;
 
     @Autowired
     private ParkingLotController parkingLotController;
@@ -90,10 +99,10 @@ class DesignParkingLotApplicationTests {
         DisplayBoard displayBoard = new DisplayBoard();
 
         // Spot assignment strategy
-        SpotAssignmentStrategy spotAssignmentStrategy = new RandomSpotAssignmentStrategy();
+        SpotAssignmentStrategy spotAssignmentStrategy = spotAssignmentStrategyFactory.get(SpotAssignmentStrategyType.RANDOM);
 
         // Fees calculation Strategy
-        FeesCalculatorStrategy feesCalculatorStrategy = new NormalFeesCalculatorStrategy();
+        FeesCalculationStrategy feesCalculationStrategy = feesCalculationStrategyFactory.get(FeesCalculationStrategyType.NORMAL);
 
         // Operators
         Operator operator1 = new Operator("person1");
@@ -119,7 +128,7 @@ class DesignParkingLotApplicationTests {
         entryGate1.displayBoard(parkingLot);
 
         // pay bill
-        Bill bill = exitGate1.generateBill(ticket, feesCalculatorStrategy);
+        Bill bill = exitGate1.generateBill(ticket, feesCalculationStrategy);
 
         PaymentStrategy paymentStrategy = new UPIPaymentStrategy();
         Payment payment = paymentStrategy.payBill(bill);
@@ -320,6 +329,7 @@ class DesignParkingLotApplicationTests {
         createGateRequestDto.setGateNumber("Gate-101");
         createGateRequestDto.setGateType(GateType.ENTRY);
         createGateRequestDto.setGateStatus(GateStatus.OPEN);
+        createGateRequestDto.setParkingLotId(2L);
         CreateGateResponseDto createGateResponseDto = gateController.addGate(createGateRequestDto);
         Assert.notNull(createGateResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(createGateResponseDto.getResponseStatus()), createGateResponseDto.getMessage());
@@ -333,6 +343,7 @@ class DesignParkingLotApplicationTests {
         createGateRequestDto.setGateNumber("Gate-201");
         createGateRequestDto.setGateType(GateType.EXIT);
         createGateRequestDto.setGateStatus(GateStatus.OPEN);
+        createGateRequestDto.setParkingLotId(2L);
         CreateGateResponseDto createGateResponseDto = gateController.addGate(createGateRequestDto);
         Assert.notNull(createGateResponseDto, "something went wrong");
         Assert.isTrue(ResponseStatus.SUCCESS.equals(createGateResponseDto.getResponseStatus()), createGateResponseDto.getMessage());

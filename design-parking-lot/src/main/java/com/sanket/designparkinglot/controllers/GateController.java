@@ -27,12 +27,13 @@ public class GateController {
         String gateNumber = createGateRequestDto.getGateNumber();
         GateType gateType = createGateRequestDto.getGateType();
         GateStatus gateStatus = createGateRequestDto.getGateStatus();
+        Long parkingLotId = createGateRequestDto.getParkingLotId();
         try {
             // call service
-            Gate gate = gateService.addGate(gateNumber, gateType, gateStatus);
+            Gate gate = gateService.addGate(gateNumber, gateType, gateStatus, parkingLotId);
             createGateResponseDto.setGate(gate);
             createGateResponseDto.setResponseStatus(ResponseStatus.SUCCESS);
-        } catch (Exception | GateCreationException e) {
+        } catch (Exception | GateCreationException | NoParkingLotException e) {
             createGateResponseDto.setResponseStatus(ResponseStatus.FAILURE);
             createGateResponseDto.setMessage(e.getMessage());
         }
