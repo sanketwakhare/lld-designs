@@ -8,11 +8,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="design-tic-tac-toe" />
-        <module name="design-parking-lot" />
-        <module name="netflix-schema" />
+        <module name="design-splitwise" />
         <module name="schemadesign-student-module-exam" />
         <module name="design-snake-and-ladder" />
         <module name="design-pen" />
+        <module name="design-parking-lot" />
+        <module name="netflix-schema" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -20,6 +21,7 @@
       <module name="design-pen" target="17" />
       <module name="design-pen-2" target="17" />
       <module name="design-snake-and-ladder" target="17" />
+      <module name="design-splitwise" target="17" />
       <module name="design-tic-tac-toe" target="17" />
       <module name="netflix-schema" target="17" />
       <module name="schemadesign-student-module-exam" target="17" />
@@ -31,6 +33,7 @@
       <module name="design-pen" options="-parameters" />
       <module name="design-pen-2" options="-parameters" />
       <module name="design-snake-and-ladder" options="-parameters" />
+      <module name="design-splitwise" options="-parameters" />
       <module name="design-tic-tac-toe" options="-parameters" />
       <module name="netflix-schema" options="-parameters" />
       <module name="schemadesign-student-module-exam" options="-parameters" />
