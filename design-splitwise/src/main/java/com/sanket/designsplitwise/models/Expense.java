@@ -14,11 +14,12 @@ public class Expense extends BaseModel {
 
     private String description;
 
+    private double amount;
+
     @ManyToOne
     private User creator;
 
     @ManyToOne
-    @Enumerated(EnumType.STRING)
     private Currency currency;
 
     @OneToMany(mappedBy = "expense")
