@@ -37,12 +37,11 @@
     
     CREATE ROLE
     
-    `postgres=# create database parking__lot;
-    `
+    postgres=# create database parking__lot;
     
     CREATE DATABASE
     
-    `postgres=# grant all privileges on database parking__lot to sanket;`
+    postgres=# grant all privileges on database parking__lot to sanket;
     
     GRANT
 
