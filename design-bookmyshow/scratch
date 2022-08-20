@@ -1,0 +1,152 @@
+BookMyShow
+
+Req
+
+MVP
+view by movie or theatre
+
+View shows for theater
+city -> has theaters -> audi, shows
+ticket booking -> book seats (seat Type) -> seat is blocked(for a period of time)
+                -> payment (types of payment) -> allocate the seats
+
+Good to have
+Cancellation -> if within a certain period of time else no cancellation
+
+
+Models and relationships
+
+City
+String name
+List<Theatre> theaters
+
+Theater
+String name
+String location
+List<Audi> audi
+List<Show> shows
+
+Audi
+Long audiId
+String audiName
+List<Seat> seats
+// List<Show> shows
+Theatre theatre
+audiFeature: List<AudiFeature> audiFeatures
+
+AudiFeature
+2D,
+3D,
+DOLBY,
+4D,
+IMAX
+
+Seat
+String seatName
+SeatType<Enum> seatType
+Audi audi
+
+SeatType: Enum
+GOLD,
+SILVER,
+PLATINUM
+
+Show
+Long showId
+String showName
+Enum<Language> Language
+double startTime
+double endTime
+Movie movie
+List<ShowSeat> showSeats
+List<ShowFeatureType> showFeature
+Audi audi
+
+
+
+ShowStatus: Enum - Good to have
+UNDEFINED,
+ACTIVE,
+CANCELLED,
+COMPLETED
+
+Movie
+String: name
+Enum: List<Languages> languages
+double: duration
+List<Cast> actors
+List<Review> movieReviews
+int rating
+
+
+Language: <ENUM> {
+    UNDEFFINED,
+    ENGLISH,
+    HINDI
+}
+
+
+ShowSeat
+Show show
+Seat seat
+ShowSeatStatus<Enum> seatStatus
+double price
+
+ShowSeatStatus: Enum
+UNDEFFINED,
+BLOCKED,
+AVAILABLE,
+UNAVAILABLE,
+BOOKED
+
+ShowFeatureType: Enum
+UNDEFINED,
+2D,
+3D,
+DOLBY,
+IMAX,
+4D
+
+Payment
+long paymentId
+double amount
+String referenceid
+PaymentStatus<Enum> paymentStatus
+PaymentMethod<Enum> paymentMethod
+Time time
+Ticket ticket
+
+PaymentStatus: Enum
+UNDEFINED,
+SUCCESS,
+PENDING,
+FAILURE
+
+PaymentMethod<Enum>
+UNDEFINED,
+UPI,
+CREDITCARD,
+DEBITCARD,
+NETBANKING,
+WALLET
+
+Ticket
+long ticketId
+Time generatedTime
+List<ShowSeat>
+List<Payment> payments  // to include payment details of failed transaction
+TransactionStatus<Enum> transactionStatus
+
+TransactionStatus: Enum
+UNDEFINED,
+SUCCESS,
+PENDING,
+FAILURE,
+CANCELLED
+
+
+
+ShowSeat -> Audi
+Show -> Movie
+Seat -> seat details
+

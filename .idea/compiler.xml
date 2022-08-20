@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="design-tic-tac-toe" />
         <module name="design-splitwise" />
+        <module name="design-bookmyshow" />
         <module name="schemadesign-student-module-exam" />
         <module name="design-snake-and-ladder" />
         <module name="design-pen" />
@@ -17,6 +18,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="design-bookmyshow" target="17" />
       <module name="design-parking-lot" target="17" />
       <module name="design-pen" target="17" />
       <module name="design-pen-2" target="17" />
@@ -29,6 +31,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="design-bookmyshow" options="-parameters" />
       <module name="design-parking-lot" options="-parameters" />
       <module name="design-pen" options="-parameters" />
       <module name="design-pen-2" options="-parameters" />

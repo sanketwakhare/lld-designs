@@ -41,5 +41,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/splitwise</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="book__my__show@localhost" uuid="d97dde06-a05e-4c41-8679-22f53f6ee103">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/book__my__show</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
